@@ -1,19 +1,13 @@
 const themeToggle = document.getElementById('themeToggle');
 
-// Default: light mode
-if (!document.body.classList.contains('dark-mode') && !document.body.classList.contains('light-mode')) {
-  document.body.classList.add('light-mode');
-}
+// Apply saved theme or default to light
+document.body.classList.remove('light-mode', 'dark-mode');
+document.body.classList.add(localStorage.getItem('theme') || 'light-mode');
 
-// Restore saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-  document.body.classList.remove('light-mode', 'dark-mode');
-  document.body.classList.add(savedTheme);
-  updateButtonIcon(savedTheme);
-}
+// Update button icon text
+updateButtonIcon(document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
 
-// Click listener
+// Theme toggle click
 themeToggle.addEventListener('click', () => {
   if (document.body.classList.contains('light-mode')) {
     document.body.classList.replace('light-mode', 'dark-mode');
