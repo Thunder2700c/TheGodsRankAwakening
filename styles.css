@@ -1,47 +1,59 @@
+/* Base body */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Orbitron', 'Courier New', monospace;
   background-color: #0a0a0a;
   color: #e6eef6;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Dark mode */
 body.dark-mode {
   background-color: #0a0a0a;
-  color: #e6eef6;
+  color: #0ff;
 }
 
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #111;
-  box-shadow: 0 0 20px #0ff;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #0ff, #08f);
+  box-shadow: 0 0 25px #0ff;
 }
 
-.logo {
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
+.header .logo {
+  color: #fff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
 }
 
+/* Buttons */
 .btn {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background-color: #111;
   color: #0ff;
   border: 1px solid #0ff;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
 }
 
 .btn:hover {
-  box-shadow: 0 0 15px #0ff;
+  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
+  transform: translateY(-3px);
 }
 
+/* Chapters Grid */
 .chapters-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
 }
 
 .chapter-card {
@@ -53,10 +65,26 @@ body.dark-mode {
   color: #0ff;
   text-align: center;
   font-weight: bold;
+  border-radius: 8px;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .chapter-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 0 20px #0ff;
+  box-shadow: 0 0 25px #0ff, 0 0 40px #08f;
+}
+
+/* Neon Title */
+.neon-title {
+  font-size: 2.5rem;
+  color: #0ff;
+  text-align: center;
+  margin: 2rem 0;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f; }
+  to { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #08f; }
 }
