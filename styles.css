@@ -1,3 +1,4 @@
+/* General */
 body {
   font-family: 'Orbitron', sans-serif;
   margin: 0;
@@ -23,43 +24,22 @@ body.dark-mode {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-radius: 0 0 10px 10px;
-}
-
-body.light-mode .header {
-  background: linear-gradient(90deg, #ff7a00, #ffb347);
-  box-shadow: 0 0 20px #ff7a00;
-}
-
-body.dark-mode .header {
-  background: linear-gradient(90deg, #0ff, #08f);
-  box-shadow: 0 0 25px #0ff;
+  border-bottom: 2px solid currentColor;
 }
 
 .header .logo {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  letter-spacing: 1px;
-}
-
-body.light-mode .header .logo {
-  color: #fff3e0;
-  text-shadow: 0 0 10px #ff7a00, 0 0 20px #ffb347;
-}
-
-body.dark-mode .header .logo {
-  color: #fff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
 }
 
 /* Buttons */
 .btn {
-  padding: 0.6rem 1.2rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
   border: 1px solid;
+  transition: all 0.3s ease;
 }
 
 body.light-mode .btn {
@@ -75,95 +55,59 @@ body.dark-mode .btn {
 }
 
 .btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
-body.light-mode .btn:hover {
-  box-shadow: 0 0 15px #ff7a00, 0 0 25px #ffb347;
-}
-
-body.dark-mode .btn:hover {
-  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
-}
-
-/* Neon Titles */
-.neon-title {
+/* Hero */
+.hero-section {
   text-align: center;
-  margin: 2rem 0;
-  font-size: 2.5rem;
-  animation: glow 2s ease-in-out infinite alternate;
+  padding: 4rem 2rem;
 }
 
-body.light-mode .neon-title {
-  color: #ff7a00;
-  text-shadow: 0 0 5px #ff7a00, 0 0 10px #ffb347, 0 0 20px #ffb347, 0 0 40px #ff7a00;
+.hero-title {
+  font-size: 3rem;
+  text-shadow: 0 0 10px #ff7a00;
 }
 
-body.dark-mode .neon-title {
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
+body.dark-mode .hero-title {
+  text-shadow: 0 0 10px #0ff;
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 5px, 0 0 10px, 0 0 20px, 0 0 40px; }
-  to { text-shadow: 0 0 10px, 0 0 20px, 0 0 40px, 0 0 60px; }
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-top: 1rem;
 }
 
 /* Chapters Grid */
 .chapters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1rem 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .chapter-card {
-  display: block;
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 2px solid currentColor;
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.chapter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+}
+
+.chapter-card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid;
-}
-
-body.light-mode .chapter-card {
-  background-color: #fff3e0;
-  color: #ff7a00;
-  border-color: #ff7a00;
-}
-
-body.dark-mode .chapter-card {
-  background-color: #111;
-  color: #0ff;
-  border-color: #0ff;
-}
-
-body.light-mode .chapter-card:hover {
-  box-shadow: 0 0 25px #ff7a00, 0 0 40px #ffb347;
-  transform: translateY(-5px);
-}
-
-body.dark-mode .chapter-card:hover {
-  box-shadow: 0 0 25px #0ff, 0 0 40px #08f;
-  transform: translateY(-5px);
 }
 
 /* Footer */
-footer {
+.footer {
   text-align: center;
   padding: 1rem;
-  margin-top: 2rem;
-  border-radius: 10px 10px 0 0;
-}
-
-body.light-mode footer {
-  background-color: #fff3e0;
-  color: #ff7a00;
-}
-
-body.dark-mode footer {
-  background-color: #111;
-  color: #0ff;
+  border-top: 2px solid currentColor;
 }
