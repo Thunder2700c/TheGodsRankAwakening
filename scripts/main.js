@@ -1,3 +1,4 @@
+
 const chapters = [
   { id: 1, title: "PROLOGUE", file: "chapters/1-prologue.html" },
   { id: 2, title: "EPILOGUE 1", file: "chapters/2-epilogue-1.html" },
@@ -7,6 +8,7 @@ const chapters = [
 ];
 
 const chaptersGrid = document.getElementById('chaptersGrid');
+
 chapters.forEach(ch => {
   const card = document.createElement('a');
   card.href = ch.file;
