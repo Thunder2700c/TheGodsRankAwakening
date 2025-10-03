@@ -11,30 +11,43 @@
   />
 </head>
 <body>
+  <!-- Header -->
   <header class="header">
-    <h1 class="logo">⚡ The God's Rank Awakening ⚡</h1>
-    <button id="themeToggle" class="btn">
-      <i class="fa-solid fa-moon"></i> Dark Mode
-    </button>
+    <div class="container header-content">
+      <h1 class="logo">The God's Rank Awakening</h1>
+      <button id="themeToggle" class="btn">
+        <i class="fa-solid fa-moon"></i> Dark Mode
+      </button>
+    </div>
   </header>
 
-  <main>
-    <section class="intro">
-      <h2 class="neon-title">Embark on an Epic Journey</h2>
-      <p>Discover the story of gods awakening and realms colliding. Dive into the chapters below.</p>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h2 class="hero-title">Our First Web Novel</h2>
+      <p class="hero-subtitle">Step into a world of power, battles, and awakening.</p>
+    </div>
+  </section>
 
-    <section class="chapters">
-      <h3>Chapters</h3>
-      <div id="chaptersGrid" class="chapters-grid"></div>
-    </section>
-  </main>
+  <!-- Chapters Section -->
+  <section class="chapters-section">
+    <div class="container">
+      <h3 class="section-title">Chapters</h3>
+      <div class="chapters-grid" id="chaptersGrid">
+        <!-- Chapters will be loaded dynamically -->
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    <p>&copy; 2025 The God's Rank Awakening. All rights reserved.</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 The God's Rank Awakening. All Rights Reserved.</p>
+    </div>
   </footer>
 
-  <script src="chapters/shared.js"></script>
+  <!-- Scripts -->
+  <script src="shared.js"></script>
   <script src="scripts/main.js"></script>
 </body>
 </html>
