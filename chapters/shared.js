@@ -13,6 +13,7 @@ if (savedTheme) {
   updateButtonIcon(savedTheme);
 }
 
+// Click listener
 themeToggle.addEventListener('click', () => {
   if (document.body.classList.contains('light-mode')) {
     document.body.classList.replace('light-mode', 'dark-mode');
@@ -29,7 +30,9 @@ function updateButtonIcon(mode) {
   const icon = themeToggle.querySelector('i');
   if (mode === 'dark-mode') {
     icon.className = 'fa-solid fa-sun';
-    themeToggle.innerHTML = `<i class="${icon.className}"></i> Light Mode`;
+    themeToggle.childNodes[1].nodeValue = ' Light Mode'; // only update text
   } else {
     icon.className = 'fa-solid fa-moon';
-    themeToggle.innerHTML = `<i class="${icon.className}"></i>
+    themeToggle.childNodes[1].nodeValue = ' Dark Mode'; // only update text
+  }
+}
