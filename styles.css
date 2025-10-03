@@ -1,14 +1,18 @@
-/* Base styles */
+/* Base body */
 body {
   font-family: 'Orbitron', sans-serif;
-  background-color: #0a0a0a;
-  color: #e6eef6;
   margin: 0;
   padding: 0;
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Dark mode */
+/* Light Mode (default) */
+body.light-mode {
+  background-color: #fff8f0;
+  color: #ff7a00;
+}
+
+/* Dark Mode */
 body.dark-mode {
   background-color: #0a0a0a;
   color: #0ff;
@@ -20,47 +24,90 @@ body.dark-mode {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  border-radius: 0 0 10px 10px;
+}
+
+body.light-mode .header {
+  background: linear-gradient(90deg, #ff7a00, #ffb347);
+  box-shadow: 0 0 20px #ff7a00;
+}
+
+body.dark-mode .header {
   background: linear-gradient(90deg, #0ff, #08f);
   box-shadow: 0 0 25px #0ff;
 }
 
 .header .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+body.light-mode .header .logo {
+  color: #fff3e0;
+  text-shadow: 0 0 10px #ff7a00, 0 0 20px #ffb347;
+}
+
+body.dark-mode .header .logo {
   color: #fff;
   text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
 }
 
 /* Buttons */
 .btn {
   padding: 0.6rem 1.2rem;
-  background-color: #111;
-  color: #0ff;
-  border: 1px solid #0ff;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
   font-weight: bold;
+  transition: all 0.3s ease;
+  border: 1px solid;
+}
+
+body.light-mode .btn {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .btn {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
 }
 
 .btn:hover {
-  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
   transform: translateY(-3px);
 }
 
-/* Neon Title */
+body.light-mode .btn:hover {
+  box-shadow: 0 0 15px #ff7a00, 0 0 25px #ffb347;
+}
+
+body.dark-mode .btn:hover {
+  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
+}
+
+/* Neon Titles */
 .neon-title {
-  font-size: 2.5rem;
-  color: #0ff;
   text-align: center;
   margin: 2rem 0;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
+  font-size: 2.5rem;
   animation: glow 2s ease-in-out infinite alternate;
 }
 
+body.light-mode .neon-title {
+  color: #ff7a00;
+  text-shadow: 0 0 5px #ff7a00, 0 0 10px #ffb347, 0 0 20px #ffb347, 0 0 40px #ff7a00;
+}
+
+body.dark-mode .neon-title {
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
+}
+
 @keyframes glow {
-  from { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f; }
-  to { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #08f; }
+  from { text-shadow: 0 0 5px, 0 0 10px, 0 0 20px, 0 0 40px; }
+  to { text-shadow: 0 0 10px, 0 0 20px, 0 0 40px, 0 0 60px; }
 }
 
 /* Chapters Grid */
@@ -74,26 +121,50 @@ body.dark-mode {
 .chapter-card {
   display: block;
   padding: 1rem;
-  background-color: #111;
-  border: 1px solid #0ff;
-  text-decoration: none;
-  color: #0ff;
+  border-radius: 8px;
   text-align: center;
   font-weight: bold;
-  border-radius: 8px;
+  text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid;
 }
 
-.chapter-card:hover {
+body.light-mode .chapter-card {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .chapter-card {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
+}
+
+body.light-mode .chapter-card:hover {
+  box-shadow: 0 0 25px #ff7a00, 0 0 40px #ffb347;
   transform: translateY(-5px);
+}
+
+body.dark-mode .chapter-card:hover {
   box-shadow: 0 0 25px #0ff, 0 0 40px #08f;
+  transform: translateY(-5px);
 }
 
 /* Footer */
 footer {
   text-align: center;
   padding: 1rem;
+  margin-top: 2rem;
+  border-radius: 10px 10px 0 0;
+}
+
+body.light-mode footer {
+  background-color: #fff3e0;
+  color: #ff7a00;
+}
+
+body.dark-mode footer {
   background-color: #111;
   color: #0ff;
-  margin-top: 2rem;
 }
