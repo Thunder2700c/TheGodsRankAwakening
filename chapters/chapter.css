@@ -1,1 +1,11 @@
+.prose { max-width: 800px; }
+.chapter-title { margin: 12px 0 6px; }
+.chapter-desc { color: var(--muted); margin-top: 0; }
+.chapter-content { margin-top: 18px; font-size: 1.05rem; }
+.chapter-content.large { font-size: 1.2rem; }
 
+.chapter-nav {
+  display: flex; align-items: center; gap: 8px; margin: 16px 0;
+}
+.chapter-nav .spacer { flex: 1; }
+.chapter-nav.bottom { margin-top: 28px; }
