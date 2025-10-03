@@ -1,28 +1,34 @@
-const themeToggle = document.getElementById('themeToggle');
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById('themeToggle');
 
-// Load saved theme
-document.body.classList.add(localStorage.getItem('theme') || 'light-mode');
-updateThemeButton(document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+  if(!themeToggle) return;
 
-themeToggle.addEventListener('click', () => {
-  if(document.body.classList.contains('light-mode')){
-    document.body.classList.replace('light-mode','dark-mode');
-    localStorage.setItem('theme','dark-mode');
-    updateThemeButton('dark-mode');
-  } else {
-    document.body.classList.replace('dark-mode','light-mode');
-    localStorage.setItem('theme','light-mode');
-    updateThemeButton('light-mode');
+  // Load saved theme from localStorage
+  const savedTheme = localStorage.getItem('theme') || 'light-mode';
+  document.body.classList.add(savedTheme);
+  updateThemeButton(savedTheme);
+
+  // Toggle on click
+  themeToggle.addEventListener('click', () => {
+    if(document.body.classList.contains('light-mode')){
+      document.body.classList.replace('light-mode','dark-mode');
+      localStorage.setItem('theme','dark-mode');
+      updateThemeButton('dark-mode');
+    } else {
+      document.body.classList.replace('dark-mode','light-mode');
+      localStorage.setItem('theme','light-mode');
+      updateThemeButton('light-mode');
+    }
+  });
+
+  function updateThemeButton(mode){
+    const icon = themeToggle.querySelector('i');
+    if(mode==='dark-mode'){
+      icon.className='fa-solid fa-sun';
+      themeToggle.childNodes[1].nodeValue=' Light Mode';
+    } else {
+      icon.className='fa-solid fa-moon';
+      themeToggle.childNodes[1].nodeValue=' Dark Mode';
+    }
   }
 });
-
-function updateThemeButton(mode){
-  const icon = themeToggle.querySelector('i');
-  if(mode==='dark-mode'){
-    icon.className='fa-solid fa-sun';
-    themeToggle.childNodes[1].nodeValue=' Light Mode';
-  } else {
-    icon.className='fa-solid fa-moon';
-    themeToggle.childNodes[1].nodeValue=' Dark Mode';
-  }
-}
