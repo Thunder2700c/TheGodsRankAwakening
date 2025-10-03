@@ -1,98 +1,176 @@
-const chapters = [
-  { id: 1, slug: 'prologue', title: 'PROLOGUE', desc: 'Fight scene.', path: '/chapters/1-prologue.html' },
-  { id: 2, slug: 'epilogue-1', title: 'EPILOGUE 1', desc: 'The Future.', path: '/chapters/2-epilogue-1.html' },
-  { id: 3, slug: 'the-day-hell-opened', title: 'The Day Hell Opened', desc: 'A story begins', path: '/chapters/3-the-day-hell-opened.html' },
-  { id: 4, slug: 'awakening-the-ancients', title: 'Awakening the Ancients: Shadows of Patala', desc: 'Work-in-progress', path: '/chapters/4-awakening-the-ancients.html' },
-  { id: 5, slug: 'coming-soon', title: 'Coming Soon', desc: 'Coming Soon', path: '/chapters/5-coming-soon.html' },
-];
+// main app logic
+(function () {
+  // elements
+  const chaptersGrid = document.getElementById('chaptersGrid');
+  const totalChaptersSmall = document.getElementById('totalChaptersSmall');
+  const totalChapters = document.getElementById('totalChapters');
+  const currentIndexEl = document.getElementById('currentIndex');
+  const chapterTitle = document.getElementById('chapterTitle');
+  const chapterDesc = document.getElementById('chapterDesc');
+  const chapterContent = document.getElementById('chapterContent');
 
-const els = {
-  grid: document.getElementById('chaptersGrid'),
-  bookmarksGrid: document.getElementById('bookmarksGrid'),
-  themeToggle: document.getElementById('themeToggle'),
-};
+  const chaptersView = document.getElementById('chaptersView');
+  const readerView = document.getElementById('readerView');
 
-function getBookmarks() {
-  try { return new Set(JSON.parse(localStorage.getItem('bc_bookmarks') || '[]')); }
-  catch { return new Set(); }
-}
-function setBookmarks(set) {
-  localStorage.setItem('bc_bookmarks', JSON.stringify([...set]));
-}
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const bookmarkBtn = document.getElementById('bookmarkBtn');
+  const startReading = document.getElementById('startReading');
+  const showBookmarks = document.getElementById('showBookmarks');
 
-function renderChapters() {
-  if (!els.grid) return;
-  els.grid.innerHTML = chapters.map(ch => `
-    <article class="card">
-      <a href="${ch.path}" aria-label="Open ${ch.title}">
-        <div class="badge">Chapter ${ch.id}</div>
-        <h3 class="title">${ch.title}</h3>
-        <p class="desc">${ch.desc}</p>
-      </a>
-      <div style="display:flex; gap:8px; margin-top:10px;">
-        <a class="btn outline" href="${ch.path}">Read</a>
-        <button class="btn" data-bm="${ch.id}">🔖 Bookmark</button>
-      </div>
-    </article>
-  `).join('');
-  bindBookmarkButtons();
-}
+  const themeToggle = document.getElementById('themeToggle');
+  const fontToggle = document.getElementById('fontToggle');
 
-function renderBookmarks() {
-  if (!els.bookmarksGrid) return;
-  const bm = getBookmarks();
-  const items = chapters.filter(c => bm.has(c.id));
-  if (items.length === 0) {
-    els.bookmarksGrid.classList.add('empty-state');
-    els.bookmarksGrid.innerHTML = '<p>No bookmarks yet.</p>';
-    return;
-  }
-  els.bookmarksGrid.classList.remove('empty-state');
-  els.bookmarksGrid.innerHTML = items.map(ch => `
-    <article class="card">
-      <a href="${ch.path}">
-        <div class="badge">Chapter ${ch.id}</div>
-        <h3 class="title">${ch.title}</h3>
-        <p class="desc">${ch.desc}</p>
-      </a>
-    </article>
-  `).join('');
-}
+  const SECTIONS = window.CHAPTERS || [];
+  let current = 0;
 
-function bindBookmarkButtons() {
-  document.querySelectorAll('button[data-bm]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = Number(btn.getAttribute('data-bm'));
-      const bm = getBookmarks();
-      if (bm.has(id)) bm.delete(id); else bm.add(id);
-      setBookmarks(bm);
-      renderBookmarks();
-      btn.textContent = bm.has(id) ? '⭐ Bookmarked' : '🔖 Bookmark';
+  // init
+  function init() {
+    renderGrid();
+    applyTheme(shared.loadTheme());
+    applyFont(shared.loadFont());
+    totalChaptersSmall.textContent = `${SECTIONS.length} chapters`;
+    totalChapters.textContent = String(SECTIONS.length || 0);
+
+    // events
+    prevBtn.addEventListener('click', () => openChapter(current - 1));
+    nextBtn.addEventListener('click', () => openChapter(current + 1));
+    backBtn.addEventListener('click', showChaptersView);
+    bookmarkBtn.addEventListener('click', () => {
+      shared.saveBookmark(current);
+      shared.showNotification('bookmarked ✨');
     });
-  });
-}
+    startReading.addEventListener('click', () => openChapter(0));
+    showBookmarks.addEventListener('click', goToBookmark);
 
-function initTheme() {
-  const root = document.documentElement;
-  const saved = localStorage.getItem('bc_theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initial = saved || (prefersDark ? 'dark' : 'light');
-  root.setAttribute('data-theme', initial);
-  if (els.themeToggle) els.themeToggle.textContent = initial === 'dark' ? '☀️' : '🌙';
-  if (els.themeToggle) {
-    els.themeToggle.addEventListener('click', () => {
-      const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', cur);
-      localStorage.setItem('bc_theme', cur);
-      els.themeToggle.textContent = cur === 'dark' ? '☀️' : '🌙';
+    themeToggle.addEventListener('click', toggleTheme);
+    fontToggle.addEventListener('click', cycleFont);
+
+    // load bookmark highlight
+    const bk = shared.getBookmark();
+    if (bk !== null && Number.isInteger(bk) && bk >= 0 && bk < SECTIONS.length) {
+      // highlight in grid
+      setTimeout(() => highlightCard(bk), 450);
+    }
+  }
+
+  function renderGrid() {
+    chaptersGrid.innerHTML = '';
+    if (!SECTIONS.length) {
+      chaptersGrid.innerHTML = '<p class="muted">no chapters found. add chapters in <code>chapters/chapter.js</code></p>';
+      return;
+    }
+    SECTIONS.forEach((c, i) => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.setAttribute('data-index', i);
+      card.innerHTML = `
+        <h4>${shared.formatTitle(i, escapeHtml(c.title))}</h4>
+        <p class="muted">${escapeHtml(c.description || '')}</p>
+        <div class="meta">chapter ${i + 1}</div>
+        <div style="margin-top:10px"><button class="btn" data-open-index="${i}">read →</button></div>
+      `;
+      chaptersGrid.appendChild(card);
+
+      card.querySelector('button[data-open-index]').addEventListener('click', (ev) => {
+        const idx = Number(ev.currentTarget.getAttribute('data-open-index'));
+        openChapter(idx);
+      });
     });
   }
-}
 
-function init() {
-  initTheme();
-  renderChapters();
-  renderBookmarks();
-}
+  function openChapter(index) {
+    if (index < 0 || index >= SECTIONS.length) return;
+    current = index;
+    // set UI
+    chapterTitle.textContent = shared.formatTitle(index, SECTIONS[index].title);
+    chapterDesc.textContent = SECTIONS[index].description || '';
+    chapterContent.innerHTML = SECTIONS[index].content || '<p class="muted">no content</p>';
+    currentIndexEl.textContent = String(index + 1);
+    totalChapters.textContent = String(SECTIONS.length);
 
-document.addEventListener('DOMContentLoaded', init);
+    // enable/disable nav
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === SECTIONS.length - 1;
+
+    // toggle views
+    chaptersView.classList.add('hidden');
+    readerView.classList.remove('hidden');
+    readerView.setAttribute('aria-hidden', 'false');
+    chaptersView.setAttribute('aria-hidden', 'true');
+
+    // focus content for keyboard readers
+    chapterContent.focus();
+
+    // smooth scroll
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showChaptersView() {
+    readerView.classList.add('hidden');
+    chaptersView.classList.remove('hidden');
+    chaptersView.setAttribute('aria-hidden', 'false');
+    readerView.setAttribute('aria-hidden', 'true');
+  }
+
+  function goToBookmark() {
+    const b = shared.getBookmark();
+    if (b === null) {
+      shared.showNotification('no bookmark set');
+      return;
+    }
+    if (b >= 0 && b < SECTIONS.length) openChapter(b);
+  }
+
+  // theme & font
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.style.setProperty('--bg', '#f7f8fb');
+      document.documentElement.style.setProperty('--text', '#0b1221');
+      document.body.classList.add('light');
+      themeToggle.textContent = '☀️';
+    } else {
+      // dark defaults
+      document.documentElement.style.setProperty('--bg', '#05060a');
+      document.body.classList.remove('light');
+      themeToggle.textContent = '🌙';
+    }
+    shared.saveTheme(theme);
+  }
+  function toggleTheme() {
+    const currentTheme = shared.loadTheme();
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  }
+
+  function applyFont(sizeKey) {
+    if (sizeKey === 'small') {
+      document.documentElement.style.setProperty('font-size', '14px');
+    } else if (sizeKey === 'large') {
+      document.documentElement.style.setProperty('font-size', '18px');
+    } else {
+      document.documentElement.style.setProperty('font-size', '16px');
+    }
+    shared.saveFont(sizeKey);
+  }
+  function cycleFont() {
+    const cur = shared.loadFont();
+    const next = cur === 'normal' ? 'large' : cur === 'large' ? 'small' : 'normal';
+    applyFont(next);
+    shared.showNotification(`font: ${next}`);
+  }
+
+  // small helpers
+  function escapeHtml(s = '') {
+    return String(s).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function highlightCard(index) {
+    const card = chaptersGrid.querySelector(`.card[data-index="${index}"]`);
+    if (!card) return;
+    card.style.boxShadow = '0 24px 60px rgba(0,255,238,0.12)';
+    setTimeout(() => card.style.boxShadow = '', 2000);
+  }
+
+  // initialize
+  document.addEventListener('DOMContentLoaded', init);
+})();
