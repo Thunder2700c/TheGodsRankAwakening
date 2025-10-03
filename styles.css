@@ -6,7 +6,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Light Mode (default) */
+/* Light Mode */
 body.light-mode {
   background-color: #fff8f0;
   color: #ff7a00;
