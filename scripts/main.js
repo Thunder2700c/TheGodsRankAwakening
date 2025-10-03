@@ -1,17 +1,24 @@
+// Chapters array
 const chapters = [
-  { id: 1, title: "PROLOGUE", file: "chapters/1-prologue.html" },
-  { id: 2, title: "EPILOGUE 1", file: "chapters/2-epilogue-1.html" },
-  { id: 3, title: "THE DAY HELL OPENED", file: "chapters/3-the-day-hell-opened.html" },
-  { id: 4, title: "AWAKENING THE ANCIENTS", file: "chapters/4-awakening-the-ancients.html" },
-  { id: 5, title: "COMING SOON", file: "chapters/5-coming-soon.html" }
+  { title: "PROLOGUE", file: "chapters/1-prologue.html" },
+  { title: "EPILOGUE 1", file: "chapters/2-epilogue-1.html" },
+  { title: "THE DAY HELL OPENED", file: "chapters/3-the-day-hell-opened.html" },
+  { title: "AWAKENING THE ANCIENTS", file: "chapters/4-awakening-the-ancients.html" },
+  { title: "COMING SOON", file: "chapters/5-coming-soon.html" }
 ];
 
-const chaptersGrid = document.getElementById('chaptersGrid');
+// Get the container to show chapters
+const chaptersGrid = document.getElementById("chaptersGrid");
 
-chapters.forEach(ch => {
-  const card = document.createElement('a');
-  card.href = ch.file;
-  card.className = 'chapter-card';
-  card.textContent = ch.title;
+// Dynamically create chapter cards
+chapters.forEach((ch, index) => {
+  const card = document.createElement("div");
+  card.classList.add("chapter-card");
+  card.innerHTML = `
+    <h4>${ch.title}</h4>
+    <button class="btn btn--primary" onclick="window.location.href='${ch.file}'">
+      Read Chapter
+    </button>
+  `;
   chaptersGrid.appendChild(card);
 });
