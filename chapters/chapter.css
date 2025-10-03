@@ -1,110 +1,93 @@
-/* Body & base */
 body {
-  font-family: 'Orbitron', 'Courier New', monospace;
-  background-color: #0a0a0a;
-  color: #e6eef6;
+  font-family: 'Orbitron', sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Dark mode */
+/* Light Mode */
+body.light-mode {
+  background-color: #fff8f0;
+  color: #ff7a00;
+}
+
+/* Dark Mode */
 body.dark-mode {
   background-color: #0a0a0a;
   color: #0ff;
 }
 
 /* Header */
-.header {
+.chapter-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: linear-gradient(90deg, #0ff, #08f);
-  box-shadow: 0 0 25px #0ff;
+  border-bottom: 2px solid currentColor;
 }
 
-.header .logo {
-  color: #fff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
-  font-size: 1.8rem;
-  text-decoration: none;
-  letter-spacing: 1px;
+/* Chapter Title */
+.chapter-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+body.light-mode .chapter-title {
+  color: #ff7a00;
+  text-shadow: 0 0 5px #ff7a00, 0 0 10px #ffb347, 0 0 20px #ffb347;
+}
+
+body.dark-mode .chapter-title {
+  color: #08f;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #08f, 0 0 20px #0ff, 0 0 40px #08f;
 }
 
 /* Buttons */
 .btn {
-  padding: 0.6rem 1.2rem;
-  background-color: #111;
-  color: #0ff;
-  border: 1px solid #0ff;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
   font-weight: bold;
+  border: 1px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .btn {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .btn {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
 }
 
 .btn:hover {
-  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
-/* Neon title */
-.neon-title {
-  font-size: 2.5rem;
-  color: #0ff;
-  text-align: center;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f; }
-  to { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #08f; }
-}
-
-/* Main content */
-main {
-  padding: 1rem 2rem;
+/* Chapter Content */
+.chapter-content {
+  padding: 2rem;
   max-width: 900px;
   margin: auto;
+  line-height: 1.6;
 }
 
-/* Preformatted text */
-pre {
-  background-color: #111;
-  padding: 1.5rem;
-  border-radius: 10px;
-  border: 1px solid #0ff;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  font-size: 1rem;
-  box-shadow: 0 0 20px #0ff inset;
-  transition: box-shadow 0.3s;
+body.light-mode .chapter-content p {
+  color: #ff7a00;
 }
 
-pre:hover {
-  box-shadow: 0 0 30px #0ff inset, 0 0 20px #08f;
+body.dark-mode .chapter-content p {
+  color: #0ff;
 }
 
-/* Footer Next button */
+/* Footer */
 footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 2rem;
-}
-
-/* Scrollbar styling for modern feel */
-pre::-webkit-scrollbar {
-  width: 8px;
-}
-pre::-webkit-scrollbar-track {
-  background: #111;
-}
-pre::-webkit-scrollbar-thumb {
-  background: #0ff;
-  border-radius: 4px;
-  box-shadow: 0 0 5px #0ff;
+  text-align: center;
+  padding: 1rem;
+  border-top: 2px solid currentColor;
 }
