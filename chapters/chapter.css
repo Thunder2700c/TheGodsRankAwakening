@@ -1,17 +1,18 @@
-/* Basic body and text */
+/* Body & base */
 body {
-  font-family: 'Courier New', monospace;
+  font-family: 'Orbitron', 'Courier New', monospace;
   background-color: #0a0a0a;
   color: #e6eef6;
   margin: 0;
   padding: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Dark mode (toggle class) */
+/* Dark mode */
 body.dark-mode {
   background-color: #0a0a0a;
-  color: #a0f0ff;
+  color: #0ff;
 }
 
 /* Header */
@@ -19,59 +20,91 @@ body.dark-mode {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #111;
-  box-shadow: 0 0 20px #0ff;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #0ff, #08f);
+  box-shadow: 0 0 25px #0ff;
 }
 
 .header .logo {
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
+  color: #fff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
+  font-size: 1.8rem;
   text-decoration: none;
+  letter-spacing: 1px;
 }
 
 /* Buttons */
 .btn {
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background-color: #111;
   color: #0ff;
   border: 1px solid #0ff;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  font-weight: bold;
 }
 
 .btn:hover {
-  box-shadow: 0 0 15px #0ff;
-  transform: translateY(-2px);
+  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
+  transform: translateY(-3px);
 }
 
 /* Neon title */
 .neon-title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-  margin-bottom: 1rem;
   text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #08f; }
+  to { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 60px #08f; }
 }
 
 /* Main content */
 main {
   padding: 1rem 2rem;
+  max-width: 900px;
+  margin: auto;
 }
 
 /* Preformatted text */
 pre {
   background-color: #111;
-  padding: 1rem;
+  padding: 1.5rem;
+  border-radius: 10px;
   border: 1px solid #0ff;
-  border-radius: 5px;
   overflow-x: auto;
   white-space: pre-wrap;
+  font-size: 1rem;
+  box-shadow: 0 0 20px #0ff inset;
+  transition: box-shadow 0.3s;
 }
 
-/* Footer next button */
+pre:hover {
+  box-shadow: 0 0 30px #0ff inset, 0 0 20px #08f;
+}
+
+/* Footer Next button */
 footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+}
+
+/* Scrollbar styling for modern feel */
+pre::-webkit-scrollbar {
+  width: 8px;
+}
+pre::-webkit-scrollbar-track {
+  background: #111;
+}
+pre::-webkit-scrollbar-thumb {
+  background: #0ff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px #0ff;
 }
