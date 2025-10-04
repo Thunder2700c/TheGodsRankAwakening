@@ -1,3 +1,4 @@
+/* Base */
 body {
   font-family: 'Orbitron', sans-serif;
   margin: 0;
@@ -5,43 +6,165 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* Light Mode */
 body.light-mode {
   background-color: #fff8f0;
   color: #ff7a00;
 }
 
+/* Dark Mode */
 body.dark-mode {
   background-color: #0a0a0a;
   color: #0ff;
 }
 
-.header {
+/* Header */
+.chapter-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  border-bottom: 1px solid;
 }
 
-.chapter-content {
-  padding: 2rem;
-  line-height: 1.8;
-  max-width: 900px;
-  margin: auto;
+body.light-mode .chapter-header {
+  background: linear-gradient(90deg, #ff7a00, #ffb347);
+  box-shadow: 0 0 20px #ff7a00;
+}
+
+body.dark-mode .chapter-header {
+  background: linear-gradient(90deg, #0ff, #08f);
+  box-shadow: 0 0 25px #0ff;
 }
 
 .chapter-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-.chapter-text {
+.btn {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .btn {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .btn {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
+}
+
+/* Chapter Content */
+.chapter-content {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.8;
   font-size: 1.1rem;
 }
 
+/* Horizontal Rule */
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid currentColor;
+  opacity: 0.3;
+}
+
+/* Footer */
 footer {
   text-align: center;
   padding: 1rem;
+  margin-top: 2rem;
   font-size: 0.9rem;
-  margin-top: 3rem;
+  border-top: 1px solid currentColor;
+}
+
+body.light-mode footer {
+  background-color: #fff3e0;
+  color: #ff7a00;
+}
+
+body.dark-mode footer {
+  background-color: #111;
+  color: #0ff;
+}
+
+/* Navigation Buttons */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.nav-btn {
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .nav-btn {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border: 1px solid #ff7a00;
+}
+
+body.dark-mode .nav-btn {
+  background-color: #111;
+  color: #0ff;
+  border: 1px solid #0ff;
+}
+
+.nav-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+}
+
+/* Neon effect for headings inside chapter content (optional) */
+.chapter-content h2,
+.chapter-content h3 {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+body.light-mode .chapter-content h2,
+body.light-mode .chapter-content h3 {
+  color: #ff7a00;
+  text-shadow: 0 0 5px #ff7a00, 0 0 15px #ffb347;
+}
+
+body.dark-mode .chapter-content h2,
+body.dark-mode .chapter-content h3 {
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 15px #08f;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px, 0 0 10px, 0 0 20px, 0 0 40px;
+  }
+  to {
+    text-shadow: 0 0 10px, 0 0 20px, 0 0 40px, 0 0 60px;
+  }
 }
