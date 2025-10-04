@@ -1,21 +1,32 @@
-const chapters = [
-  { title:"PROLOGUE", file:"chapters/1-prologue.html" },
-  { title:"EPILOGUE 1", file:"chapters/2-epilogue-1.html" },
-  { title:"THE DAY HELL OPENED", file:"chapters/3-the-day-hell-opened.html" },
-  { title:"AWAKENING THE ANCIENTS", file:"chapters/4-awakening-the-ancients.html" },
-  { title:"COMING SOON", file:"chapters/5-coming-soon.html" }
-];
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById('themeToggle');
+  if (!themeToggle) return;
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  const grid = document.getElementById("chaptersGrid");
-  if(!grid) return;
-  grid.innerHTML="";
-  
-  chapters.forEach(ch=>{
-    const card = document.createElement("a");
-    card.classList.add("chapter-card");
-    card.href = ch.file;
-    card.innerHTML = `<h4>${ch.title}</h4><button class="btn">Read Chapter</button>`;
-    grid.appendChild(card);
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme') || 'light-mode';
+  document.body.classList.add(savedTheme);
+  updateThemeButton(savedTheme);
+
+  // Toggle theme on click
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.body.classList.contains('light-mode');
+    document.body.classList.toggle('light-mode', !isLight);
+    document.body.classList.toggle('dark-mode', isLight);
+    const newTheme = isLight ? 'dark-mode' : 'light-mode';
+    localStorage.setItem('theme', newTheme);
+    updateThemeButton(newTheme);
   });
+
+  function updateThemeButton(mode) {
+    const icon = themeToggle.querySelector('i');
+    if (!icon) return;
+
+    if (mode === 'dark-mode') {
+      icon.className = 'fa-solid fa-sun';
+      themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
+    } else {
+      icon.className = 'fa-solid fa-moon';
+      themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
+    }
+  }
 });
