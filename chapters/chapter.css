@@ -5,89 +5,43 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Light Mode */
 body.light-mode {
   background-color: #fff8f0;
   color: #ff7a00;
 }
 
-/* Dark Mode */
 body.dark-mode {
   background-color: #0a0a0a;
   color: #0ff;
 }
 
-/* Header */
-.chapter-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 2px solid currentColor;
 }
 
-/* Chapter Title */
-.chapter-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  transition: color 0.3s, text-shadow 0.3s;
-}
-
-body.light-mode .chapter-title {
-  color: #ff7a00;
-  text-shadow: 0 0 5px #ff7a00, 0 0 10px #ffb347, 0 0 20px #ffb347;
-}
-
-body.dark-mode .chapter-title {
-  color: #08f;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #08f, 0 0 20px #0ff, 0 0 40px #08f;
-}
-
-/* Buttons */
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  border: 1px solid;
-  transition: all 0.3s ease;
-}
-
-body.light-mode .btn {
-  background-color: #fff3e0;
-  color: #ff7a00;
-  border-color: #ff7a00;
-}
-
-body.dark-mode .btn {
-  background-color: #111;
-  color: #0ff;
-  border-color: #0ff;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-/* Chapter Content */
 .chapter-content {
   padding: 2rem;
+  line-height: 1.8;
   max-width: 900px;
   margin: auto;
-  line-height: 1.6;
 }
 
-body.light-mode .chapter-content p {
-  color: #ff7a00;
+.chapter-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-body.dark-mode .chapter-content p {
-  color: #0ff;
+.chapter-text {
+  font-size: 1.1rem;
 }
 
-/* Footer */
 footer {
   text-align: center;
   padding: 1rem;
-  border-top: 2px solid currentColor;
+  font-size: 0.9rem;
+  margin-top: 3rem;
 }
