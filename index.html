@@ -3,40 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The God's Rank Awakening</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <title>Legendary Gaming with Gurtej</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-  <!-- Header -->
-  <header class="header">
-    <h1 class="logo neon-title">The God's Rank Awakening</h1>
-    <button id="themeToggle" class="btn">
-      <i class="fa-solid fa-moon"></i> Dark Mode
-    </button>
+<body class="light-mode">
+  <header>
+    <h1>Legendary Gaming with Gurtej</h1>
+    <button id="theme-toggle">🌙 Toggle Theme</button>
   </header>
 
-  <!-- Hero -->
-  <section class="hero-section">
-    <h2 class="neon-title">Our First Web Novel</h2>
-    <p class="hero-subtitle" style="text-align:center;">Step into a world of battles and awakening.</p>
-  </section>
+  <main>
+    <section>
+      <h2>Welcome to My Channel</h2>
+      <p>Explore Genshin Impact, gaming videos, and more futuristic stuff!</p>
+    </section>
 
-  <!-- Chapters Grid -->
-  <section class="chapters-section">
-    <div class="chapters-grid" id="chaptersGrid">
-      <!-- Chapters dynamically loaded -->
-    </div>
-  </section>
+    <section id="chapters">
+      <h3>Featured Chapters</h3>
+      <div class="chapter-list">
+        <a href="chapter1.html">Chapter 1: Hu Tao’s Journey</a>
+        <a href="chapter2.html">Chapter 2: Crimson Flames</a>
+      </div>
+    </section>
+  </main>
 
-  <!-- Footer -->
   <footer>
-    &copy; 2025 The God's Rank Awakening. All Rights Reserved.
+    <p>© 2025 Legendary Gaming with Gurtej</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Shared dark mode + theme logic -->
   <script src="shared.js"></script>
-  <script src="scripts/main.js"></script>
+
+  <!-- Main page custom logic -->
+  <script src="main.js"></script>
 </body>
 </html>
