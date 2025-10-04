@@ -23,6 +23,8 @@ body.dark-mode {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  border-radius: 0 0 10px 10px;
+  transition: all 0.3s ease;
 }
 
 body.light-mode .header {
@@ -35,11 +37,41 @@ body.dark-mode .header {
   box-shadow: 0 0 25px #0ff;
 }
 
+/* Logo / Neon Title */
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
 }
 
+.neon-title {
+  text-align: center;
+  margin: 0;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* FIXED: Neon Title visibility on both themes */
+body.light-mode .logo,
+body.light-mode .neon-title {
+  color: #ffffff; /* white for orange background */
+  text-shadow: 0 0 5px #ffb347, 0 0 15px #ff7a00, 0 0 25px #ffb347;
+}
+
+body.dark-mode .logo,
+body.dark-mode .neon-title {
+  color: #00e5ff; /* neon cyan for dark background */
+  text-shadow: 0 0 5px #0ff, 0 0 15px #08f, 0 0 25px #0ff;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px, 0 0 10px, 0 0 20px, 0 0 40px;
+  }
+  to {
+    text-shadow: 0 0 10px, 0 0 20px, 0 0 40px, 0 0 60px;
+  }
+}
+
+/* Buttons */
 .btn {
   border: 1px solid;
   border-radius: 8px;
@@ -64,24 +96,6 @@ body.dark-mode .btn {
 .btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
-}
-
-/* Titles */
-.neon-title {
-  text-align: center;
-  font-size: 2.4rem;
-  margin: 2rem 0;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-body.light-mode .neon-title {
-  color: #ff7a00;
-  text-shadow: 0 0 5px #ff7a00, 0 0 15px #ffb347;
-}
-
-body.dark-mode .neon-title {
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 15px #08f;
 }
 
 /* Chapters Grid */
