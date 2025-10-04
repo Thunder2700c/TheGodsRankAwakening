@@ -1,37 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById('themeToggle');
-  if (!themeToggle) return;
 
-  const icon = themeToggle.querySelector('i');
-  const textSpan = themeToggle.querySelector('span'); // Use a span for text
-
-  // Load saved theme from localStorage
+  // Always load saved theme
   const savedTheme = localStorage.getItem('theme') || 'light-mode';
   document.body.classList.add(savedTheme);
+
+  // If no toggle button (like some subpages), stop here
+  if (!themeToggle) return;
+
+  // Set button state based on current theme
   updateThemeButton(savedTheme);
 
-  // Toggle on click
+  // Toggle theme on click
   themeToggle.addEventListener('click', () => {
-    if (document.body.classList.contains('light-mode')) {
-      document.body.classList.replace('light-mode', 'dark-mode');
-      localStorage.setItem('theme', 'dark-mode');
-      updateThemeButton('dark-mode');
-    } else {
-      document.body.classList.replace('dark-mode', 'light-mode');
-      localStorage.setItem('theme', 'light-mode');
-      updateThemeButton('light-mode');
-    }
+    const isLight = document.body.classList.contains('light-mode');
+    document.body.classList.toggle('light-mode', !isLight);
+    document.body.classList.toggle('dark-mode', isLight);
+
+    const newTheme = isLight ? 'dark-mode' : 'light-mode';
+    localStorage.setItem('theme', newTheme);
+    updateThemeButton(newTheme);
   });
 
   function updateThemeButton(mode) {
-    if (!icon || !textSpan) return;
-
     if (mode === 'dark-mode') {
-      icon.className = 'fa-solid fa-sun';
-      textSpan.textContent = ' Light Mode';
+      themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
     } else {
-      icon.className = 'fa-solid fa-moon';
-      textSpan.textContent = ' Dark Mode';
+      themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
     }
   }
 });
