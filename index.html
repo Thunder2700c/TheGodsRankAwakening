@@ -3,39 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Legendary Gaming with Gurtej</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>The Gods Rank Awakening</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="light-mode">
-  <header>
-    <h1>Legendary Gaming with Gurtej</h1>
-    <button id="theme-toggle">🌙 Toggle Theme</button>
+  <header class="header">
+    <div class="logo">⚡ The Gods Rank Awakening ⚡</div>
+    <button id="themeToggle" class="btn"><i class="fa-solid fa-moon"></i> Dark Mode</button>
   </header>
 
-  <main>
-    <section>
-      <h2>Welcome to My Channel</h2>
-      <p>Explore Genshin Impact, gaming videos, and more futuristic stuff!</p>
-    </section>
+  <h1 class="neon-title">Chapters</h1>
 
-    <section id="chapters">
-      <h3>Featured Chapters</h3>
-      <div class="chapter-list">
-        <a href="chapter1.html">Chapter 1: Hu Tao’s Journey</a>
-        <a href="chapter2.html">Chapter 2: Crimson Flames</a>
-      </div>
-    </section>
-  </main>
+  <main class="chapters-grid" id="chaptersGrid"></main>
 
-  <footer>
-    <p>© 2025 Legendary Gaming with Gurtej</p>
-  </footer>
+  <footer>© 2025 Thunder2700c | The Gods Rank Awakening</footer>
 
-  <!-- Shared dark mode + theme logic -->
-  <script src="shared.js"></script>
-
-  <!-- Main page custom logic -->
-  <script src="main.js"></script>
+  <script src="scripts/main.js"></script>
+  <script src="chapters/shared.js"></script>
 </body>
 </html>
