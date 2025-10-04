@@ -2,90 +2,18 @@ body {
   font-family: 'Orbitron', sans-serif;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* LIGHT MODE */
+/* Light Mode */
 body.light-mode {
   background-color: #fff8f0;
   color: #ff7a00;
 }
 
-body.light-mode .header {
-  background: linear-gradient(90deg, #ff7a00, #ffb347);
-  box-shadow: 0 0 20px #ff7a00;
-}
-
-body.light-mode .header .logo {
-  color: #fff3e0;
-  text-shadow: 0 0 10px #ff7a00, 0 0 20px #ffb347;
-}
-
-body.light-mode .btn {
-  background-color: #fff3e0;
-  color: #ff7a00;
-  border-color: #ff7a00;
-}
-
-body.light-mode .btn:hover {
-  box-shadow: 0 0 15px #ff7a00, 0 0 25px #ffb347;
-}
-
-body.light-mode .chapter-card {
-  background-color: #fff3e0;
-  color: #ff7a00;
-  border-color: #ff7a00;
-}
-
-body.light-mode .chapter-card:hover {
-  box-shadow: 0 0 25px #ff7a00, 0 0 40px #ffb347;
-  transform: translateY(-5px);
-}
-
-body.light-mode footer {
-  background-color: #fff3e0;
-  color: #ff7a00;
-}
-
-/* DARK MODE */
+/* Dark Mode */
 body.dark-mode {
   background-color: #0a0a0a;
-  color: #0ff;
-}
-
-body.dark-mode .header {
-  background: linear-gradient(90deg, #0ff, #08f);
-  box-shadow: 0 0 25px #0ff;
-}
-
-body.dark-mode .header .logo {
-  color: #fff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #08f;
-}
-
-body.dark-mode .btn {
-  background-color: #111;
-  color: #0ff;
-  border-color: #0ff;
-}
-
-body.dark-mode .btn:hover {
-  box-shadow: 0 0 15px #0ff, 0 0 25px #08f;
-}
-
-body.dark-mode .chapter-card {
-  background-color: #111;
-  color: #0ff;
-  border-color: #0ff;
-}
-
-body.dark-mode .chapter-card:hover {
-  box-shadow: 0 0 25px #0ff, 0 0 40px #08f;
-  transform: translateY(-5px);
-}
-
-body.dark-mode footer {
-  background-color: #111;
   color: #0ff;
 }
 
@@ -95,42 +23,71 @@ body.dark-mode footer {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-radius: 0 0 10px 10px;
 }
 
-.header .logo {
-  font-size: 1.8rem;
+body.light-mode .header {
+  background: linear-gradient(90deg, #ff7a00, #ffb347);
+  box-shadow: 0 0 20px #ff7a00;
+}
+
+body.dark-mode .header {
+  background: linear-gradient(90deg, #0ff, #08f);
+  box-shadow: 0 0 25px #0ff;
+}
+
+.logo {
+  font-size: 1.5rem;
   font-weight: bold;
-  letter-spacing: 1px;
 }
 
-/* Buttons */
 .btn {
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
-  border: 1px solid;
 }
 
-/* Neon Titles */
+body.light-mode .btn {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .btn {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
+}
+
+/* Titles */
 .neon-title {
   text-align: center;
+  font-size: 2.4rem;
   margin: 2rem 0;
-  font-size: 2.5rem;
   animation: glow 2s ease-in-out infinite alternate;
 }
 
-@keyframes glow {
-  from { text-shadow: 0 0 5px,0 0 10px,0 0 20px,0 0 40px; }
-  to   { text-shadow: 0 0 10px,0 0 20px,0 0 40px,0 0 60px; }
+body.light-mode .neon-title {
+  color: #ff7a00;
+  text-shadow: 0 0 5px #ff7a00, 0 0 15px #ffb347;
+}
+
+body.dark-mode .neon-title {
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 15px #08f;
 }
 
 /* Chapters Grid */
 .chapters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   padding: 1rem 2rem;
 }
@@ -142,8 +99,25 @@ body.dark-mode footer {
   text-align: center;
   font-weight: bold;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid;
+  transition: 0.3s;
+}
+
+body.light-mode .chapter-card {
+  background-color: #fff3e0;
+  color: #ff7a00;
+  border-color: #ff7a00;
+}
+
+body.dark-mode .chapter-card {
+  background-color: #111;
+  color: #0ff;
+  border-color: #0ff;
+}
+
+.chapter-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px currentColor, 0 0 40px currentColor;
 }
 
 /* Footer */
@@ -151,5 +125,15 @@ footer {
   text-align: center;
   padding: 1rem;
   margin-top: 2rem;
-  border-radius: 10px 10px 0 0;
+  font-size: 0.9rem;
+}
+
+body.light-mode footer {
+  background-color: #fff3e0;
+  color: #ff7a00;
+}
+
+body.dark-mode footer {
+  background-color: #111;
+  color: #0ff;
 }
