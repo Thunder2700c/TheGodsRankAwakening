@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap');
 
 body {
-  font-family: 'Orbitron', monospace;
+  font-family: 'Orbitron', 'Inter', sans-serif;
   margin: 0;
   padding: 0;
   transition: background-color 0.3s, color 0.3s;
@@ -84,26 +84,28 @@ body.dark-mode .btn {
   margin: auto;
   line-height: 1.8;
   font-size: 1.1rem;
-  background-image: url('../assets/images/background.jpg'); /* Your anime-manga hellscape – portals & Asura shadows glow! */
+  background-image: url('../assets/images/background.jpg');
   background-size: cover;
-  background-attachment: fixed; /* Subtle scroll parallax */
+  background-attachment: fixed;
   position: relative;
 }
 
-.chapter-content::before { /* Tint overlay for readability over purple/crimson tones */
+.chapter-content::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.1); /* Light wash; bump to 0.2 for darker manga edge */
+  background: rgba(0, 0, 0, 0.2); /* Darker tint for manga pop */
   z-index: -1;
 }
 
-.prose { position: relative; z-index: 1; } /* Lifts text above bg */
+.prose { position: relative; z-index: 1; }
 
 .prose p {
   margin-bottom: 1.2rem;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left; /* Fixed glitches */
+  hyphens: none;
+  letter-spacing: 0.02em;
+  word-break: break-word;
 }
 
 .dialogue {
@@ -112,6 +114,8 @@ body.dark-mode .btn {
   border-left: 3px solid currentColor;
   margin: 1rem 0;
   background: rgba(255, 255, 255, 0.1);
+  text-align: left;
+  hyphens: none;
 }
 
 .prose strong {
@@ -245,5 +249,11 @@ body.dark-mode #progress { background: #0ff; }
   .chapter-header, .chapter-nav { padding: 1rem; flex-direction: column; gap: 0.5rem; }
   .chapter-content { padding: 1rem; font-size: 1.2rem; line-height: 1.6; }
   .nav-btn { width: 100%; order: initial; }
+  .prose p, .dialogue {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+  }
+  .chapter-title { font-size: 1.5rem; font-weight: 700; }
   .prose p { hyphens: none; text-align: left; }
 }
