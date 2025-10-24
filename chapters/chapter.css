@@ -1,6 +1,7 @@
-/* Base */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 body {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', monospace;
   margin: 0;
   padding: 0;
   transition: background-color 0.3s, color 0.3s;
@@ -24,7 +25,10 @@ body.dark-mode {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid currentColor;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 body.light-mode .chapter-header {
@@ -39,16 +43,21 @@ body.dark-mode .chapter-header {
 
 .chapter-title {
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 900;
+  margin: 0;
 }
 
+/* Buttons */
 .btn {
-  border: 1px solid;
+  border: 1px solid currentColor;
   border-radius: 8px;
   padding: 0.6rem 1rem;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
 }
 
 body.light-mode .btn {
@@ -75,14 +84,57 @@ body.dark-mode .btn {
   margin: auto;
   line-height: 1.8;
   font-size: 1.1rem;
+  background-image: url('../assets/images/2.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.chapter-content::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: -1;
+}
+
+.prose { position: relative; z-index: 1; }
+
+.prose p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.dialogue {
+  font-style: italic;
+  padding: 0.5rem;
+  border-left: 3px solid currentColor;
+  margin: 1rem 0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.prose strong {
+  color: currentColor;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Horizontal Rule */
 hr {
   margin: 2rem 0;
   border: none;
-  border-top: 1px solid currentColor;
+  border-top: 1px dashed currentColor;
   opacity: 0.3;
+}
+
+/* Author Note */
+.author-note {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  border-left: 4px solid currentColor;
 }
 
 /* Footer */
@@ -112,10 +164,12 @@ body.dark-mode footer {
   max-width: 900px;
   margin: 2rem auto;
   padding: 0 1rem;
+  gap: 1rem;
 }
 
 .nav-btn {
-  text-decoration: none;
+  flex: 1;
+  text-align: center;
   font-size: 1rem;
   padding: 0.7rem 1.2rem;
   border-radius: 6px;
@@ -140,7 +194,10 @@ body.dark-mode .nav-btn {
   box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
 }
 
-/* Neon effect for headings inside chapter content (optional) */
+.prev { order: 1; }
+.next { order: 2; }
+
+/* Neon effect for headings */
 .chapter-content h2,
 .chapter-content h3 {
   text-align: center;
@@ -162,9 +219,31 @@ body.dark-mode .chapter-content h3 {
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 5px, 0 0 10px, 0 0 20px, 0 0 40px;
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
   }
   to {
-    text-shadow: 0 0 10px, 0 0 20px, 0 0 40px, 0 0 60px;
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
   }
+}
+
+/* Progress Bar */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: currentColor;
+  z-index: 100;
+  transition: width 0.1s;
+}
+
+body.light-mode #progress { background: #ff7a00; }
+body.dark-mode #progress { background: #0ff; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .chapter-header, .chapter-nav { padding: 1rem; flex-direction: column; gap: 0.5rem; }
+  .chapter-content { padding: 1rem; font-size: 1.2rem; line-height: 1.6; }
+  .nav-btn { width: 100%; order: initial; }
+  .prose p { hyphens: none; text-align: left; }
 }
