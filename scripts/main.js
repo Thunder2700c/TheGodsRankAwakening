@@ -1,51 +1,48 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const themeToggle = document.getElementById('themeToggle');
-  if (!themeToggle) return;
+document.addEventListener('DOMContentLoaded', () => {
+  const chapters = [
+    { title: "Prologue: Defiant Stand", file: "1-prologue.html", teaser: "No way in hell... Aditya's roar against Kanasura's spear.", date: "Oct 21, 2120" },
+    { title: "Epilogue I: Tea & Revelations", file: "2-epilogue-1.html", teaser: "Quiet moments shatter with Venta's cosmic truth.", date: "TBA" },
+    { title: "The Day Hell Opened", file: "3-the-day-hell-opened.html", teaser: "Portals ignite—timeline fractures in hell's fury.", date: "TBA" },
+    { title: "Awakening the Ancients", file: "4-awakening-the-ancients.html", teaser: "God-ranks stir from eons of slumber.", date: "TBA" },
+    { title: "Coming Soon...", file: "5-coming-soon.html", teaser: "The rank wars escalate—teaser drops weekly!", date: "Soon™" }
+  ];
 
-  // Detect system pref as fallback
-  const systemPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-mode' : 'light-mode';
-  const savedTheme = localStorage.getItem('theme') || systemPref;
-  
-  document.body.classList.add(savedTheme);
-  updateButton(savedTheme);
-
-  // Listen for system changes (e.g., OS toggle)
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) { // Only if no user override
-      const newTheme = e.matches ? 'dark-mode' : 'light-mode';
-      document.body.classList.replace(savedTheme, newTheme);
-      updateButton(newTheme);
-    }
-  });
-
-  themeToggle.addEventListener('click', () => {
-    const isLight = document.body.classList.contains('light-mode');
-    const newTheme = isLight ? 'dark-mode' : 'light-mode';
-    // Fixed: Flip force params – remove current, add opposite
-    document.body.classList.toggle('light-mode', !isLight); // If light (true), !true=false → remove light; else add
-    document.body.classList.toggle('dark-mode', isLight);   // If light (true), add dark; else remove
-    localStorage.setItem('theme', newTheme);
-    updateButton(newTheme);
-    
-    // Optional: Trigger CSS transition explicitly
-    document.body.style.transition = 'all 0.3s ease';
-    setTimeout(() => { document.body.style.transition = ''; }, 300);
-  });
-
-  function updateButton(theme) {
-    const icon = themeToggle.querySelector('i');
-    if (theme === 'dark-mode') {
-      icon.className = 'fa-solid fa-sun';
-      themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
-    } else {
-      icon.className = 'fa-solid fa-moon';
-      themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
-    }
+  const grid = document.getElementById('chaptersGrid');
+  if (!grid) {
+    console.error('Chapters grid not found—check index.html #chaptersGrid');
+    return;
   }
 
-  // Bonus: Disable nav buttons on first/last chapters (if .prev/.next classes exist)
-  const prevBtn = document.querySelector('.nav-btn.prev');
-  const nextBtn = document.querySelector('.nav-btn.next');
-  if (prevBtn && window.location.pathname.includes('1-prologue')) prevBtn.style.opacity = '0.5';
-  if (nextBtn && window.location.pathname.includes('5-coming-soon')) nextBtn.style.opacity = '0.5';
+  // Clear any old content
+  grid.innerHTML = '';
+
+  chapters.forEach(chap => {
+    const link = document.createElement('a');
+    link.href = `chapters/${chap.file}`;
+    link.className = 'chapter-card';
+    link.innerHTML = `
+      <h3>${chap.title}</h3>
+      <p class="teaser">${chap.teaser}</p>
+      <small class="date">${chap.date}</small>
+    `;
+    // Error handling for bad links
+    link.addEventListener('error', (e) => {
+      console.warn(`Chapter ${chap.title} link failed—check file exists.`);
+      e.preventDefault();
+    });
+    grid.appendChild(link);
+  });
+
+  // Bonus "More" card
+  const moreLink = document.createElement('a');
+  moreLink.href = '#';
+  moreLink.className = 'chapter-card upcoming';
+  moreLink.innerHTML = '<h3>More Chapters Incoming</h3><p>Subscribe for alerts!</p>';
+  moreLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Follow @Thunder2700c on X for drops!');
+  });
+  grid.appendChild(moreLink);
+
+  console.log('Grid populated with', chapters.length + 1, 'cards'); // Debug log
 });
