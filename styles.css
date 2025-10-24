@@ -168,7 +168,7 @@ body.dark-mode .chapter-card {
 .hero {
   text-align: center;
   padding: 2rem;
-  background-image: url('../assets/images/jonathon.jpeg');
+  background-image: url('assets/images/jonathan.jpeg'); /* Fallback bg – same file */
   background-size: cover;
   background-position: center;
   position: relative;
@@ -217,5 +217,6 @@ body.dark-mode footer {
   .chapter-card { padding: 1.2rem; }
   .hero { padding: 1rem; background-attachment: fixed; }
 }
+
 
 
