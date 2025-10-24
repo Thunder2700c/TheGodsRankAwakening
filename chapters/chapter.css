@@ -84,21 +84,21 @@ body.dark-mode .btn {
   margin: auto;
   line-height: 1.8;
   font-size: 1.1rem;
-  background-image: url('../assets/images/2.jpeg');
+  background-image: url('../assets/images/background.jpg'); /* Your anime-manga hellscape – portals & Asura shadows glow! */
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: fixed; /* Subtle scroll parallax */
   position: relative;
 }
 
-.chapter-content::before {
+.chapter-content::before { /* Tint overlay for readability over purple/crimson tones */
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1); /* Light wash; bump to 0.2 for darker manga edge */
   z-index: -1;
 }
 
-.prose { position: relative; z-index: 1; }
+.prose { position: relative; z-index: 1; } /* Lifts text above bg */
 
 .prose p {
   margin-bottom: 1.2rem;
