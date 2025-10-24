@@ -49,6 +49,53 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Comments Functionality
+const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue';
+const userId = localStorage.getItem('userId') || 'guest';
+const commentsList = document.getElementById('commentsList');
+const commentForm = document.getElementById('commentForm');
+const commentText = document.getElementById('commentText');
+
+// Fetch comments
+async function loadComments() {
+  try {
+    const res = await fetch(`https://your-vercel-app.vercel.app/api/comments/${chapterId}`); // Vercel URL
+    const comments = await res.json();
+    commentsList.innerHTML = '';
+    comments.forEach(comment => {
+      const li = document.createElement('li');
+      li.className = 'comment-item';
+      li.innerHTML = `<strong>${comment.user} (${new Date(comment.date).toLocaleDateString()})</strong><p>${comment.text}</p>`;
+      commentsList.appendChild(li);
+    });
+  } catch (err) {
+    console.log('Comments offline – empty for now');
+  }
+}
+
+// Post comment
+  if (commentForm) {
+    commentForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = commentText.value.trim();
+      if (!text) return;
+      try {
+        await fetch('https://your-vercel-app.vercel.app/api/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chapterId, text, user: userId })
+        });
+        commentText.value = '';
+        loadComments(); // Refresh list
+      } catch (err) {
+        alert('Post failed – try again!');
+      }
+    });
+  }
+  
+  // Load on start
+  loadComments();
+
   // Call on scroll end (throttled)
   window.addEventListener('scroll', () => {
     clearTimeout(syncTimeout);
