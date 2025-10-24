@@ -94,7 +94,7 @@ body.dark-mode .btn {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.2); /* Darker tint for manga pop */
+  background: rgba(0, 0, 0, 0.3); /* Darker tint – bg pops without washout */
   z-index: -1;
 }
 
@@ -102,7 +102,7 @@ body.dark-mode .btn {
 
 .prose p {
   margin-bottom: 1.2rem;
-  text-align: left; /* Fixed glitches */
+  text-align: left; /* Fixed dupes */
   hyphens: none;
   letter-spacing: 0.02em;
   word-break: break-word;
@@ -168,17 +168,18 @@ body.dark-mode footer {
   max-width: 900px;
   margin: 2rem auto;
   padding: 0 1rem;
-  gap: 1rem;
+  gap: 1.5rem; /* Increased gap – buttons don't squeeze */
 }
 
 .nav-btn {
   flex: 1;
   text-align: center;
   font-size: 1rem;
-  padding: 0.7rem 1.2rem;
+  padding: 0.8rem 1.5rem; /* Bumped padding for thumb-safety */
   border-radius: 6px;
   font-weight: bold;
   transition: all 0.3s ease;
+  min-width: 120px; /* Prevents shrink on mobile */
 }
 
 body.light-mode .nav-btn {
@@ -246,9 +247,9 @@ body.dark-mode #progress { background: #0ff; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .chapter-header, .chapter-nav { padding: 1rem; flex-direction: column; gap: 0.5rem; }
+  .chapter-header, .chapter-nav { padding: 1rem; flex-direction: column; gap: 1rem; } /* Stack nav with extra gap */
   .chapter-content { padding: 1rem; font-size: 1.2rem; line-height: 1.6; }
-  .nav-btn { width: 100%; order: initial; }
+  .nav-btn { width: 100%; order: initial; padding: 1rem; } /* Full-width on mobile */
   .prose p, .dialogue {
     font-size: 1.15rem;
     line-height: 1.7;
