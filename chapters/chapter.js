@@ -27,39 +27,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { once: true, passive: true }); // One-time, perf-friendly
   });
 
-  // Backend Sync (progress/comments) – INSERTED HERE
-  const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue'; // Auto-detect chapter ID from URL (e.g., '1-prologue')
+  // Backend Sync (progress/comments) – FIXED VERSION
+  const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue'; // Auto-detect chapter ID from URL
   const userId = localStorage.getItem('userId') || 'guest';
+  let lastPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0'); // Track last saved %
   let syncTimeout;
-  async function syncProgress() {
-    const scrolled = (window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100;
-    const percent = Math.round(scrolled);
+  async function syncProgress(currentPercent) {
+    if (Math.abs(currentPercent - lastPercent) < 10) return; // Only sync if >10% change – no spam
     try {
       await fetch('https://your-vercel-app.vercel.app/api/progress', { // Replace with Vercel URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chapterId, userId, percent })
+        body: JSON.stringify({ chapterId, userId, percent: currentPercent })
       });
-      console.log(`Progress synced: ${percent}% for ${chapterId}`);
+      console.log(`Progress synced: ${currentPercent}% for ${chapterId}`);
+      lastPercent = currentPercent;
+      localStorage.setItem(`${chapterId}_progress`, currentPercent); // Local backup
     } catch (err) { 
-      console.log('Offline – local save'); 
-      localStorage.setItem(`${chapterId}_progress`, percent); // Fallback local
+      console.log('Offline – local save');
+      localStorage.setItem(`${chapterId}_progress`, currentPercent);
     }
   }
 
-  // Call on scroll end (throttled to avoid spam)
+  // Call on scroll end (throttled)
   window.addEventListener('scroll', () => {
     clearTimeout(syncTimeout);
-    syncTimeout = setTimeout(syncProgress, 500); // Sync every 0.5s
+    const scrolled = Math.round((window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100);
+    syncTimeout = setTimeout(() => syncProgress(scrolled), 500); // Sync every 0.5s after stop
   }, { passive: true });
 
-  // Load saved progress on start (local or backend)
-  const localPercent = localStorage.getItem(`${chapterId}_progress`) || 0;
-  if (localPercent > 0) {
-    window.scrollTo(0, (document.body.offsetHeight * localPercent / 100)); // Jump to saved spot
+  // Load saved progress on start – FIXED: Default 0, ignore <10%
+  const savedPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0');
+  if (savedPercent > 10) { // Only jump if meaningful progress
+    window.scrollTo(0, (document.body.offsetHeight * savedPercent / 100));
+    console.log(`Resumed at ${savedPercent}% for ${chapterId}`);
   }
 
-  // Optional: Reading progress bar (add <div id="progress"></div> to chapter.html if wanted)
+  // Optional: Reset button (for testing – add to nav if wanted)
+  const resetBtn = document.createElement('button');
+  resetBtn.innerHTML = 'Reset Progress';
+  resetBtn.className = 'btn';
+  resetBtn.onclick = () => {
+    localStorage.removeItem(`${chapterId}_progress`);
+    window.scrollTo(0, 0);
+    console.log('Progress reset');
+  };
+  document.querySelector('.chapter-nav')?.appendChild(resetBtn); // Add to nav
+
+  // Optional: Reading progress bar
   let lastScroll = 0;
   window.addEventListener('scroll', () => {
     const scrolled = (window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100;
