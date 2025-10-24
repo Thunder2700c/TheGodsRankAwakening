@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 body {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', monospace;
   margin: 0;
   padding: 0;
   transition: background-color 0.4s ease, color 0.4s ease;
@@ -25,6 +27,9 @@ body.dark-mode {
   padding: 1rem 2rem;
   border-radius: 0 0 10px 10px;
   transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 body.light-mode .header {
@@ -40,25 +45,26 @@ body.dark-mode .header {
 /* Logo / Neon Title */
 .logo {
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .neon-title {
   text-align: center;
-  margin: 0;
+  margin: 2rem 0 1rem;
   animation: glow 2s ease-in-out infinite alternate;
+  font-size: 2.5rem;
+  font-weight: 900;
 }
 
-/* FIXED: Neon Title visibility on both themes */
 body.light-mode .logo,
 body.light-mode .neon-title {
-  color: #ffffff; /* white for orange background */
+  color: #ffffff;
   text-shadow: 0 0 5px #ffb347, 0 0 15px #ff7a00, 0 0 25px #ffb347;
 }
 
 body.dark-mode .logo,
 body.dark-mode .neon-title {
-  color: #00e5ff; /* neon cyan for dark background */
+  color: #00e5ff;
   text-shadow: 0 0 5px #0ff, 0 0 15px #08f, 0 0 25px #0ff;
 }
 
@@ -71,29 +77,34 @@ body.dark-mode .neon-title {
   }
 }
 
-/* Buttons */
-.btn {
+/* Buttons & CTA */
+.btn, .cta-button {
   border: 1px solid;
   border-radius: 8px;
   padding: 0.6rem 1rem;
   cursor: pointer;
   font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
   transition: all 0.3s ease;
+  font-family: inherit;
 }
 
-body.light-mode .btn {
+body.light-mode .btn,
+body.light-mode .cta-button {
   background-color: #fff3e0;
   color: #ff7a00;
   border-color: #ff7a00;
 }
 
-body.dark-mode .btn {
+body.dark-mode .btn,
+body.dark-mode .cta-button {
   background-color: #111;
   color: #0ff;
   border-color: #0ff;
 }
 
-.btn:hover {
+.btn:hover, .cta-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
 }
@@ -104,17 +115,21 @@ body.dark-mode .btn {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .chapter-card {
   display: block;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
   text-decoration: none;
   border: 1px solid;
   transition: 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 
 body.light-mode .chapter-card {
@@ -134,6 +149,48 @@ body.dark-mode .chapter-card {
   box-shadow: 0 0 25px currentColor, 0 0 40px currentColor;
 }
 
+.teaser {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 0.5rem 0;
+}
+
+.date {
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.upcoming {
+  opacity: 0.6;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 2rem;
+  background-image: url('assets/images/1.jpeg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.hero > * { position: relative; z-index: 2; }
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -150,4 +207,13 @@ body.light-mode footer {
 body.dark-mode footer {
   background-color: #111;
   color: #0ff;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .header { padding: 1rem; flex-direction: column; gap: 0.5rem; }
+  .neon-title { font-size: 2rem; }
+  .chapters-grid { grid-template-columns: 1fr; padding: 1rem; gap: 0.8rem; }
+  .chapter-card { padding: 1.2rem; }
+  .hero { padding: 1rem; background-attachment: fixed; }
 }
