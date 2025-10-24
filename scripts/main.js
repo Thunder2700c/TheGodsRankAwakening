@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.appendChild(link);
   });
 
-  // Bonus: Add "Coming Soon" card if more planned
   const moreLink = document.createElement('a');
   moreLink.href = '#';
   moreLink.className = 'chapter-card upcoming';
