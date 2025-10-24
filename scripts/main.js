@@ -44,5 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   grid.appendChild(moreLink);
 
+  // Search Functionality – INSERT HERE (after grid population)
+  const searchInput = document.getElementById('searchChapters');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.chapter-card:not(.upcoming)');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.classList.toggle('hidden', !text.includes(query));
+      });
+    });
+  }
+
   console.log('Grid populated with', chapters.length + 1, 'cards'); // Debug log
 });
