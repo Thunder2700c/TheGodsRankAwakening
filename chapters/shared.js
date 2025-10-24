@@ -2,16 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById('themeToggle');
   if (!themeToggle) return;
 
-  // Detect system pref as fallback
   const systemPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-mode' : 'light-mode';
   const savedTheme = localStorage.getItem('theme') || systemPref;
   
   document.body.classList.add(savedTheme);
   updateButton(savedTheme);
 
-  // Listen for system changes (e.g., OS toggle)
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) { // Only if no user override
+    if (!localStorage.getItem('theme')) {
       const newTheme = e.matches ? 'dark-mode' : 'light-mode';
       document.body.classList.replace(savedTheme, newTheme);
       updateButton(newTheme);
@@ -26,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem('theme', newTheme);
     updateButton(newTheme);
     
-    // Optional: Trigger CSS transition explicitly
     document.body.style.transition = 'all 0.3s ease';
     setTimeout(() => { document.body.style.transition = ''; }, 300);
   });
@@ -42,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Bonus: Disable nav buttons on first/last chapters (if .prev/.next classes exist)
   const prevBtn = document.querySelector('.nav-btn.prev');
   const nextBtn = document.querySelector('.nav-btn.next');
   if (prevBtn && window.location.pathname.includes('1-prologue')) prevBtn.style.opacity = '0.5';
