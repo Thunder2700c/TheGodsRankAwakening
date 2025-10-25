@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function syncProgress(currentPercent) {
     if (Math.abs(currentPercent - lastPercent) < 10) return; // Only sync if >10% change – no spam
     try {
-      await fetch('https://your-vercel-app.vercel.app/api/progress', { // Replace with Vercel URL
+      await fetch('https://your-vercel-app.vercel.app/api/progress', { // REPLACE WITH YOUR VERCEL URL, e.g., https://gods-backend-abc123.vercel.app/api/progress
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chapterId, userId, percent: currentPercent })
@@ -93,11 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!commentsList) return; // No section = skip
     try {
       console.log(`Fetching comments for ${chapterId}...`);
-      const res = await fetch(`https://your-vercel-app.vercel.app/api/comments/${chapterId}`); // Replace with Vercel URL
+      const res = await fetch(`https://your-vercel-app.vercel.app/api/comments/${chapterId}`); // REPLACE WITH YOUR VERCEL URL, e.g., https://gods-backend-abc123.vercel.app/api/comments/${chapterId}
       if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
       const comments = await res.json();
       console.log(`Loaded ${comments.length} comments`);
       commentsList.innerHTML = '';
+      if (comments.length === 0) {
+        commentsList.innerHTML = '<li class="comment-item"><p>No comments yet – be the first!</p></li>'; // Empty state
+      }
       comments.forEach(comment => {
         const li = document.createElement('li');
         li.className = 'comment-item';
@@ -118,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!text) return;
       try {
         console.log('Posting comment...');
-        const res = await fetch('https://your-vercel-app.vercel.app/api/comments', {
+        const res = await fetch('https://your-vercel-app.vercel.app/api/comments', { // REPLACE WITH YOUR VERCEL URL
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chapterId, text, user: userId })
