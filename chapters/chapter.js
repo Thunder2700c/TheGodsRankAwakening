@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Firebase Setup – Your Config Plugged In
+  // Firebase Setup – Your Config
   const firebaseConfig = {
     apiKey: "AIzaSyBBXkjCGj9xb-4mHFQW0UzubwrGRW2nULE",
     authDomain: "gods-rank-awakening.firebaseapp.com",
@@ -13,66 +13,61 @@ document.addEventListener("DOMContentLoaded", () => {
   const auth = firebase.auth();
 
   // Optional glowing highlight for readability – with mobile/touch support
-  const paragraphs = document.querySelectorAll('.chapter-text, .chapter-content p'); // Fallback to all <p>
+  const paragraphs = document.querySelectorAll('.chapter-text, .chapter-content p');
   paragraphs.forEach((p, index) => {
-    // Desktop hover
     const addGlow = () => p.style.textShadow = '0 0 10px currentColor';
     const removeGlow = () => p.style.textShadow = 'none';
     p.addEventListener('mouseenter', addGlow);
     p.addEventListener('mouseleave', removeGlow);
 
-    // Mobile touch (S23 FE): Long-press glow
     let touchTimer;
     p.addEventListener('touchstart', (e) => {
-      touchTimer = setTimeout(addGlow, 500); // 0.5s hold
+      touchTimer = setTimeout(addGlow, 500);
     });
     p.addEventListener('touchend', () => {
       clearTimeout(touchTimer);
       removeGlow();
     });
 
-    // Bonus: Progressive highlight on scroll (unfurl like awakening)
     window.addEventListener('scroll', () => {
       const rect = p.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {
-        p.style.opacity = '1'; // Fade-in if starting hidden
+        p.style.opacity = '1';
       }
-    }, { once: true, passive: true }); // One-time, perf-friendly
+    }, { once: true, passive: true });
   });
 
-  // Backend Sync (progress) – Firebase Firestore
-  const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue'; // Auto-detect chapter ID from URL
+  // Progress Sync – Firebase Firestore
+  const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue';
   const userId = localStorage.getItem('userId') || 'guest';
-  let lastPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0'); // Track last saved %
+  let lastPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0');
   let syncTimeout;
   async function syncProgress(currentPercent) {
-    if (Math.abs(currentPercent - lastPercent) < 10) return; // Only sync if >10% change – no spam
+    if (Math.abs(currentPercent - lastPercent) < 10) return;
     try {
       await db.collection('progress').doc(chapterId).set({ [userId]: currentPercent }, { merge: true });
       console.log(`Progress synced: ${currentPercent}% for ${chapterId}`);
       lastPercent = currentPercent;
-      localStorage.setItem(`${chapterId}_progress`, currentPercent); // Local backup
+      localStorage.setItem(`${chapterId}_progress`, currentPercent);
     } catch (err) { 
       console.log('Offline – local save');
       localStorage.setItem(`${chapterId}_progress`, currentPercent);
     }
   }
 
-  // Call on scroll end (throttled)
   window.addEventListener('scroll', () => {
     clearTimeout(syncTimeout);
     const scrolled = Math.round((window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100);
-    syncTimeout = setTimeout(() => syncProgress(scrolled), 500); // Sync every 0.5s after stop
+    syncTimeout = setTimeout(() => syncProgress(scrolled), 500);
   }, { passive: true });
 
-  // Load saved progress on start – Default 0, ignore <10%
   const savedPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0');
-  if (savedPercent > 10) { // Only jump if meaningful progress
+  if (savedPercent > 10) {
     window.scrollTo(0, (document.body.offsetHeight * savedPercent / 100));
     console.log(`Resumed at ${savedPercent}% for ${chapterId}`);
   }
 
-  // Optional: Reset button (for testing – add to nav if wanted)
+  // Reset button (testing)
   const resetBtn = document.createElement('button');
   resetBtn.innerHTML = 'Reset Progress';
   resetBtn.className = 'btn';
@@ -81,9 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo(0, 0);
     console.log('Progress reset');
   };
-  document.querySelector('.chapter-nav')?.appendChild(resetBtn); // Add to nav
+  document.querySelector('.chapter-nav')?.appendChild(resetBtn);
 
-  // Optional: Reading progress bar
+  // Progress bar
   let lastScroll = 0;
   window.addEventListener('scroll', () => {
     const scrolled = (window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100;
@@ -92,21 +87,20 @@ document.addEventListener("DOMContentLoaded", () => {
     lastScroll = window.pageYOffset;
   }, { passive: true });
 
-  // Comments Functionality – Firebase Firestore
+  // Comments Functionality – Firebase Firestore (ENHANCED REFRESH)
   const commentsList = document.getElementById('commentsList');
   const commentForm = document.getElementById('commentForm');
   const commentText = document.getElementById('commentText');
 
-  // Fetch comments
   async function loadComments() {
-    if (!commentsList) return; // No section = skip
+    if (!commentsList) return;
     try {
       console.log(`Fetching comments for ${chapterId}...`);
-      const snapshot = await db.collection('comments').where('chapterId', '==', chapterId).get();
+      const snapshot = await db.collection('comments').where('chapterId', '==', chapterId).orderBy('date', 'desc').get();
       console.log(`Loaded ${snapshot.size} comments`);
       commentsList.innerHTML = '';
       if (snapshot.empty) {
-        commentsList.innerHTML = '<li class="comment-item"><p>No comments yet – be the first!</p></li>'; // Empty state
+        commentsList.innerHTML = '<li class="comment-item"><p>No comments yet – be the first!</p></li>';
       }
       snapshot.forEach(doc => {
         const data = doc.data();
@@ -117,11 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (err) {
       console.error('Comments fetch failed:', err);
-      commentsList.innerHTML = '<li class="comment-item"><p>Comments loading... (check console)</p></li>'; // Fallback UI
+      commentsList.innerHTML = '<li class="comment-item"><p>Comments loading... (check console)</p></li>';
     }
   }
 
-  // Post comment
   if (commentForm) {
     commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -137,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         console.log('Posted!');
         commentText.value = '';
-        loadComments(); // Refresh list
+        loadComments(); // Force refresh
       } catch (err) {
         console.error('Post failed:', err);
         alert('Post failed – try again! (Check console for details)');
