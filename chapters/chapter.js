@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Firebase Setup – Your Config Plugged In
+  const firebaseConfig = {
+    apiKey: "AIzaSyBBXkjCGj9xb-4mHFQW0UzubwrGRW2nULE",
+    authDomain: "gods-rank-awakening.firebaseapp.com",
+    projectId: "gods-rank-awakening",
+    storageBucket: "gods-rank-awakening.firebasestorage.app",
+    messagingSenderId: "465243225805",
+    appId: "1:465243225805:web:7a9a749c2817c51185b384"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
   // Optional glowing highlight for readability – with mobile/touch support
   const paragraphs = document.querySelectorAll('.chapter-text, .chapter-content p'); // Fallback to all <p>
   paragraphs.forEach((p, index) => {
@@ -27,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { once: true, passive: true }); // One-time, perf-friendly
   });
 
-  // Backend Sync (progress/comments) – FIXED VERSION
+  // Backend Sync (progress) – Firebase Firestore
   const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue'; // Auto-detect chapter ID from URL
   const userId = localStorage.getItem('userId') || 'guest';
   let lastPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0'); // Track last saved %
@@ -35,11 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function syncProgress(currentPercent) {
     if (Math.abs(currentPercent - lastPercent) < 10) return; // Only sync if >10% change – no spam
     try {
-      await fetch('https://your-vercel-app.vercel.app/api/progress', { // REPLACE WITH YOUR VERCEL URL, e.g., https://gods-backend-abc123.vercel.app/api/progress
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chapterId, userId, percent: currentPercent })
-      });
+      await db.collection('progress').doc(chapterId).set({ [userId]: currentPercent }, { merge: true });
       console.log(`Progress synced: ${currentPercent}% for ${chapterId}`);
       lastPercent = currentPercent;
       localStorage.setItem(`${chapterId}_progress`, currentPercent); // Local backup
@@ -56,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     syncTimeout = setTimeout(() => syncProgress(scrolled), 500); // Sync every 0.5s after stop
   }, { passive: true });
 
-  // Load saved progress on start – FIXED: Default 0, ignore <10%
+  // Load saved progress on start – Default 0, ignore <10%
   const savedPercent = parseInt(localStorage.getItem(`${chapterId}_progress`) || '0');
   if (savedPercent > 10) { // Only jump if meaningful progress
     window.scrollTo(0, (document.body.offsetHeight * savedPercent / 100));
@@ -83,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lastScroll = window.pageYOffset;
   }, { passive: true });
 
-  // Comments Functionality – FIXED WITH ERROR HANDLING & REFRESH
+  // Comments Functionality – Firebase Firestore
   const commentsList = document.getElementById('commentsList');
   const commentForm = document.getElementById('commentForm');
   const commentText = document.getElementById('commentText');
@@ -93,18 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!commentsList) return; // No section = skip
     try {
       console.log(`Fetching comments for ${chapterId}...`);
-      const res = await fetch(`https://your-vercel-app.vercel.app/api/comments/${chapterId}`); // REPLACE WITH YOUR VERCEL URL, e.g., https://gods-backend-abc123.vercel.app/api/comments/${chapterId}
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-      const comments = await res.json();
-      console.log(`Loaded ${comments.length} comments`);
+      const snapshot = await db.collection('comments').where('chapterId', '==', chapterId).get();
+      console.log(`Loaded ${snapshot.size} comments`);
       commentsList.innerHTML = '';
-      if (comments.length === 0) {
+      if (snapshot.empty) {
         commentsList.innerHTML = '<li class="comment-item"><p>No comments yet – be the first!</p></li>'; // Empty state
       }
-      comments.forEach(comment => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
         const li = document.createElement('li');
         li.className = 'comment-item';
-        li.innerHTML = `<strong>${comment.user} (${new Date(comment.date).toLocaleDateString()})</strong><p>${comment.text}</p>`;
+        li.innerHTML = `<strong>${data.user} (${data.date ? data.date.toDate().toLocaleDateString() : 'Just now'})</strong><p>${data.text}</p>`;
         commentsList.appendChild(li);
       });
     } catch (err) {
@@ -113,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Post comment – FIXED: Always refresh after
+  // Post comment
   if (commentForm) {
     commentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -121,15 +129,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!text) return;
       try {
         console.log('Posting comment...');
-        const res = await fetch('https://your-vercel-app.vercel.app/api/comments', { // REPLACE WITH YOUR VERCEL URL
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chapterId, text, user: userId })
+        await db.collection('comments').add({
+          chapterId,
+          text,
+          user: userId,
+          date: firebase.firestore.FieldValue.serverTimestamp()
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         console.log('Posted!');
         commentText.value = '';
-        loadComments(); // Force refresh – shows new comment
+        loadComments(); // Refresh list
       } catch (err) {
         console.error('Post failed:', err);
         alert('Post failed – try again! (Check console for details)');
