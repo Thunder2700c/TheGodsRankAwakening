@@ -4,100 +4,94 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({ origin: 'https://thunder2700c.github.io' })); // Your site
+app.use(cors({ origin: 'https://thunder2700c.github.io' }));  // Your GitHub Pages
 app.use(express.json());
 
-// Mongo Connect (free Atlas: mongodb.com/cloud/atlas – get URI)
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('DB connected – gods awakening!'))
-  .catch(err => console.error('DB rift:', err));
+// MongoDB Connect (creates DB if new)
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected – DB ready/created'))
+  .catch(err => console.error('MongoDB connection failed:', err));
 
 // Schemas
-const chapterSchema = new mongoose.Schema({
-  id: String,
-  title: String,
-  content: String,
-  progress: { type: Map, of: Number } // User: % read
+const ProgressSchema = new mongoose.Schema({
+  chapterId: { type: String, required: true },
+  userId: { type: String, required: true },
+  progress: { type: Number, default: 0 },
+  updated: { type: Date, default: Date.now }
 });
-const Chapter = mongoose.model('Chapter', chapterSchema);
+ProgressSchema.index({ chapterId: 1, userId: 1 });  // Query perf
+const Progress = mongoose.model('Progress', ProgressSchema);
 
-const commentSchema = new mongoose.Schema({
-  chapterId: String,
-  text: String,
-  user: String,
+const CommentSchema = new mongoose.Schema({
+  chapterId: { type: String, required: true },
+  text: { type: String, required: true },
+  user: { type: String, required: true },
   date: { type: Date, default: Date.now }
 });
-const Comment = mongoose.model('Comment', commentSchema);
+CommentSchema.index({ chapterId: 1, date: -1 });  // Sort perf
+const Comment = mongoose.model('Comment', CommentSchema);
 
-// Routes
-app.get('/api/chapters', async (req, res) => {
+// Routes: Progress
+app.get('/api/progress/:chapterId', async (req, res) => {
   try {
-    const chapters = await Chapter.find();
-    res.json(chapters);
+    const { chapterId } = req.params;
+    const { userId } = req.query;
+    const data = await Progress.findOne({ chapterId, userId });
+    res.json(data || { progress: 0 });
   } catch (err) {
-    res.status(500).json({ error: 'Portal error' });
+    console.error('Progress GET error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-app.get('/api/chapters/:id', async (req, res) => {
+app.post('/api/progress/:chapterId', async (req, res) => {
   try {
-    const chapter = await Chapter.findOne({ id: req.params.id });
-    res.json(chapter);
+    const { chapterId } = req.params;
+    const { userId, progress } = req.body;
+    await Progress.findOneAndUpdate(
+      { chapterId, userId },
+      { progress, updated: new Date() },
+      { upsert: true, new: true }
+    );
+    res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Chapter not found' });
+    console.error('Progress POST error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-app.post('/api/progress', async (req, res) => {
-  const { chapterId, userId, percent } = req.body;
-  try {
-    let chapter = await Chapter.findOne({ id: chapterId });
-    if (!chapter) chapter = new Chapter({ id: chapterId, title: 'New Ch', content: '' });
-    chapter.progress.set(userId, percent);
-    await chapter.save();
-    res.json({ saved: true });
-  } catch (err) {
-    res.status(500).json({ error: 'Save failed' });
-  }
-});
-
-app.post('/api/comments', async (req, res) => {
-  const { chapterId, text, user } = req.body;
-  try {
-    const comment = new Comment({ chapterId, text, user });
-    await comment.save();
-    res.json({ added: true });
-  } catch (err) {
-    res.status(500).json({ error: 'Comment rift' });
-  }
-});
-
+// Routes: Comments
 app.get('/api/comments/:chapterId', async (req, res) => {
   try {
-    const comments = await Comment.find({ chapterId: req.params.chapterId }).sort({ date: -1 });
+    const { chapterId } = req.params;
+    const comments = await Comment.find({ chapterId }).sort({ date: -1 }).limit(50);
     res.json(comments);
   } catch (err) {
-    res.status(500).json({ error: 'Comments fetch failed' });
+    console.error('Comments GET error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Seed (run once via POST /api/seed)
-app.post('/api/seed', async (req, res) => {
-  const seedChapters = [
-    { id: '1', title: 'Prologue: Defiant Stand', content: 'Your prologue text...' },
-    // Add Ch. 2-5 here
-  ];
+app.post('/api/comments/:chapterId', async (req, res) => {
   try {
-    for (let ch of seedChapters) {
-      await new Chapter(ch).save();
-    }
-    res.json({ seeded: seedChapters.length });
+    const { chapterId } = req.params;
+    const { text, user } = req.body;
+    const newComment = new Comment({ chapterId, text, user });
+    await newComment.save();
+    res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Seed failed' });
+    console.error('Comments POST error:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-app.listen(PORT, () => console.log(`Backend on ${PORT} – ranks live!`));
+// Health check
+app.get('/', (req, res) => res.send('Gods Rank Awakening Backend – Live!'));
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Test: POST /api/comments/${chapterId} with {text: 'yo', user: 'test'}`);
+});
