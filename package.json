@@ -1,0 +1,16 @@
+{
+  "name": "thegodsrankawakening",
+  "version": "1.0.0",
+  "description": "## Epic Webnovel by Gurtej Singh Jassal & Harmanjot Singh Ubhi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.81.1",
+    "mongoose": "^8.19.3"
+  }
+}
