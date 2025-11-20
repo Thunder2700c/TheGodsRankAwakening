@@ -1,48 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The Gods Rank Awakening - Web Novel" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Gods Rank Awakening</title>
-  
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+  
   <script>
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
   </script>
 </head>
 <body>
 
   <header class="header">
-    <div class="logo">⚡ The Gods Rank Awakening</div>
-    <button id="themeToggle" class="btn"><i class="fa-solid fa-moon"></i> Toggle Theme</button>
+    <div class="logo">⚡ TGRA</div>
+    <button id="themeToggle" class="btn"><i class="fa-solid fa-moon"></i> Mode</button>
   </header>
 
   <section class="hero">
-    <h1 class="neon-title">The Gods Rank Awakening</h1>
-    <p>In 2120 CE, hell portals rip open. Ranks clash. Destinies ignite.</p>
-    <a href="#chaptersGrid" class="cta-button">Start Reading</a>
+    <h1 style="color: #fff; text-shadow: 0 0 10px var(--accent-color);">The Gods Rank Awakening</h1>
+    <p style="color: #ddd;">Ranks clash. Destinies ignite.</p>
+    <a href="#chaptersGrid" class="btn" style="margin-top:1rem;">Start Reading</a>
   </section>
 
-  <main>
-    <h2 style="text-align:center; margin-top:2rem;">Latest Chapters</h2>
-    
-    <div style="text-align:center; margin: 1rem;">
-      <input type="text" id="searchBox" placeholder="Search chapters..." class="btn" style="width: 80%; max-width: 400px; text-align: left; cursor: text;">
-    </div>
+  <div style="max-width: 600px; margin: 2rem auto; padding: 0 1rem;">
+    <input type="text" id="searchChapters" placeholder="Search chapters..." 
+           style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--text-color); background: transparent; color: inherit;">
+  </div>
 
-    <div class="chapters-grid" id="chaptersGrid">
-      </div>
-  </main>
+  <main class="chapters-grid" id="chaptersGrid">
+    </main>
 
-  <footer>
-    <p style="text-align:center; padding: 2rem; opacity: 0.7;">&copy; 2025 Thunder2700c. All rights reserved.</p>
+  <footer style="text-align:center; padding:2rem; opacity:0.6;">
+    © 2025 Thunder2700c
   </footer>
 
-  <script src="app.js"></script>
+  <script src="scripts/app.js"></script>
 </body>
 </html>
