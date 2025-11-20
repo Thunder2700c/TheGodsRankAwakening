@@ -62,9 +62,24 @@
       <hr style="border-color: var(--text-color); opacity: 0.3; margin: 2rem 0;">
 
       <aside class="dialogue" style="border-color: var(--accent-color); font-style: normal;">
-        <strong>Author’s Note:</strong> Hello, fellow readers! Thanks for reading through this epic prologue. We are two friends who started this project. Our names are Harmanjot Singh Ubhi and Gurtej Singh Jassal. Next chapter is dropping soon, stay tuned on our official website.
+        <strong>Author’s Note:</strong> Hello readers! Thanks for reading this epic prologue. We are Harmanjot Singh Ubhi and Gurtej Singh Jassal. Next chapter dropping soon!
       </aside>
     </article>
+
+    <section class="comments-section" style="margin-top: 3rem; padding-top: 1rem; border-top: 1px dashed var(--text-color);">
+      <h3><i class="fa-solid fa-comments"></i> Reader Thoughts</h3>
+      
+      <form id="commentForm" style="margin-bottom: 2rem;">
+        <input type="text" id="commentInput" placeholder="Write a comment..." required
+               style="width: 100%; padding: 1rem; margin-bottom: 0.5rem; background: transparent; border: 1px solid var(--text-color); color: inherit; border-radius: 8px;">
+        <button type="submit" class="btn" style="width: 100%;">Post Comment</button>
+      </form>
+
+      <ul id="commentsList" style="list-style: none; padding: 0;">
+        <li style="opacity: 0.6;">Loading comments...</li>
+      </ul>
+    </section>
+
   </main>
 
   <nav class="chapter-nav">
@@ -80,6 +95,8 @@
     &copy; 2025 The Gods Rank Awakening | <a href="https://x.com/Thunder2700c">@Thunder2700c</a>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="../scripts/app.js"></script>
 </body>
 </html>
