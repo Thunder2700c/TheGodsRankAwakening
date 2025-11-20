@@ -1,128 +1,93 @@
-/* =========================================
-   1. VARIABLES (The "Pro" Way)
-   ========================================= */
+/* VARIABLES */
 :root {
-  /* Fonts */
   --font-main: 'Inter', sans-serif;
   --font-title: 'Orbitron', sans-serif;
-
-  /* Light Mode (Default) */
   --bg-color: #fdf6f0;
   --text-color: #d2691e;
   --accent-color: #e6b800;
-  --glass-bg: rgba(253, 246, 240, 0.2);
-  --header-gradient: linear-gradient(90deg, #d2691e, #e6b800);
-  --shadow-color: rgba(210, 105, 30, 0.5);
+  --glass-bg: rgba(253, 246, 240, 0.5);
+  --header-grad: linear-gradient(90deg, #d2691e, #e6b800);
 }
 
-/* Dark Mode Overrides */
 [data-theme="dark"] {
   --bg-color: #0f0f0f;
   --text-color: #4682b4;
   --accent-color: #5a9fd4;
-  --glass-bg: rgba(26, 26, 26, 0.4);
-  --header-gradient: linear-gradient(90deg, #4682b4, #5a9fd4);
-  --shadow-color: rgba(70, 130, 180, 0.5);
+  --glass-bg: rgba(26, 26, 26, 0.5);
+  --header-grad: linear-gradient(90deg, #4682b4, #5a9fd4);
 }
 
-/* =========================================
-   2. GLOBAL RESET & CORE
-   ========================================= */
+/* GLOBAL RESET */
 body {
   font-family: var(--font-main);
-  margin: 0;
-  padding: 0;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
 }
 
-h1, h2, h3, .logo, .chapter-title {
-  font-family: var(--font-title);
-}
+h1, h2, h3, .logo, .chapter-title { font-family: var(--font-title); }
+a { text-decoration: none; color: inherit; }
 
-/* =========================================
-   3. COMPONENTS
-   ========================================= */
-
-/* Header */
+/* HEADER */
 .header, .chapter-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
+  background: var(--header-grad);
+  color: white;
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--header-gradient);
-  box-shadow: 0 0 10px var(--shadow-color);
-  border-bottom: 1px solid var(--text-color);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Neon Effects */
-.neon-title, .chapter-title {
-  text-shadow: 0 0 5px var(--accent-color);
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--text-color); }
-  to { text-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--text-color); }
-}
-
-/* Buttons */
-.btn, .cta-button, .chapter-card {
-  background-color: var(--bg-color);
+.btn {
+  background: var(--bg-color);
   color: var(--text-color);
-  border: 1px solid var(--text-color);
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.btn:hover, .cta-button:hover, .chapter-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 15px var(--shadow-color);
-}
-
-/* =========================================
-   4. LAYOUTS
-   ========================================= */
-
-/* Hero Section */
+/* HERO & GRID (Index Page) */
 .hero {
   text-align: center;
-  padding: 4rem 2rem;
-  background-image: url('assets/images/jonathan.jpeg'); /* Ensure this file exists */
-  background-size: cover;
-  background-position: center;
+  padding: 4rem 1rem;
+  background: url('assets/images/jonathan.jpeg') center/cover no-repeat;
   position: relative;
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.7); /* Darken overlay */
-}
-.hero > * { position: relative; z-index: 2; }
+.hero::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.7); }
+.hero > * { position: relative; z-index: 1; }
 
-/* Chapter Grid */
 .chapters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Reading View (The Novel Text) */
+.chapter-card {
+  border: 1px solid var(--text-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.2s;
+  display: block;
+}
+.chapter-card:hover { transform: translateY(-5px); background: var(--glass-bg); }
+
+/* CHAPTER READING (Chapter Pages) */
 .chapter-content {
-  max-width: 800px; /* Optimal reading width */
+  max-width: 800px;
   margin: 2rem auto;
   padding: 0 1.5rem;
   line-height: 1.8;
@@ -131,22 +96,31 @@ h1, h2, h3, .logo, .chapter-title {
 
 .dialogue {
   background: var(--glass-bg);
+  border-left: 4px solid var(--text-color);
   padding: 1rem;
-  border-left: 3px solid var(--text-color);
   margin: 1.5rem 0;
-  border-radius: 0 8px 8px 0;
+  font-style: italic;
 }
 
-/* Comments Section */
-.comments-section {
-  max-width: 800px;
-  margin: 3rem auto;
-  padding: 1rem;
-  border-top: 1px dashed var(--text-color);
+/* NAVIGATION */
+.chapter-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 3rem 0;
+  padding: 0 1rem;
 }
-.comment-item {
-  background: var(--glass-bg);
-  padding: 1rem;
-  margin-bottom: 0.5rem;
+
+.nav-btn {
+  border: 1px solid var(--text-color);
+  padding: 0.8rem 1.5rem;
   border-radius: 8px;
+  transition: 0.3s;
+}
+.nav-btn:hover { background: var(--text-color); color: var(--bg-color); }
+
+/* PROGRESS BAR */
+#progressBar {
+  position: fixed; top: 0; left: 0; height: 4px;
+  background: var(--accent-color); width: 0%; z-index: 101;
 }
