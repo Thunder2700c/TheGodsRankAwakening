@@ -3,27 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Prologue: Aditya's defiant stand against Asura King Kanasura." />
+  <meta name="description" content="Prologue: Aditya's defiant stand in crimson ruins against Asura King Kanasura – The Gods Rank Awakening." />
   <title>Prologue - The Gods Rank Awakening</title>
   
   <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="chapter.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <script>
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+    if (localStorage.getItem('theme') === 'dark-mode') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.add('light-mode');
+    }
   </script>
 </head>
-<body>
+<body class="light-mode">
 
-  <div id="progressBar"></div>
+  <div id="progress"></div>
 
   <header class="chapter-header">
-    <span class="chapter-title">PROLOGUE</span>
-    <button id="themeToggle" class="btn"><i class="fa-solid fa-moon"></i></button>
+    <h1 class="chapter-title">PROLOGUE</h1>
+    <button id="themeToggle" class="btn" aria-label="Toggle Dark Mode">
+      <i class="fa-solid fa-moon"></i> Dark Mode
+    </button>
   </header>
 
   <main class="chapter-content">
-    <article>
+    <article class="prose">
       <p><em>October 21, 2120, CE</em></p>
       <p>That day was a change in the life of killers.</p>
 
@@ -59,31 +66,30 @@
         The Asura King snarled, lunging forward with blinding speed, thrusting the spear straight toward the killer’s midsection, poised to pierce between stomach and chest in a fatal strike that could end it all...
       </p>
 
-      <hr style="border-color: var(--text-color); opacity: 0.3; margin: 2rem 0;">
-
-      <aside class="dialogue" style="border-color: var(--accent-color); font-style: normal;">
-        <strong>Author’s Note:</strong> Hello readers! Thanks for reading this epic prologue. We are Harmanjot Singh Ubhi and Gurtej Singh Jassal. Next chapter dropping soon!
-      </aside>
-    </article>
-
-    <section class="comments-section" style="margin-top: 3rem; padding-top: 1rem; border-top: 1px dashed var(--text-color);">
-      <h3><i class="fa-solid fa-comments"></i> Reader Thoughts</h3>
+      <hr />
       
-      <form id="commentForm" style="margin-bottom: 2rem;">
-        <input type="text" id="commentInput" placeholder="Write a comment..." required
-               style="width: 100%; padding: 1rem; margin-bottom: 0.5rem; background: transparent; border: 1px solid var(--text-color); color: inherit; border-radius: 8px;">
-        <button type="submit" class="btn" style="width: 100%;">Post Comment</button>
-      </form>
+      <aside class="author-note">
+        <strong>Author’s Note:</strong> Hello, fellow readers! Thanks for reading
+        through this epic prologue. We are two friends who started this project.
+        Our names are Harmanjot Singh Ubhi and Gurtej Singh Jassal. Next chapter
+        is dropping soon, stay tuned on our official website.
+      </aside>
 
-      <ul id="commentsList" style="list-style: none; padding: 0;">
-        <li style="opacity: 0.6;">Loading comments...</li>
-      </ul>
-    </section>
-
+      <section class="comments-section">
+        <h3>Reader Thoughts</h3>
+        <ul id="commentsList" class="comments-list">
+          <li>Loading comments...</li>
+        </ul>
+        <form id="commentForm" class="comment-form">
+          <input type="text" id="commentText" placeholder="Your take on the prologue? (e.g., 'No way in hell!')" required>
+          <button type="submit" class="btn">Post Comment</button>
+        </form>
+      </section>
+    </article>
   </main>
 
   <nav class="chapter-nav">
-    <a href="../index.html" class="btn nav-btn prev">
+    <a href="../index.html" class="btn nav-btn home-link">
       <i class="fa-solid fa-house"></i> Home
     </a>
     <a href="2-epilogue-1.html" class="btn nav-btn next">
@@ -91,8 +97,8 @@
     </a>
   </nav>
 
-  <footer style="text-align:center; padding:2rem; opacity:0.6; font-size: 0.9rem;">
-    &copy; 2025 The Gods Rank Awakening | <a href="https://x.com/Thunder2700c">@Thunder2700c</a>
+  <footer>
+    <p>&copy; 2025 The Gods Rank Awakening | Thunder2700c</p>
   </footer>
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
