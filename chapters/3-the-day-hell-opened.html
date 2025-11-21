@@ -11,13 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <script>
-    if (localStorage.getItem('theme') === 'dark-mode') {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.add('light-mode');
-    }
-  </script>
+  <style>
+    body { font-family: 'Orbitron', 'Inter', sans-serif; }
+  </style>
 </head>
 <body class="light-mode">
   <div id="progress"></div>
@@ -101,12 +97,8 @@
         Their helmets pierced shadows thick as ink. The landscape on the other side was a ruin: cracked brown soil, skeletal remains of trees, rivers dried into salt beds, and lava flowing in rills across the ground. The sky above was a burning, dark red — like looking up through blood.
       </p>
 
-      <div class="dialogue">
-        “This place looks like it got nuked,” Benjamin muttered.
-      </div>
-      
       <p>
-        They set to work: routers near the portal for transmission, foundations for a small stronghold as a forward base, and supplies ferried in by the second team.
+        “This place looks like it got nuked,” Benjamin muttered. They set to work: routers near the portal for transmission, foundations for a small stronghold as a forward base, and supplies ferried in by the second team.
       </p>
 
       <p>
@@ -121,11 +113,10 @@
 
       <p><strong>To Be Continued</strong></p>
 
+      <!-- Comments Section -->
       <section class="comments-section">
         <h3>Reader Thoughts</h3>
-        <ul id="commentsList" class="comments-list">
-          <li>Loading comments...</li> 
-        </ul>
+        <ul id="commentsList" class="comments-list"></ul>
         <form id="commentForm" class="comment-form">
           <input type="text" id="commentText" placeholder="Your thoughts on this chapter?" required>
           <button type="submit" class="btn">Post Comment</button>
@@ -135,7 +126,7 @@
   </main>
 
   <nav class="chapter-nav">
-    <a href="../index.html" class="btn nav-btn home-link">
+    <a href="../index.html" class="btn nav-btn prev">
       <i class="fa-solid fa-house"></i> Home
     </a>
     <a href="2-epilogue-1.html" class="btn nav-btn prev">
@@ -150,8 +141,7 @@
     <p>&copy; 2025 The Gods Rank Awakening. All rights reserved. | <a href="https://x.com/Thunder2700c">@Thunder2700c</a></p>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="../scripts/app.js"></script>
+  <script src="chapter.js"></script>
+  <script src="shared.js"></script>
 </body>
 </html>
