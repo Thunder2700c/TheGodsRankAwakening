@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Theme Logic
   if (themeToggle) {
+    // Use the theme attribute on the body for styling
     const savedTheme = localStorage.getItem('theme') || 'light-mode';
+    // Ensure body has one of the theme classes on load
     document.body.classList.add(savedTheme);
 
     const updateButton = (theme) => {
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Progress Bar Logic
+  // Progress Bar Logic (applies to chapter pages)
   if (progressBar) {
     window.addEventListener('scroll', () => {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -41,12 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navigation Key Bindings (Arrow Left/Right)
     document.addEventListener('keydown', (e) => {
       if (e.key === "ArrowRight") document.querySelector('.nav-btn.next')?.click();
-      // Added :not(.home-link) to ensure we skip the "Home" button
       if (e.key === "ArrowLeft") document.querySelector('.nav-btn.prev:not(.home-link)')?.click(); 
     });
   }
 
   // --- 2. COMMENTS LOGIC (Firebase Fix) ---
+  // Only runs if firebase CDN scripts are correctly included in the HTML (as above)
   if (typeof firebase !== 'undefined') {
     const firebaseConfig = {
       apiKey: "AIzaSyBBXkjCGj9xb-4mHFQW0UzubwrGRW2nULE",
@@ -61,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
 
-      // Get Chapter ID (e.g., "3-the-day-hell-opened")
+      // Get Chapter ID from URL (e.g., "3-the-day-hell-opened")
       const path = window.location.pathname;
       const chapterId = path.split('/').pop().replace('.html', '') || 'general';
 
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // REAL-TIME LISTENER
         db.collection('comments')
           .where('chapterId', '==', chapterId)
-          .orderBy('date', 'desc') // Ensure date is used for ordering
+          .orderBy('date', 'desc') 
           .limit(20)
           .onSnapshot((snapshot) => {
             commentsList.innerHTML = '';
@@ -83,7 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             snapshot.forEach(doc => {
               const data = doc.data();
-              const dateString = data.date ? new Date(data.date.toDate()).toLocaleDateString() : 'Just now';
+              // Handle potential null date from serverTimestamp if rules are strict
+              const dateObj = data.date && data.date.toDate ? data.date.toDate() : new Date();
+              const dateString = dateObj.toLocaleDateString();
+              
               const li = document.createElement('li');
               li.style.cssText = "background:var(--glass-bg); padding:1rem; margin-bottom:0.8rem; border-radius:8px; border-left: 3px solid var(--accent-color); list-style:none;";
               li.innerHTML = `
@@ -95,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
               commentsList.appendChild(li);
             });
           }, (error) => {
-            console.error("Firebase Read Error: You must update Firestore Security Rules.", error);
-            commentsList.innerHTML = '<li style="color:red; padding:1rem;">Error loading comments. Please check your Firebase Rules.</li>';
+            console.error("Firebase Read Error. Security Rules are likely too strict.", error);
+            commentsList.innerHTML = '<li style="color:red; padding:1rem;">Error loading comments. You MUST update your Firestore Security Rules to allow read access.</li>';
           });
 
         // POST COMMENT
@@ -112,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             db.collection('comments').add({
               chapterId: chapterId,
               text: text,
+              user: 'Reader', // Default user
               date: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
               commentText.value = '';
@@ -119,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
               btn.innerText = oldText;
             }).catch((err) => {
               console.error("Firebase Write Error:", err);
-              alert("Failed to post comment. Check console for error details.");
+              alert("Failed to post comment. Check console for error details or verify your Firebase Security Rules allow writing.");
               btn.disabled = false;
               btn.innerText = oldText;
             });
@@ -127,14 +133,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } catch (e) {
-      console.error("Firebase Initialization Failed (Is the CDN script included?):", e);
+      console.error("Firebase Initialization Failed:", e);
     }
   }
 
-  // --- 3. HOME PAGE LOGIC (If this file is used on index.html) ---
+  // --- 3. HOME PAGE LOGIC (From main.js - kept for completeness) ---
   const chaptersGrid = document.getElementById('chaptersGrid');
   if (chaptersGrid) {
-    // You will need to copy the chapter data and search logic from your main.js into this section if you use this app.js on your index.html
-    console.warn("Home page logic not included. If using app.js on index.html, ensure chapter data and search logic are added here.");
+    const chapters = [
+      { title: "Prologue: Defiant Stand", file: "1-prologue.html", teaser: "No way in hell... Aditya's roar against Kanasura's spear.", date: "Oct 21, 2120" },
+      { title: "Epilogue I: Tea & Revelations", file: "2-epilogue-1.html", teaser: "Quiet moments shatter with Venta's cosmic truth.", date: "TBA" },
+      { title: "The Day Hell Opened", file: "3-the-day-hell-opened.html", teaser: "Portals ignite—timeline fractures in hell's fury.", date: "TBA" },
+      { title: "Awakening the Ancients", file: "4-awakening-the-ancients.html", teaser: "God-ranks stir from eons of slumber.", date: "TBA" },
+      { title: "Coming Soon...", file: "5-coming-soon.html", teaser: "The rank wars escalate—teaser drops weekly!", date: "Soon™" }
+    ];
+
+    const renderChapters = (filter = "") => {
+      chaptersGrid.innerHTML = '';
+      const filteredChapters = chapters.filter(chap => chap.title.toLowerCase().includes(filter.toLowerCase()));
+
+      filteredChapters.forEach(chap => {
+        const card = document.createElement('a');
+        card.href = `chapters/${chap.file}`;
+        card.className = 'chapter-card';
+        card.innerHTML = `<h3>${chap.title}</h3><p class="teaser">${chap.teaser}</p><small class="date">${chap.date}</small>`;
+        chaptersGrid.appendChild(card);
+      });
+      // Add "More Chapters Incoming" card
+      const moreLink = document.createElement('a');
+      moreLink.href = '#';
+      moreLink.className = 'chapter-card upcoming';
+      moreLink.innerHTML = '<h3>More Chapters Incoming</h3><p>Subscribe for alerts!</p>';
+      chaptersGrid.appendChild(moreLink);
+    };
+
+    renderChapters();
+    
+    const searchBox = document.getElementById('searchChapters');
+    if (searchBox) searchBox.addEventListener('input', (e) => renderChapters(e.target.value));
   }
 });
