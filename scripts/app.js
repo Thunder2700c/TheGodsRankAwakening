@@ -59,9 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- 4. COMMENTS LOGIC (Firebase) ---
-  // Only runs if Firebase script is loaded in HTML
   if (typeof firebase !== 'undefined') {
-    // Your Config
     const firebaseConfig = {
       apiKey: "AIzaSyBBXkjCGj9xb-4mHFQW0UzubwrGRW2nULE",
       authDomain: "gods-rank-awakening.firebaseapp.com",
@@ -71,70 +69,77 @@ document.addEventListener('DOMContentLoaded', () => {
       appId: "1:465243225805:web:7a9a749c2817c51185b384"
     };
 
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    try {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
 
-    // Identify Chapter ID from URL (e.g., "1-prologue")
-    const path = window.location.pathname;
-    const chapterId = path.split('/').pop().replace('.html', '') || 'general';
+      // Get Chapter ID
+      const path = window.location.pathname;
+      const chapterId = path.split('/').pop().replace('.html', '') || 'general';
 
-    const commentForm = document.getElementById('commentForm');
-    const commentsList = document.getElementById('commentsList');
+      const commentForm = document.getElementById('commentForm');
+      const commentsList = document.getElementById('commentsList');
 
-    if (commentForm && commentsList) {
-      // REAL-TIME LISTENER (Reads comments)
-      db.collection('comments')
-        .where('chapterId', '==', chapterId)
-        .orderBy('timestamp', 'desc')
-        .limit(20)
-        .onSnapshot((snapshot) => {
-          commentsList.innerHTML = ''; // Clear loading text
-          if (snapshot.empty) {
-            commentsList.innerHTML = '<li style="opacity:0.5">No comments yet. Be the first!</li>';
+      if (commentForm && commentsList) {
+        // Listener
+        db.collection('comments')
+          .where('chapterId', '==', chapterId)
+          .orderBy('timestamp', 'desc')
+          .limit(20)
+          .onSnapshot((snapshot) => {
+            commentsList.innerHTML = '';
+            if (snapshot.empty) {
+              commentsList.innerHTML = '<li style="opacity:0.5; padding:1rem;">No comments yet. Be the first!</li>';
+              return;
+            }
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              const li = document.createElement('li');
+              li.className = 'comment-item';
+              li.style.cssText = "background:var(--glass-bg); padding:1rem; margin-bottom:0.8rem; border-radius:8px; border-left: 3px solid var(--accent-color); list-style:none;";
+              li.innerHTML = `
+                <div style="font-size:0.8rem; opacity:0.7; margin-bottom:0.3rem;">
+                  <i class="fa-solid fa-user"></i> User • ${data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : 'Just now'}
+                </div>
+                <div>${data.text}</div>
+              `;
+              commentsList.appendChild(li);
+            });
+          }, (error) => {
+            console.error("Firebase Read Error:", error);
+            commentsList.innerHTML = '<li style="color:red;">Error loading comments. Check console.</li>';
+          });
+
+        // Post
+        commentForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const input = document.getElementById('commentInput');
+          const text = input.value.trim();
+          if (text) {
+            const btn = commentForm.querySelector('button');
+            const oldText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = "Posting...";
+
+            db.collection('comments').add({
+              chapterId: chapterId,
+              text: text,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+              input.value = '';
+              btn.disabled = false;
+              btn.innerText = oldText;
+            }).catch((err) => {
+              console.error("Firebase Write Error:", err);
+              alert("Failed to post: " + err.message);
+              btn.disabled = false;
+              btn.innerText = oldText;
+            });
           }
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            const li = document.createElement('li');
-            li.style.cssText = "background:var(--glass-bg); padding:1rem; margin-bottom:0.8rem; border-radius:8px; border-left: 3px solid var(--accent-color);";
-            li.innerHTML = `
-              <div style="font-size:0.8rem; opacity:0.7; margin-bottom:0.3rem;">
-                <i class="fa-solid fa-user"></i> User • ${data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : 'Just now'}
-              </div>
-              <div>${data.text}</div>
-            `;
-            commentsList.appendChild(li);
-          });
         });
-
-      // POST COMMENT
-      commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const input = document.getElementById('commentInput');
-        const text = input.value.trim();
-        
-        if (text) {
-          // Disable button briefly
-          const btn = commentForm.querySelector('button');
-          const oldText = btn.innerText;
-          btn.disabled = true;
-          btn.innerText = "Posting...";
-
-          db.collection('comments').add({
-            chapterId: chapterId,
-            text: text,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          }).then(() => {
-            input.value = ''; // Clear input
-            btn.disabled = false;
-            btn.innerText = oldText;
-          }).catch((error) => {
-            console.error("Error adding comment: ", error);
-            alert("Error posting comment. Check console.");
-            btn.disabled = false;
-            btn.innerText = oldText;
-          });
-        }
-      });
+      }
+    } catch (e) {
+      console.error("Firebase Init Failed:", e);
     }
   }
 });
