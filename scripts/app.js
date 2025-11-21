@@ -1,64 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- 1. THEME LOGIC ---
+  // --- 1. THEME LOGIC (Handles Theme Toggle and Progress Bar) ---
   const themeToggle = document.getElementById('themeToggle');
-  const htmlEl = document.documentElement;
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  htmlEl.setAttribute('data-theme', savedTheme);
+  const progressBar = document.getElementById('progress');
 
+  // Theme Logic
   if (themeToggle) {
+    const savedTheme = localStorage.getItem('theme') || 'light-mode';
+    document.body.classList.add(savedTheme);
+
+    const updateButton = (theme) => {
+      if (theme === 'dark-mode') {
+        themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
+      } else {
+        themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
+      }
+    };
+    updateButton(savedTheme);
+    
     themeToggle.addEventListener('click', () => {
-      const current = htmlEl.getAttribute('data-theme');
-      const newTheme = current === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-theme', newTheme);
+      const isLight = document.body.classList.contains('light-mode');
+      const newTheme = isLight ? 'dark-mode' : 'light-mode';
+      document.body.classList.remove('light-mode', 'dark-mode');
+      document.body.classList.add(newTheme);
       localStorage.setItem('theme', newTheme);
+      updateButton(newTheme);
     });
   }
 
-  // --- 2. HOME PAGE LOGIC ---
-  const chaptersGrid = document.getElementById('chaptersGrid');
-  if (chaptersGrid) {
-    const chapters = [
-      { title: "Prologue: Defiant Stand", url: "chapters/1-prologue.html", date: "Oct 21", teaser: "Aditya's roar against Kanasura..." },
-      { title: "Epilogue 1: Revelations", url: "chapters/2-epilogue-1.html", date: "Oct 22", teaser: "Quiet moments shatter..." },
-      { title: "The Day Hell Opened", url: "chapters/3-the-day-hell-opened.html", date: "Oct 23", teaser: "Portals ignite..." },
-      { title: "Awakening Ancients", url: "chapters/4-awakening-the-ancients.html", date: "Oct 24", teaser: "God-ranks stir..." },
-      { title: "Coming Soon...", url: "chapters/5-coming-soon.html", date: "Soon", teaser: "Stay tuned!" }
-    ];
-
-    const renderChapters = (filter = "") => {
-      chaptersGrid.innerHTML = '';
-      chapters.forEach(chap => {
-        if (chap.title.toLowerCase().includes(filter.toLowerCase())) {
-          const card = document.createElement('a');
-          card.href = chap.url;
-          card.className = 'chapter-card';
-          card.innerHTML = `<h3>${chap.title}</h3><p style="font-size:0.9rem; opacity:0.8; margin:0.5rem 0;">${chap.teaser}</p><small>${chap.date}</small>`;
-          chaptersGrid.appendChild(card);
-        }
-      });
-    };
-    renderChapters();
-    
-    const searchBox = document.getElementById('searchChapters');
-    if (searchBox) searchBox.addEventListener('input', (e) => renderChapters(e.target.value));
-  }
-
-  // --- 3. CHAPTER LOGIC (Progress & Keys) ---
-  const progressBar = document.getElementById('progressBar');
+  // Progress Bar Logic
   if (progressBar) {
     window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      progressBar.style.width = ((scrollTop / docHeight) * 100) + '%';
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (scrollHeight > 0) {
+        progressBar.style.width = ((scrollTop / scrollHeight) * 100) + '%';
+      }
     });
+
+    // Navigation Key Bindings (Arrow Left/Right)
     document.addEventListener('keydown', (e) => {
-      if (e.key === "ArrowRight") document.querySelector('.next')?.click();
-      if (e.key === "ArrowLeft") document.querySelector('.prev')?.click();
+      if (e.key === "ArrowRight") document.querySelector('.nav-btn.next')?.click();
+      // Added :not(.home-link) to ensure we skip the "Home" button
+      if (e.key === "ArrowLeft") document.querySelector('.nav-btn.prev:not(.home-link)')?.click(); 
     });
   }
 
-  // --- 4. COMMENTS LOGIC (Firebase) ---
+  // --- 2. COMMENTS LOGIC (Firebase Fix) ---
   if (typeof firebase !== 'undefined') {
     const firebaseConfig = {
       apiKey: "AIzaSyBBXkjCGj9xb-4mHFQW0UzubwrGRW2nULE",
@@ -73,48 +61,48 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
 
-      // Get Chapter ID
+      // Get Chapter ID (e.g., "3-the-day-hell-opened")
       const path = window.location.pathname;
       const chapterId = path.split('/').pop().replace('.html', '') || 'general';
 
       const commentForm = document.getElementById('commentForm');
+      const commentText = document.getElementById('commentText'); 
       const commentsList = document.getElementById('commentsList');
 
       if (commentForm && commentsList) {
-        // Listener
+        // REAL-TIME LISTENER
         db.collection('comments')
           .where('chapterId', '==', chapterId)
-          .orderBy('timestamp', 'desc')
+          .orderBy('date', 'desc') // Ensure date is used for ordering
           .limit(20)
           .onSnapshot((snapshot) => {
             commentsList.innerHTML = '';
             if (snapshot.empty) {
-              commentsList.innerHTML = '<li style="opacity:0.5; padding:1rem;">No comments yet. Be the first!</li>';
+              commentsList.innerHTML = '<li style="opacity:0.6; padding:1rem;">No comments yet. Be the first!</li>';
               return;
             }
             snapshot.forEach(doc => {
               const data = doc.data();
+              const dateString = data.date ? new Date(data.date.toDate()).toLocaleDateString() : 'Just now';
               const li = document.createElement('li');
-              li.className = 'comment-item';
               li.style.cssText = "background:var(--glass-bg); padding:1rem; margin-bottom:0.8rem; border-radius:8px; border-left: 3px solid var(--accent-color); list-style:none;";
               li.innerHTML = `
                 <div style="font-size:0.8rem; opacity:0.7; margin-bottom:0.3rem;">
-                  <i class="fa-solid fa-user"></i> User • ${data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : 'Just now'}
+                  <i class="fa-solid fa-user"></i> Reader • ${dateString}
                 </div>
                 <div>${data.text}</div>
               `;
               commentsList.appendChild(li);
             });
           }, (error) => {
-            console.error("Firebase Read Error:", error);
-            commentsList.innerHTML = '<li style="color:red;">Error loading comments. Check console.</li>';
+            console.error("Firebase Read Error: You must update Firestore Security Rules.", error);
+            commentsList.innerHTML = '<li style="color:red; padding:1rem;">Error loading comments. Please check your Firebase Rules.</li>';
           });
 
-        // Post
+        // POST COMMENT
         commentForm.addEventListener('submit', (e) => {
           e.preventDefault();
-          const input = document.getElementById('commentInput');
-          const text = input.value.trim();
+          const text = commentText.value.trim();
           if (text) {
             const btn = commentForm.querySelector('button');
             const oldText = btn.innerText;
@@ -124,14 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
             db.collection('comments').add({
               chapterId: chapterId,
               text: text,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+              date: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-              input.value = '';
+              commentText.value = '';
               btn.disabled = false;
               btn.innerText = oldText;
             }).catch((err) => {
               console.error("Firebase Write Error:", err);
-              alert("Failed to post: " + err.message);
+              alert("Failed to post comment. Check console for error details.");
               btn.disabled = false;
               btn.innerText = oldText;
             });
@@ -139,7 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } catch (e) {
-      console.error("Firebase Init Failed:", e);
+      console.error("Firebase Initialization Failed (Is the CDN script included?):", e);
     }
+  }
+
+  // --- 3. HOME PAGE LOGIC (If this file is used on index.html) ---
+  const chaptersGrid = document.getElementById('chaptersGrid');
+  if (chaptersGrid) {
+    // You will need to copy the chapter data and search logic from your main.js into this section if you use this app.js on your index.html
+    console.warn("Home page logic not included. If using app.js on index.html, ensure chapter data and search logic are added here.");
   }
 });
