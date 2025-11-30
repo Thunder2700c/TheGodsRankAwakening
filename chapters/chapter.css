@@ -77,44 +77,30 @@ body.dark-mode .btn {
   box-shadow: 0 0 8px currentColor, 0 0 16px currentColor; /* Dimmer */
 }
 
-/* Chapter Content */
-.chapter-content {
-  padding: 2rem;
-  max-width: 900px;
-  margin: auto;
+/* --- MODERN READABILITY IMPROVEMENTS --- */
+.chapter-content p {
+  /* Use the cleaner Inter font for main body text */
+  font-family: 'Inter', sans-serif;
+  
+  /* CRUCIAL: Increase line height for better flow and reduced eye strain */
   line-height: 1.8;
-  font-size: 1.1rem;
-  position: relative;
+  
+  /* Slightly larger text for comfortable reading */
+  font-size: 1.15rem; 
+  
+  /* Add more space between paragraphs */
+  margin-bottom: 1.8rem; 
+  
+  /* Optional: Better text flow (for justified text if you use it) */
+  hyphens: auto; 
 }
 
-.prose { position: relative; z-index: 1; }
-
-.prose p {
-  margin-bottom: 1.2rem;
-  text-align: left;
-  hyphens: none;
-  letter-spacing: 0.02em;
-  word-break: break-word;
-}
-
-.dialogue {
-  font-style: italic;
-  padding: 0.5rem;
-  border-left: 3px solid currentColor;
-  margin: 1rem 0;
-  background: rgba(253, 246, 240, 0.2); /* Light tint */
-  text-align: left;
-  hyphens: none;
-}
-
-body.dark-mode .dialogue {
-  background: rgba(26, 26, 26, 0.2); /* Dark tint */
-}
-
-.prose strong {
-  color: currentColor;
-  font-weight: 700;
-  text-transform: uppercase;
+/* Increase content padding for better mobile margins */
+.chapter-content {
+  max-width: 800px;
+  margin: 0 auto;
+  /* Increase side padding for mobile viewports */
+  padding: 1.5rem; 
 }
 
 /* Horizontal Rule */
