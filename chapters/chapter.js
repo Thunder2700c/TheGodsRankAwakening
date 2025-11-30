@@ -12,28 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // Optional glowing highlight for readability – with mobile/touch support (your original)
-  const paragraphs = document.querySelectorAll('.chapter-text, .chapter-content p');
-  paragraphs.forEach((p, index) => {
-    const addGlow = () => p.style.textShadow = '0 0 10px currentColor';
-    const removeGlow = () => p.style.textShadow = 'none';
-    p.addEventListener('mouseenter', addGlow);
-    p.addEventListener('mouseleave', removeGlow);
-    let touchTimer;
-    p.addEventListener('touchstart', (e) => {
-      touchTimer = setTimeout(addGlow, 500);
-    });
-    p.addEventListener('touchend', () => {
-      clearTimeout(touchTimer);
-      removeGlow();
-    });
-    window.addEventListener('scroll', () => {
-      const rect = p.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        p.style.opacity = '1';
-      }
-    }, { once: true, passive: true });
-  });
+  // The Optional glowing highlight block has been removed for better performance.
+  // The progress bar logic from here is moved to shared.js for centralization.
 
   // Progress Sync – Firebase Firestore (enhanced with fallback)
   const chapterId = window.location.pathname.split('/').pop().split('.')[0] || 'prologue';
@@ -99,15 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   document.querySelector('.chapter-nav')?.appendChild(resetBtn);
 
-  // Progress bar (your original)
-  let lastScroll = 0;
-  window.addEventListener('scroll', () => {
-    const scrolled = (window.pageYOffset / (document.body.offsetHeight - window.innerHeight)) * 100;
-    const progress = document.getElementById('progress');
-    if (progress) progress.style.width = scrolled + '%';
-    lastScroll = window.pageYOffset;
-  }, { passive: true });
-
+  // Progress bar (your original) - REMOVED: Moved to shared.js for separation of concerns
+  
   // Comments Functionality – Firebase Firestore (ENHANCED with local fallback)
   const commentsList = document.getElementById('commentsList');
   const commentForm = document.getElementById('commentForm');
