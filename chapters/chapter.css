@@ -4,176 +4,257 @@ body {
   font-family: 'Orbitron', 'Inter', sans-serif;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Light Mode */
+/* Light Mode – Softer Orange */
 body.light-mode {
-  background-color: #fdf6f0; /* Softer off-white */
+  background-color: #fdf6f0; /* Warmer off-white */
   color: #d2691e; /* Burnt orange – less harsh */
 }
 
-/* Dark Mode */
+/* Dark Mode – Muted Cyan */
 body.dark-mode {
   background-color: #0f0f0f; /* Deeper black */
   color: #4682b4; /* Steel blue – calmer glow */
 }
 
 /* Header */
-.chapter-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 1px solid currentColor;
+  border-radius: 0 0 10px 10px;
+  transition: all 0.3s ease;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-body.light-mode .chapter-header {
+body.light-mode .header {
   background: linear-gradient(90deg, #d2691e, #e6b800); /* Subtle yellow-orange */
   box-shadow: 0 0 10px rgba(210, 105, 30, 0.5); /* Dimmer */
 }
 
-body.dark-mode .chapter-header {
+body.dark-mode .header {
   background: linear-gradient(90deg, #4682b4, #5a9fd4); /* Softer blue */
   box-shadow: 0 0 12px rgba(70, 130, 180, 0.5); /* Muted */
 }
 
-.chapter-title {
+/* Logo / Neon Title */
+.logo {
   font-size: 1.8rem;
   font-weight: 900;
-  margin: 0;
 }
 
-/* Buttons */
-.btn {
-  border: 1px solid currentColor;
+.neon-title {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  animation: glow 2s ease-in-out infinite alternate;
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+body.light-mode .logo,
+body.light-mode .neon-title {
+  color: #ffffff;
+  text-shadow: 0 0 3px #e6b800, 0 0 8px #d2691e, 0 0 12px #e6b800; /* Shorter shadows */
+}
+
+body.dark-mode .logo,
+body.dark-mode .neon-title {
+  color: #00e5ff;
+  text-shadow: 0 0 3px #5a9fd4, 0 0 8px #4682b4, 0 0 12px #5a9fd4;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 3px, 0 0 6px, 0 0 12px, 0 0 24px; /* Halved distances */
+  }
+  to {
+    text-shadow: 0 0 6px, 0 0 12px, 0 0 24px, 0 0 36px;
+  }
+}
+
+/* Buttons & CTA */
+.btn, .cta-button {
+  border: 1px solid;
   border-radius: 8px;
   padding: 0.6rem 1rem;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
-  font-family: inherit;
   text-decoration: none;
   display: inline-block;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
 
-body.light-mode .btn {
-  background-color: #fdf6f0; /* Match body */
+body.light-mode .btn,
+body.light-mode .cta-button {
+  background-color: #fdf6f0;
+  color: #d2691e;
+  border-color: #d2691e;
+  box-shadow: 0 0 8px rgba(210, 105, 30, 0.3); /* Subtle hover */
+}
+
+body.dark-mode .btn,
+body.dark-mode .cta-button {
+  background-color: #1a1a1a; /* Softer black */
+  color: #4682b4;
+  border-color: #4682b4;
+  box-shadow: 0 0 8px rgba(70, 130, 180, 0.3);
+}
+
+.btn:hover, .cta-button:hover {
+  transform: translateY(-2px); /* Gentler lift */
+  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor; /* Dimmer */
+}
+
+/* --- MODERN RESPONSIVE GRID LAYOUT (UPDATED) --- */
+.chapters-grid {
+  display: grid;
+  /* Auto-fit creates columns, minmax ensures columns are between 300px and 1fr */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem; /* Increased spacing for a cleaner look */
+  padding: 2rem;
+  max-width: 1400px; /* Wider view on big screens */
+  margin: 2rem auto;
+}
+
+/* Modernize the chapter card look (UPDATED) */
+.chapter-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left; /* Better for reading text */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+  border: 1px solid currentColor; /* Subtle border using the theme color */
+}
+
+body.light-mode .chapter-card {
+  background-color: #fdf6f0;
   color: #d2691e;
   border-color: #d2691e;
 }
 
-body.dark-mode .btn {
-  background-color: #1a1a1a; /* Softer black */
+body.dark-mode .chapter-card {
+  background-color: #1a1a1a;
   color: #4682b4;
   border-color: #4682b4;
 }
 
-.btn:hover {
-  transform: translateY(-2px); /* Gentler */
-  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor; /* Dimmer */
+/* Neon glow effect on hover (UPDATED) */
+.chapter-card:hover {
+  transform: translateY(-5px); /* Subtle lift on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px currentColor; 
 }
 
-/* --- MODERN READABILITY IMPROVEMENTS --- */
-.chapter-content p {
-  /* Use the cleaner Inter font for main body text */
+/* Make teaser text softer and readable (UPDATED) */
+.chapter-card .teaser {
   font-family: 'Inter', sans-serif;
-  
-  /* CRUCIAL: Increase line height for better flow and reduced eye strain */
-  line-height: 1.8;
-  
-  /* Slightly larger text for comfortable reading */
-  font-size: 1.15rem; 
-  
-  /* Add more space between paragraphs */
-  margin-bottom: 1.8rem; 
-  
-  /* Optional: Better text flow (for justified text if you use it) */
-  hyphens: auto; 
+  font-size: 0.95rem;
+  opacity: 0.7; /* Subtly lower opacity */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-/* Increase content padding for better mobile margins */
-.chapter-content {
-  max-width: 800px;
-  margin: 0 auto;
-  /* Increase side padding for mobile viewports */
-  padding: 1.5rem; 
+.date {
+  opacity: 0.7;
+  font-size: 0.8rem;
 }
 
-/* Horizontal Rule */
-hr {
-  margin: 2rem 0;
-  border: none;
-  border-top: 1px dashed currentColor;
-  opacity: 0.3;
+/* Style for the "Coming Soon" card (UPDATED) */
+.chapter-card.upcoming {
+  opacity: 0.5; /* Visually deemphasize */
+  cursor: default;
 }
 
-/* Author Note */
-.author-note {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-  border-left: 4px solid currentColor;
+.chapter-card.upcoming:hover {
+  transform: none;
+  box-shadow: none;
 }
 
-/* Comments Section */
-.comments-section {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
 
-.comments-section h3 {
+/* Hero */
+.hero {
   text-align: center;
-  margin-bottom: 1rem;
+  padding: 2rem;
+  background-image: url('assets/images/jonathan.jpeg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
-.comments-list {
-  list-style: none;
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-  padding: 0;
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
 }
 
-.comment-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.8rem;
+.hero > * { position: relative; z-index: 2; }
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
   border-radius: 8px;
-  margin-bottom: 0.5rem;
-  border-left: 3px solid currentColor;
+  margin: 1rem 0;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
-.comment-item strong { /* User/date */
-  opacity: 0.8;
-  font-size: 0.9rem;
+/* Search Bar */
+.search-container {
+  max-width: 600px;
+  margin: 1rem auto;
+  position: relative;
 }
 
-.comment-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-#commentText {
-  flex: 1;
-  padding: 0.6rem;
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
   border: 1px solid currentColor;
-  border-radius: 4px;
+  border-radius: 25px;
   background: transparent;
   color: currentColor;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
 }
 
-body.light-mode #commentText { background: #fdf6f0; border-color: #d2691e; }
-body.dark-mode #commentText { background: #1a1a1a; border-color: #4682b4; }
+body.light-mode .search-input {
+  background-color: #fdf6f0;
+  border-color: #d2691e;
+}
 
-/* Mobile */
-@media (max-width: 768px) {
-  .comment-form { flex-direction: column; }
-  #commentText { width: 100%; }
+body.dark-mode .search-input {
+  background-color: #1a1a1a;
+  border-color: #4682b4;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: currentColor;
+  opacity: 0.7;
+}
+
+/* Hide cards on no match */
+.chapter-card.hidden {
+  display: none;
 }
 
 /* Footer */
@@ -182,7 +263,6 @@ footer {
   padding: 1rem;
   margin-top: 2rem;
   font-size: 0.9rem;
-  border-top: 1px solid currentColor;
 }
 
 body.light-mode footer {
@@ -195,101 +275,12 @@ body.dark-mode footer {
   color: #4682b4;
 }
 
-/* Navigation Buttons */
-.chapter-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  gap: 1.5rem;
-}
-
-.nav-btn {
-  flex: 1;
-  text-align: center;
-  font-size: 1rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  min-width: 120px;
-}
-
-body.light-mode .nav-btn {
-  background-color: #fdf6f0;
-  color: #d2691e;
-  border: 1px solid #d2691e;
-}
-
-body.dark-mode .nav-btn {
-  background-color: #1a1a1a;
-  color: #4682b4;
-  border: 1px solid #4682b4;
-}
-
-.nav-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
-}
-
-.prev { order: 1; }
-.next { order: 2; }
-
-/* Neon effect for headings */
-.chapter-content h2,
-.chapter-content h3 {
-  text-align: center;
-  margin: 2rem 0 1rem;
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-body.light-mode .chapter-content h2,
-body.light-mode .chapter-content h3 {
-  color: #d2691e;
-  text-shadow: 0 0 3px #e6b800, 0 0 8px #d2691e, 0 0 12px #e6b800; /* Softer */
-}
-
-body.dark-mode .chapter-content h2,
-body.dark-mode .chapter-content h3 {
-  color: #4682b4;
-  text-shadow: 0 0 3px #5a9fd4, 0 0 8px #4682b4, 0 0 12px #5a9fd4;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 3px, 0 0 6px, 0 0 12px, 0 0 24px; /* Halved */
-  }
-  to {
-    text-shadow: 0 0 6px, 0 0 12px, 0 0 24px, 0 0 36px;
-  }
-}
-
-/* Progress Bar */
-#progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  background: currentColor;
-  z-index: 100;
-  transition: width 0.1s;
-}
-
-body.light-mode #progress { background: #d2691e; }
-body.dark-mode #progress { background: #4682b4; }
-
 /* Mobile */
 @media (max-width: 768px) {
-  .chapter-header, .chapter-nav { padding: 1rem; flex-direction: column; gap: 1rem; }
-  .chapter-content { padding: 1rem; font-size: 1.2rem; line-height: 1.6; }
-  .nav-btn { width: 100%; order: initial; padding: 1rem; }
-  .prose p, .dialogue {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    letter-spacing: 0.05em;
-  }
-  .chapter-title { font-size: 1.5rem; font-weight: 700; }
-  .prose p { hyphens: none; text-align: left; }
+  .header { padding: 1rem; flex-direction: column; gap: 0.5rem; }
+  .neon-title { font-size: 2rem; }
+  .chapters-grid { grid-template-columns: 1fr; padding: 1rem; gap: 0.8rem; }
+  .chapter-card { padding: 1.2rem; }
+  .hero { padding: 1rem; background-attachment: fixed; }
+  .search-input { padding: 0.7rem 0.9rem 0.7rem 2.2rem; font-size: 1.1rem; }
 }
