@@ -282,3 +282,39 @@ body {
   font-style: normal;
   font-weight: 500;
 }
+
+/* --- CHAPTER VIEW OVERRIDES (Add this to styles.css) --- */
+
+/* 1. Style for the custom header inside the chapter content */
+.reader-container header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  /* Use the glass border color for a subtle separator */
+  border-bottom: 1px solid var(--glass-border); 
+}
+
+/* Ensure the title uses the main site's heavy gradient look */
+.reader-container header h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 10px 0 5px 0;
+    /* Use the same text gradient as the hero title on index.html */
+    background: linear-gradient(to bottom, #000, #444); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 2. Style to make the navigation bar static (Prev/Next/Home) */
+/* The class name 'chapter-nav-static' will be applied to your nav tag */
+.chapter-nav-static.floating-dock {
+    position: static; /* Override fixed position */
+    transform: none; /* Override floating transform/slide */
+    margin: 40px auto; /* Center it below the content */
+    width: fit-content;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Lighter shadow for static element */
+    /* Ensure dock icons look good when static */
+    padding: 10px 10px;
+    border-radius: 50px;
+}
