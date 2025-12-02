@@ -259,3 +259,26 @@ body {
 .floating-dock.hidden {
   transform: translateX(-50%) translateY(100px); /* Slide down and off-screen */
 }
+
+/* --- READING VIEW (Specific to chapters) --- */
+.reader-container {
+  max-width: 800px;
+  margin: 100px auto 40px; /* Top margin accounts for header */
+  padding: 40px;
+}
+
+.prose p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #2c2c2e; /* Dark, readable color */
+  margin-bottom: 1.5rem;
+}
+
+.dialogue {
+  background: rgba(255, 255, 255, 0.4);
+  border-left: 4px solid var(--text-primary);
+  padding: 15px;
+  border-radius: 0 12px 12px 0;
+  font-style: normal;
+  font-weight: 500;
+}
