@@ -3,43 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Gods Rank Awakening: Epic webnovel of portals to hell, Asura Kings, and god-ranks awakening. By Gurtej Singh & Harmanjot Singh.">
   <title>The Gods Rank Awakening</title>
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="light-mode">
-  <div id="progress"></div>
-  <header class="header">
-    <div class="logo">⚡ The Gods Rank Awakening ⚡</div>
-    <button id="themeToggle" class="btn"><i class="fa-solid fa-moon"></i> Dark Mode</button>
-  </header>
+<body>
 
-  <section class="hero">
-    <h1 class="neon-title">The God's Rank Awakening</h1>
-    <p class="synopsis">In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite. Dive into the multiverse war.</p>
-    <img src="assets/images/jonathan.jpeg" alt="Jonathan Awakening Teaser – JoJo Vibes" class="hero-image">
-    <a href="#chaptersGrid" class="cta-button">Start Reading</a>
+  <section class="hero-container">
+        <h1 class="hero-title">Gods Rank<br>Awakening</h1>
+    <p style="opacity: 0.7; font-size: 1.1rem; max-width: 500px; margin: 10px auto;">
+      Portals ignite. Timelines fracture. A multiverse war begins.
+    </p>
+
+    <div class="search-wrapper">
+      <div class="glass-search liquid-glass">
+        <i class="fa-solid fa-search" style="opacity: 0.5;"></i>
+        <input type="text" id="searchChapters" placeholder="Search chapters...">
+      </div>
+    </div>
   </section>
 
-  <h2 class="chapters-header">Latest Chapters</h2>
-
-  <!-- New Search Bar -->
-  <div class="search-container">
-    <input type="search" id="searchChapters" placeholder="Search chapters (e.g., 'prologue' or 'hell')..." class="search-input">
-    <i class="fa-solid fa-search search-icon"></i>
-  </div>
-
   <main class="chapters-grid" id="chaptersGrid">
-    <!-- JS Populates Here -->
-  </main>
+    </main>
 
-  <footer>© 2025 Gurtej Singh & Harmanjot Singh | <a href="https://www.mediafire.com/file/e17ev5kyqq52fz0/minecraft-1-21-114-1bythegodsrankawakening.apk/file">Follow @Thunder2700c</a> for Updates</footer>
+  <nav class="floating-dock">
+    <a href="#" class="dock-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="#" class="dock-icon" title="Latest"><i class="fa-solid fa-bolt"></i></a>
+    <a href="#" class="dock-icon" title="Library"><i class="fa-solid fa-book-open"></i></a>
+    <a href="https://x.com/Thunder2700c" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
+  </nav>
 
   <script src="scripts/main.js"></script>
-  <script src="chapters/shared.js"></script>
 </body>
 </html>
-
-
