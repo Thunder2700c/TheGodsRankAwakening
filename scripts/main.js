@@ -1,5 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Chapter data array
+    // Chapter data array (remains the same)
     const chapters = [
       { title: "Prologue: Defiant Stand", file: "1-prologue.html", teaser: "No way in hell... Aditya's roar against Kanasura's spear.", date: "Oct 21, 2120" },
       { title: "Epilogue I: Tea & Revelations", file: "2-epilogue-1.html", teaser: "Quiet moments shatter with Venta's cosmic truth.", date: "TBA" },
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
   
     const grid = document.getElementById('chaptersGrid');
+    const dock = document.getElementById('floatingDock'); // Get the dock element
     
     if (!grid) {
       console.error('Chapters grid not found—main.js stopped execution.');
@@ -17,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
     grid.innerHTML = '';
   
-    // 1. Generate Chapter Cards
-    chapters.forEach((chap, index) => {
+    // 1. Generate Chapter Cards (unchanged)
+    chapters.forEach((chap) => {
       const link = document.createElement('a');
-      // IMPORTANT: The script assumes your chapter files (1-prologue.html, etc.) 
-      // are located in a folder named 'chapters' next to index.html.
       link.href = `chapters/${chap.file}`; 
       link.className = 'chapter-card liquid-glass'; 
       link.innerHTML = `
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(link);
     });
   
-    // 2. Search Functionality
+    // 2. Search Functionality (unchanged)
     const searchInput = document.getElementById('searchChapters');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3. Floating Dock Actions
+    // 3. Floating Dock Actions (unchanged)
     document.getElementById('latest-link')?.addEventListener('click', (e) => {
         e.preventDefault();
         alert('LATEST: Redirecting to the newest chapter.');
@@ -58,4 +58,41 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         alert('LIBRARY: Placeholder for your saved chapters/read list.');
     });
+
+
+    // 4. Floating Dock Slide-In/Out Logic (NEW ANIMATION CODE)
+    if (dock) {
+        let lastScrollTop = 0;
+        let scrollTimeout;
+
+        // Function to hide the dock when scrolling down
+        const handleScroll = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            
+            // Hide on scroll down (scrolling away from content)
+            if (scrollTop > lastScrollTop && scrollTop > 50) { // Check scrollTop > 50 to avoid hiding immediately at top
+                dock.classList.add('hidden');
+            } else {
+                // Show on scroll up (scrolling back towards content)
+                dock.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For mobile/safari
+
+            // Hide/Show after user stops scrolling (for a subtle effect)
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                dock.classList.remove('hidden'); // Show dock when scroll stops
+            }, 500); // Wait 500ms after scrolling stops
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        
+        // Initial state: hide dock if we load already scrolled down
+        if (window.scrollY > 100) {
+            dock.classList.add('hidden');
+        } else {
+            // Show dock immediately if user is at the very top
+            dock.classList.remove('hidden');
+        }
+    }
 });
