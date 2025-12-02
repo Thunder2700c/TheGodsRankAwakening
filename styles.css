@@ -247,3 +247,15 @@ body {
   font-style: normal;
   font-weight: 500;
 }
+
+/* --- FLOATING DOCK (Navigation) --- */
+/* Add transition for smooth sliding */
+.floating-dock {
+  /* ... (Existing styles remain) ... */
+  transition: transform 0.4s ease-out; /* Smooth transition */
+}
+
+/* New class for the hidden state */
+.floating-dock.hidden {
+  transform: translateX(-50%) translateY(100px); /* Slide down and off-screen */
+}
