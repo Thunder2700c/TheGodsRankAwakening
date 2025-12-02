@@ -1,9 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
 
 :root {
-  /* The Background Gradient that makes glass look good */
-  --bg-gradient: linear-gradient(125deg, #ecfcff 0%, #ecfcff 40%, #b2fcff calc(40% + 1px), #b2fcff 60%, #5edfff calc(60% + 1px), #3e64ff 100%);
-  --glass-surface: rgba(255, 255, 255, 0.65);
+  /* Enhanced Background Gradient (More vibrant colors for better 'liquid' look) */
+  --bg-gradient: linear-gradient(
+    135deg, 
+    #ff6b6b 0%,    /* Vibrant Red */
+    #feca57 25%,   /* Yellow/Orange */
+    #48dbfb 50%,   /* Cyan/Light Blue */
+    #1dd1a1 75%,   /* Mint Green */
+    #5f27cd 100%   /* Deep Violet */
+  );
+  --glass-surface: rgba(255, 255, 255, 0.55); /* Slightly lower opacity to pull more background color */
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-highlight: rgba(255, 255, 255, 0.8);
   --glass-shadow: rgba(31, 38, 135, 0.15);
@@ -18,9 +25,9 @@
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg-gradient);
-  background-attachment: fixed; /* Parallax feel */
-  background-size: 200% 200%;
-  animation: gradientMove 15s ease infinite;
+  background-attachment: fixed;
+  background-size: 400% 400%; /* Larger size for smoother, liquid movement */
+  animation: gradientMove 25s ease infinite; /* Slower, smoother animation */
   margin: 0;
   padding: 0;
   color: var(--text-primary);
@@ -37,8 +44,8 @@ body {
 /* --- THE LIQUID GLASS MATERIAL --- */
 .liquid-glass {
   background: var(--glass-surface);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(200%); /* Increased blur/saturation for a stronger effect */
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
   border: 1px solid var(--glass-border);
   border-top: 1px solid var(--glass-highlight); /* Rim light */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -46,6 +53,29 @@ body {
     0 8px 32px 0 var(--glass-shadow),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   border-radius: 24px;
+}
+
+/* --- HERO IMAGE STYLES --- */
+.hero-image-wrapper {
+  /* This inherits the 'liquid-glass' styles */
+  width: 90%;
+  max-width: 500px;
+  margin: 2rem auto 1.5rem auto;
+  padding: 15px;
+  border-radius: 30px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.hero-image-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.hero-image {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* --- HERO SECTION --- */
@@ -216,27 +246,4 @@ body {
   border-radius: 0 12px 12px 0;
   font-style: normal;
   font-weight: 500;
-}
-
-/* --- HERO IMAGE STYLES (Add these to styles.css) --- */
-.hero-image-wrapper {
-  /* This inherits the 'liquid-glass' styles */
-  width: 90%;
-  max-width: 500px;
-  margin: 2rem auto 1.5rem auto;
-  padding: 15px; /* Padding inside the glass frame */
-  border-radius: 30px; /* Rounded corners for the glass frame */
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.hero-image-wrapper:hover {
-    transform: scale(1.02); /* Slight scale up on hover to feel interactive */
-}
-
-.hero-image {
-  width: 100%;
-  display: block;
-  border-radius: 20px; /* Image itself is slightly less rounded than the glass frame */
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow on the image itself */
 }
