@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('chaptersGrid');
     
     if (!grid) {
-      console.error('Chapters grid not found.');
+      console.error('Chapters grid not found—main.js stopped execution.');
       return;
     }
   
     grid.innerHTML = '';
   
-    // 1. Generate Chapter Cards (FIXED)
-    chapters.forEach(chap => {
+    // 1. Generate Chapter Cards
+    chapters.forEach((chap, index) => {
       const link = document.createElement('a');
-      // Ensure the path is correct relative to index.html (chapters/file.html)
+      // IMPORTANT: The script assumes your chapter files (1-prologue.html, etc.) 
+      // are located in a folder named 'chapters' next to index.html.
       link.href = `chapters/${chap.file}`; 
-      // Apply the liquid-glass style
       link.className = 'chapter-card liquid-glass'; 
       link.innerHTML = `
         <div class="content-wrapper">
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(link);
     });
   
-    // 2. Search Functionality (Existing)
+    // 2. Search Functionality
     const searchInput = document.getElementById('searchChapters');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -43,18 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
         
         cards.forEach(card => {
           const text = card.innerText.toLowerCase();
-          // Toggle visibility based on search query
           card.style.display = text.includes(query) ? 'flex' : 'none';
         });
       });
     }
 
-    // 3. Floating Dock Actions (NEW)
+    // 3. Floating Dock Actions
     document.getElementById('latest-link')?.addEventListener('click', (e) => {
         e.preventDefault();
         alert('LATEST: Redirecting to the newest chapter.');
-        // If you had the file 'chapters/4-awakening-the-ancients.html', you would use:
-        // window.location.href = 'chapters/4-awakening-the-ancients.html';
     });
 
     document.getElementById('library-link')?.addEventListener('click', (e) => {
