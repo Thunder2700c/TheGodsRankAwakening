@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Chapter data array
     const chapters = [
       { title: "Prologue: Defiant Stand", file: "1-prologue.html", teaser: "No way in hell... Aditya's roar against Kanasura's spear.", date: "Oct 21, 2120" },
       { title: "Epilogue I: Tea & Revelations", file: "2-epilogue-1.html", teaser: "Quiet moments shatter with Venta's cosmic truth.", date: "TBA" },
@@ -9,17 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
   
     const grid = document.getElementById('chaptersGrid');
     
-    // Safety check
-    if (!grid) return;
+    if (!grid) {
+      console.error('Chapters grid not found.');
+      return;
+    }
   
-    // Clear content
     grid.innerHTML = '';
   
-    // 1. Generate Glass Cards
+    // 1. Generate Chapter Cards (FIXED)
     chapters.forEach(chap => {
       const link = document.createElement('a');
-      link.href = `chapters/${chap.file}`;
-      // Note: We add 'liquid-glass' class here for the material effect
+      // Ensure the path is correct relative to index.html (chapters/file.html)
+      link.href = `chapters/${chap.file}`; 
+      // Apply the liquid-glass style
       link.className = 'chapter-card liquid-glass'; 
       link.innerHTML = `
         <div class="content-wrapper">
@@ -31,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.appendChild(link);
     });
   
-    // 2. Search Functionality
+    // 2. Search Functionality (Existing)
     const searchInput = document.getElementById('searchChapters');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -40,12 +43,22 @@ document.addEventListener('DOMContentLoaded', () => {
         
         cards.forEach(card => {
           const text = card.innerText.toLowerCase();
-          if (text.includes(query)) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
+          // Toggle visibility based on search query
+          card.style.display = text.includes(query) ? 'flex' : 'none';
         });
       });
     }
-  });
+
+    // 3. Floating Dock Actions (NEW)
+    document.getElementById('latest-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('LATEST: Redirecting to the newest chapter.');
+        // If you had the file 'chapters/4-awakening-the-ancients.html', you would use:
+        // window.location.href = 'chapters/4-awakening-the-ancients.html';
+    });
+
+    document.getElementById('library-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('LIBRARY: Placeholder for your saved chapters/read list.');
+    });
+});
