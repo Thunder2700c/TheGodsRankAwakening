@@ -217,3 +217,26 @@ body {
   font-style: normal;
   font-weight: 500;
 }
+
+/* --- HERO IMAGE STYLES (Add these to styles.css) --- */
+.hero-image-wrapper {
+  /* This inherits the 'liquid-glass' styles */
+  width: 90%;
+  max-width: 500px;
+  margin: 2rem auto 1.5rem auto;
+  padding: 15px; /* Padding inside the glass frame */
+  border-radius: 30px; /* Rounded corners for the glass frame */
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.hero-image-wrapper:hover {
+    transform: scale(1.02); /* Slight scale up on hover to feel interactive */
+}
+
+.hero-image {
+  width: 100%;
+  display: block;
+  border-radius: 20px; /* Image itself is slightly less rounded than the glass frame */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow on the image itself */
+}
