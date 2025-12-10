@@ -29,35 +29,40 @@
   </section>
 
   <!-- MAIN CAST SECTION -->
-<section class="cast-section">
-  <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cast-card liquid-glass">
-    <div class="cast-image-wrapper">
-      <img src="assets/images/aditya-cover.jpeg" alt="Main Cast - The Squad" class="cast-image">
-      <div class="cast-overlay"></div>
-    </div>
-    <div class="cast-info">
-      <small class="cast-tag">Explore</small>
-      <h2 class="cast-title">The Main Cast</h2>
-      <p class="cast-subtitle">9 warriors. One destiny.</p>
-      <span class="cast-cta">
-        Tap to meet them <i class="fa-solid fa-arrow-right"></i>
-      </span>
-    </div>
-  </a>
-</section>
+  <section class="cast-section">
+    <a href="characters/index.html" class="cast-card liquid-glass">
+      <div class="cast-image-wrapper">
+        <img src="assets/images/aditya-cover.jpeg" alt="Main Cast - The Squad" class="cast-image">
+        <div class="cast-overlay"></div>
+      </div>
+      <div class="cast-info">
+        <small class="cast-tag">Explore</small>
+        <h2 class="cast-title">The Main Cast</h2>
+        <p class="cast-subtitle">9 warriors. One destiny.</p>
+        <span class="cast-cta">
+          Tap to meet them <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </div>
+    </a>
+  </section>
 
   <main class="chapters-grid" id="chaptersGrid">
-    </main>
+  </main>
 
   <nav class="floating-dock" id="floatingDock">
     <a href="index.html" class="dock-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
     <a href="#" class="dock-icon" title="Latest" id="latest-link"><i class="fa-solid fa-bolt"></i></a>
     <a href="#" class="dock-icon" title="Library" id="library-link"><i class="fa-solid fa-book-open"></i></a>
+    <a href="characters/index.html" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
     <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
   </nav>
 
+  <!-- GSAP (Homepage animations only) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="scripts/animations.js"></script>
+  
+  <!-- Main functionality -->
   <script src="scripts/main.js"></script>
 </body>
 </html>
-
