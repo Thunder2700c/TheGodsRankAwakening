@@ -873,3 +873,10 @@ body.dark-mode .reaction-btn:hover {
   background: rgba(70, 70, 90, 0.8);
 }
 
+/* ===================================================
+   FIX: Make chapter dock always visible
+   =================================================== */
+
+.chapter-nav-static.floating-dock {
+  opacity: 1 !important;
+}
