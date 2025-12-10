@@ -4,10 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Gods Rank Awakening</title>
+  
+  <!-- ✅ FAVICON -->
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  
+  <!-- ✅ META TAGS FOR SOCIAL SHARING -->
+  <meta name="description" content="In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura. Dive into the multiverse war.">
+  <meta name="keywords" content="web novel, fantasy, action, gods rank awakening, multiverse">
+  <meta name="author" content="Thunder2700c">
+  
+  <!-- Open Graph (Facebook, Discord, LinkedIn) -->
+  <meta property="og:title" content="The Gods Rank Awakening">
+  <meta property="og:description" content="In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite.">
+  <meta property="og:image" content="https://thunder2700c.github.io/TheGodsRankAwakening/assets/images/og-cover.jpeg">
+  <meta property="og:url" content="https://thunder2700c.github.io/TheGodsRankAwakening/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Gods Rank Awakening">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Thunder2700c">
+  <meta name="twitter:title" content="The Gods Rank Awakening">
+  <meta name="twitter:description" content="Epic web novel. Hell portals rip open. Ranks clash. Read free.">
+  <meta name="twitter:image" content="https://thunder2700c.github.io/TheGodsRankAwakening/assets/images/og-cover.jpeg">
+  
+  <!-- Theme Color (for mobile browsers) -->
+  <meta name="theme-color" content="#ff6b6b">
+  
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+
+  <!-- ✅ LOADING SCREEN -->
+  <div class="loader-wrapper" id="loader">
+    <div class="loader-content">
+      <div class="loader-icon">⚔️</div>
+      <h2 class="loader-title">Gods Rank Awakening</h2>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ DARK MODE TOGGLE -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
 
   <section class="hero-container">
     
@@ -16,7 +60,7 @@
     </div>
 
     <h1 class="hero-title">Gods Rank<br>Awakening</h1>
-    <p style="opacity: 0.7; font-size: 1.1rem; max-width: 500px; margin: 10px auto;">
+    <p class="hero-description">
       In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite. Dive into the multiverse war.
     </p>
 
@@ -25,6 +69,20 @@
         <i class="fa-solid fa-search" style="opacity: 0.5;"></i>
         <input type="text" id="searchChapters" placeholder="Search chapters...">
       </div>
+    </div>
+  </section>
+
+  <!-- ✅ CONTINUE READING SECTION (Shows if user has progress) -->
+  <section class="continue-section" id="continueSection" style="display: none;">
+    <div class="continue-card liquid-glass">
+      <div class="continue-icon">📖</div>
+      <div class="continue-info">
+        <small>Continue Reading</small>
+        <h3 id="continueTitle">Chapter Title</h3>
+      </div>
+      <a href="#" id="continueLink" class="continue-btn">
+        Resume <i class="fa-solid fa-arrow-right"></i>
+      </a>
     </div>
   </section>
 
@@ -66,4 +124,3 @@
   <script src="scripts/main.js"></script>
 </body>
 </html>
-
