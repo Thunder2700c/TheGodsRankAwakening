@@ -468,27 +468,32 @@ body {
 /* ===================================================
    GSAP ANIMATION INITIAL STATES
    (Elements start hidden, GSAP reveals them)
+   ONLY ON HOMEPAGE - Other pages not affected!
    =================================================== */
 
 /* Hide elements before animation - ONLY on homepage */
-.hero-image-wrapper,
-.hero-title,
-.hero-container > p,
-.search-wrapper,
-.cast-section,
-.chapter-card,
-.floating-dock {
+.homepage .hero-image-wrapper,
+.homepage .hero-title,
+.homepage .hero-description,
+.homepage .search-wrapper,
+.homepage .cast-section,
+.homepage .chapter-card,
+.homepage .floating-dock,
+.homepage .continue-section,
+.homepage .theme-toggle {
   opacity: 0;
 }
 
-/* Prevent flash of unstyled content */
-.gsap-loaded .hero-image-wrapper,
-.gsap-loaded .hero-title,
-.gsap-loaded .hero-container > p,
-.gsap-loaded .search-wrapper,
-.gsap-loaded .cast-section,
-.gsap-loaded .chapter-card,
-.gsap-loaded .floating-dock {
+/* After GSAP loads, make visible */
+.homepage.gsap-loaded .hero-image-wrapper,
+.homepage.gsap-loaded .hero-title,
+.homepage.gsap-loaded .hero-description,
+.homepage.gsap-loaded .search-wrapper,
+.homepage.gsap-loaded .cast-section,
+.homepage.gsap-loaded .chapter-card,
+.homepage.gsap-loaded .floating-dock,
+.homepage.gsap-loaded .continue-section,
+.homepage.gsap-loaded .theme-toggle {
   opacity: 1;
 }
 
@@ -867,3 +872,4 @@ body.dark-mode .reaction-btn {
 body.dark-mode .reaction-btn:hover {
   background: rgba(70, 70, 90, 0.8);
 }
+
