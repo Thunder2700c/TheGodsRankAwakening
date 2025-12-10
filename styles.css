@@ -464,3 +464,30 @@ body {
     padding: 20px;
   }
 }
+
+/* ===================================================
+   GSAP ANIMATION INITIAL STATES
+   (Elements start hidden, GSAP reveals them)
+   =================================================== */
+
+/* Hide elements before animation - ONLY on homepage */
+.hero-image-wrapper,
+.hero-title,
+.hero-container > p,
+.search-wrapper,
+.cast-section,
+.chapter-card,
+.floating-dock {
+  opacity: 0;
+}
+
+/* Prevent flash of unstyled content */
+.gsap-loaded .hero-image-wrapper,
+.gsap-loaded .hero-title,
+.gsap-loaded .hero-container > p,
+.gsap-loaded .search-wrapper,
+.gsap-loaded .cast-section,
+.gsap-loaded .chapter-card,
+.gsap-loaded .floating-dock {
+  opacity: 1;
+}
