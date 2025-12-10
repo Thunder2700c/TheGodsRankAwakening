@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lost in the Multiverse | 404</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .error-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .error-icon {
+      font-size: 6rem;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .error-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      color: var(--text-primary);
+    }
+
+    .error-message {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .error-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .error-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+    }
+
+    .error-links {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .error-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .error-link:hover {
+      color: #ff6b6b;
+    }
+
+    .glitch-text {
+      animation: glitch 2s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { opacity: 1; }
+      92% { opacity: 0; transform: translateX(-5px); }
+      94% { opacity: 1; transform: translateX(5px); }
+      96% { opacity: 0; transform: translateX(-5px); }
+      98% { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-container">
+    <div class="error-icon">🌀</div>
+    <h1 class="error-code glitch-text">404</h1>
+    <h2 class="error-title">Lost in the Multiverse</h2>
+    <p class="error-message">
+      The portal you're looking for doesn't exist in this dimension. 
+      Perhaps Kanasura destroyed it, or maybe it never existed at all.
+    </p>
+    
+    <a href="index.html" class="error-btn">
+      <i class="fa-solid fa-house"></i>
+      Return to Safety
+    </a>
+
+    <div class="error-links">
+      <a href="index.html" class="error-link">Home</a>
+      <span style="color: var(--text-secondary);">•</span>
+      <a href="chapters/1-prologue.html" class="error-link">Start Reading</a>
+      <span style="color: var(--text-secondary);">•</span>
+      <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="error-link">Meet The Cast</a>
+    </div>
+  </div>
+
+</body>
+</html>
