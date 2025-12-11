@@ -1,18 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===================================================
-    // LOADING SCREEN
-    // ===================================================
-    
-    const loader = document.getElementById('loader');
-    if (loader) {
-        // Hide loader after animation completes
-        setTimeout(() => {
-            loader.classList.add('hidden');
-        }, 1800); // 1.5s loading + 0.3s buffer
-    }
-
-    // ===================================================
     // DARK MODE TOGGLE
     // ===================================================
     
