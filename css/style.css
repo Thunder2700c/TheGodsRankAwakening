@@ -1,0 +1,882 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+:root {
+  /* Enhanced Background Gradient (More vibrant colors for better 'liquid' look) */
+  --bg-gradient: linear-gradient(
+    135deg, 
+    #ff6b6b 0%,    /* Vibrant Red */
+    #feca57 25%,   /* Yellow/Orange */
+    #48dbfb 50%,   /* Cyan/Light Blue */
+    #1dd1a1 75%,   /* Mint Green */
+    #5f27cd 100%   /* Deep Violet */
+  );
+  --glass-surface: rgba(255, 255, 255, 0.55); /* Slightly lower opacity to pull more background color */
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-highlight: rgba(255, 255, 255, 0.8);
+  --glass-shadow: rgba(31, 38, 135, 0.15);
+  --text-primary: #1d1d1f;
+  --text-secondary: #515154;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  background-size: 400% 400%; /* Larger size for smoother, liquid movement */
+  animation: gradientMove 25s ease infinite; /* Slower, smoother animation */
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-bottom: 120px; /* Space for floating dock */
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- THE LIQUID GLASS MATERIAL --- */
+.liquid-glass {
+  background: var(--glass-surface);
+  backdrop-filter: blur(30px) saturate(200%); /* Increased blur/saturation for a stronger effect */
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  border-top: 1px solid var(--glass-highlight); /* Rim light */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px 0 var(--glass-shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+}
+
+/* --- HERO IMAGE STYLES --- */
+.hero-image-wrapper {
+  /* This inherits the 'liquid-glass' styles */
+  width: 90%;
+  max-width: 500px;
+  margin: 2rem auto 1.5rem auto;
+  padding: 15px;
+  border-radius: 30px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.hero-image-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.hero-image {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --- HERO SECTION --- */
+.hero-container {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to bottom, #000, #444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+/* --- SEARCH BAR (Floating Pill) --- */
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.glass-search {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 50px; /* Pill Shape */
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glass-search:focus-within {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.glass-search input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  margin-left: 10px;
+  font-size: 1rem;
+  outline: none;
+  color: var(--text-primary);
+}
+
+/* --- CHAPTERS GRID --- */
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.chapter-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.chapter-card h3 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.chapter-card .teaser {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.chapter-card .meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-top: auto;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- FLOATING DOCK (Navigation) --- */
+.floating-dock {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  z-index: 100;
+  /* High quality glass */
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.dock-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #333;
+  text-decoration: none;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.dock-icon:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateY(-10px) scale(1.2);
+}
+
+/* Active Indicator */
+.dock-icon.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  width: 5px;
+  height: 5px;
+  background: #000;
+  border-radius: 50%;
+}
+
+/* --- READING VIEW (Specific to chapters) --- */
+.reader-container {
+  max-width: 800px;
+  margin: 100px auto 40px; /* Top margin accounts for header */
+  padding: 40px;
+}
+
+.prose p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #2c2c2e;
+  margin-bottom: 1.5rem;
+}
+
+.dialogue {
+  background: rgba(255, 255, 255, 0.4);
+  border-left: 4px solid var(--text-primary);
+  padding: 15px;
+  border-radius: 0 12px 12px 0;
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* --- FLOATING DOCK (Navigation) --- */
+/* Add transition for smooth sliding */
+.floating-dock {
+  /* ... (Existing styles remain) ... */
+  transition: transform 0.4s ease-out; /* Smooth transition */
+}
+
+/* New class for the hidden state */
+.floating-dock.hidden {
+  transform: translateX(-50%) translateY(100px); /* Slide down and off-screen */
+}
+
+/* --- READING VIEW (Specific to chapters) --- */
+.reader-container {
+  max-width: 800px;
+  margin: 100px auto 40px; /* Top margin accounts for header */
+  padding: 40px;
+}
+
+.prose p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #2c2c2e; /* Dark, readable color */
+  margin-bottom: 1.5rem;
+}
+
+.dialogue {
+  background: rgba(255, 255, 255, 0.4);
+  border-left: 4px solid var(--text-primary);
+  padding: 15px;
+  border-radius: 0 12px 12px 0;
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* --- CHAPTER VIEW OVERRIDES (Add this to styles.css) --- */
+
+/* 1. Style for the custom header inside the chapter content */
+.reader-container header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  /* Use the glass border color for a subtle separator */
+  border-bottom: 1px solid var(--glass-border); 
+}
+
+/* Ensure the title uses the main site's heavy gradient look */
+.reader-container header h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 10px 0 5px 0;
+    /* Use the same text gradient as the hero title on index.html */
+    background: linear-gradient(to bottom, #000, #444); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 2. Style to make the navigation bar static (Prev/Next/Home) */
+/* The class name 'chapter-nav-static' will be applied to your nav tag */
+.chapter-nav-static.floating-dock {
+    position: static; /* Override fixed position */
+    transform: none; /* Override floating transform/slide */
+    margin: 40px auto; /* Center it below the content */
+    width: fit-content;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Lighter shadow for static element */
+    /* Ensure dock icons look good when static */
+    padding: 10px 10px;
+    border-radius: 50px;
+}
+
+/* ===================================================
+   MAIN CAST SECTION
+   =================================================== */
+
+.cast-section {
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  padding: 0 20px;
+}
+
+.cast-card {
+  display: block;
+  text-decoration: none;
+  color: var(--text-primary);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.cast-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 40px rgba(255, 107, 107, 0.2);
+}
+
+/* Image Container */
+.cast-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+}
+
+.cast-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.cast-card:hover .cast-image {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
+/* Dark Gradient Overlay */
+.cast-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Text Content */
+.cast-info {
+  padding: 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.cast-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.cast-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0 0 8px 0;
+  background: linear-gradient(to bottom, #000, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cast-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0 0 15px 0;
+  opacity: 0.8;
+}
+
+.cast-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5f27cd;
+  transition: gap 0.3s ease;
+}
+
+.cast-card:hover .cast-cta {
+  gap: 15px;
+}
+
+.cast-cta i {
+  transition: transform 0.3s ease;
+}
+
+.cast-card:hover .cast-cta i {
+  transform: translateX(5px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .cast-section {
+    margin: 0 auto 2rem auto;
+  }
+
+  .cast-image-wrapper {
+    height: 220px;
+  }
+
+  .cast-title {
+    font-size: 1.6rem;
+  }
+
+  .cast-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .cast-info {
+    padding: 20px;
+  }
+}
+
+/* ===================================================
+   GSAP ANIMATION INITIAL STATES
+   (Elements start hidden, GSAP reveals them)
+   ONLY ON HOMEPAGE - Other pages not affected!
+   =================================================== */
+
+/* Hide elements before animation - ONLY on homepage */
+.homepage .hero-image-wrapper,
+.homepage .hero-title,
+.homepage .hero-description,
+.homepage .search-wrapper,
+.homepage .cast-section,
+.homepage .chapter-card,
+.homepage .floating-dock,
+.homepage .continue-section,
+.homepage .theme-toggle {
+  opacity: 0;
+}
+
+/* After GSAP loads, make visible */
+.homepage.gsap-loaded .hero-image-wrapper,
+.homepage.gsap-loaded .hero-title,
+.homepage.gsap-loaded .hero-description,
+.homepage.gsap-loaded .search-wrapper,
+.homepage.gsap-loaded .cast-section,
+.homepage.gsap-loaded .chapter-card,
+.homepage.gsap-loaded .floating-dock,
+.homepage.gsap-loaded .continue-section,
+.homepage.gsap-loaded .theme-toggle {
+  opacity: 1;
+}
+
+/* ===================================================
+   LOADING SCREEN
+   =================================================== */
+
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff6b6b 0%, #5f27cd 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-wrapper.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-content {
+  text-align: center;
+  color: white;
+}
+
+.loader-icon {
+  font-size: 4rem;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.loader-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1rem 0;
+  letter-spacing: 2px;
+}
+
+.loader-bar {
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loader-progress {
+  width: 0%;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  animation: loading 1.5s ease-in-out forwards;
+}
+
+@keyframes loading {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+/* ===================================================
+   DARK MODE TOGGLE BUTTON
+   =================================================== */
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================================
+   DARK MODE THEME
+   =================================================== */
+
+body.dark-mode {
+  --bg-gradient: linear-gradient(
+    135deg, 
+    #1a1a2e 0%,
+    #16213e 25%,
+    #0f0f23 50%,
+    #1a1a2e 75%,
+    #16213e 100%
+  );
+  --glass-surface: rgba(30, 30, 50, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0a0;
+}
+
+body.dark-mode .hero-title {
+  background: linear-gradient(to bottom, #fff, #aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .cast-title {
+  background: linear-gradient(to bottom, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .chapter-card:hover {
+  background: rgba(50, 50, 70, 0.8);
+}
+
+body.dark-mode .theme-toggle {
+  background: rgba(50, 50, 70, 0.8);
+  color: #ffd93d;
+}
+
+body.dark-mode .glass-search {
+  background: rgba(30, 30, 50, 0.7);
+}
+
+body.dark-mode .glass-search input {
+  color: var(--text-primary);
+}
+
+body.dark-mode .glass-search input::placeholder {
+  color: var(--text-secondary);
+}
+
+body.dark-mode .floating-dock {
+  background: rgba(30, 30, 50, 0.85);
+}
+
+body.dark-mode .dock-icon {
+  color: #e8e8e8;
+}
+
+body.dark-mode .cast-info {
+  background: rgba(30, 30, 50, 0.5);
+}
+
+body.dark-mode .cast-cta {
+  color: #ffd93d;
+}
+
+/* ===================================================
+   CONTINUE READING SECTION
+   =================================================== */
+
+.continue-section {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  padding: 0 20px;
+}
+
+.continue-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: rgba(255, 200, 100, 0.2);
+  border-left: 4px solid #ff6b6b;
+}
+
+.continue-icon {
+  font-size: 2rem;
+}
+
+.continue-info {
+  flex: 1;
+}
+
+.continue-info small {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+.continue-info h3 {
+  margin: 5px 0 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.continue-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.continue-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* ===================================================
+   READING TIME BADGE ON CHAPTER CARDS
+   =================================================== */
+
+.chapter-card .read-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #5f27cd;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.chapter-card .read-time i {
+  font-size: 0.7rem;
+}
+
+/* ===================================================
+   HERO DESCRIPTION (Replacing inline style)
+   =================================================== */
+
+.hero-description {
+  opacity: 0.7;
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 10px auto;
+}
+
+/* ===================================================
+   RESPONSIVE ADJUSTMENTS
+   =================================================== */
+
+@media (max-width: 600px) {
+  .theme-toggle {
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    right: 15px;
+    font-size: 1.1rem;
+  }
+
+  .continue-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .continue-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .loader-title {
+    font-size: 1.2rem;
+  }
+  }
+
+/* ===================================================
+   READING PROGRESS BAR
+   =================================================== */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b6b, #5f27cd);
+  width: 0%;
+  z-index: 9999;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+/* ===================================================
+   CHAPTER REACTIONS
+   =================================================== */
+
+.chapter-reactions {
+  margin-top: 40px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.chapter-reactions p {
+  margin: 0 0 15px 0;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.reaction-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.reaction-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reaction-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px);
+}
+
+.reaction-btn.active {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.reaction-emoji {
+  font-size: 1.8rem;
+}
+
+.reaction-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.reaction-btn.active .reaction-count {
+  color: #ff6b6b;
+}
+
+/* Dark mode adjustments */
+body.dark-mode .chapter-reactions {
+  background: rgba(30, 30, 50, 0.5);
+}
+
+body.dark-mode .reaction-btn {
+  background: rgba(50, 50, 70, 0.5);
+}
+
+body.dark-mode .reaction-btn:hover {
+  background: rgba(70, 70, 90, 0.8);
+}
+
+/* ===================================================
+   FIX: Make chapter dock always visible
+   =================================================== */
+
+.chapter-nav-static.floating-dock {
+  opacity: 1 !important;
+}
