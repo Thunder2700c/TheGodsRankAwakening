@@ -172,3 +172,204 @@
         padding-left: 3vw;
     }
 }
+
+/* ===================================================
+   MUSIC PROMPT MODAL
+   =================================================== */
+
+.music-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100003;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 15, 15, 0.95);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.music-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.music-modal-content {
+    text-align: center;
+    padding: 3rem 2.5rem;
+    max-width: 400px;
+    margin: 1rem;
+    transform: scale(0.8);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-modal.active .music-modal-content {
+    transform: scale(1);
+}
+
+.music-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.music-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.music-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary, #a0a0a0);
+    margin: 0 0 2rem 0;
+}
+
+.music-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.music-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.music-yes {
+    background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+    color: white;
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+}
+
+.music-yes:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.5);
+}
+
+.music-no {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary, #a0a0a0);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.music-no:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary, #fff);
+}
+
+.music-hint {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    opacity: 0.7;
+}
+
+/* ===================================================
+   FLOATING MUSIC TOGGLE BUTTON
+   =================================================== */
+
+.music-toggle {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: var(--glass-surface, rgba(255, 255, 255, 0.55));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.4));
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--text-primary, #1d1d1f);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.music-toggle.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.music-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.music-toggle.playing {
+    background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+    color: white;
+    animation: musicBtnPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes musicBtnPulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4); }
+    50% { box-shadow: 0 4px 30px rgba(255, 107, 107, 0.7); }
+}
+
+/* Dark mode adjustments */
+body.dark-mode .music-toggle:not(.playing) {
+    background: rgba(50, 50, 70, 0.8);
+    color: #e8e8e8;
+}
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+
+@media (max-width: 480px) {
+    .music-modal-content {
+        padding: 2rem 1.5rem;
+    }
+    
+    .music-title {
+        font-size: 1.4rem;
+    }
+    
+    .music-buttons {
+        flex-direction: column;
+    }
+    
+    .music-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .music-toggle {
+        bottom: 90px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+}
