@@ -291,75 +291,76 @@
     ease: "power2.inOut"
   }, 6.8);
 
-  // Step 9: Show music modal
-  // Glitchy entrance - perfect for "Gods Rank"
-loaderTimeline.call(() => {
-  musicModal.style.visibility = 'visible';
-  
-  const tl = gsap.timeline();
-  
-  // Background fade
-  tl.to(musicModal, {
-    duration: 0.3,
-    opacity: 1,
-    ease: "power2.out"
-  })
-  // Glitch effect on content
-  .from(".music-modal-content", {
-    duration: 0.1,
-    x: -10,
-    opacity: 0,
-  })
-  .to(".music-modal-content", {
-    duration: 0.1,
-    x: 10,
-  })
-  .to(".music-modal-content", {
-    duration: 0.1,
-    x: -5,
-  })
-  .to(".music-modal-content", {
-    duration: 0.1,
-    x: 0,
-  })
-  // Icon spins in
-  .from(".music-icon", {
-    duration: 0.6,
-    scale: 0,
-    rotation: 360,
-    ease: "power4.out"
-  }, "-=0.2")
-  // Text glitches in
-  .from(".music-title", {
-    duration: 0.4,
-    opacity: 0,
-    skewX: 20,
-    ease: "power4.out"
-  })
-  .from(".music-subtitle", {
-    duration: 0.3,
-    opacity: 0,
-    ease: "power2.out"
-  })
-  // Buttons slide from sides
-  .from(".music-yes", {
-    duration: 0.5,
-    x: -50,
-    opacity: 0,
-    ease: "power3.out"
-  })
-  .from(".music-no", {
-    duration: 0.5,
-    x: 50,
-    opacity: 0,
-    ease: "power3.out"
-  }, "-=0.4")
-  .from(".music-hint", {
-    duration: 0.3,
-    opacity: 0
-  });
+    // Step 9: Glitchy entrance for Music Modal
+// ==========================================
 
-}, null, 7.2);
+loaderTimeline.call(() => {
+    // 💥 CRITICAL FIX: Move the modal outside the main document flow
+    // This prevents it from being hidden when the 'loader-wrapper' disappears.
+    if (musicModal) {
+        document.body.appendChild(musicModal);
+        
+        // Force display properties just in case CSS rules are too aggressive
+        musicModal.style.visibility = 'visible';
+        musicModal.style.opacity = '1';
+        musicModal.style.zIndex = '999999'; // Ensure it's on top
+        musicModal.classList.add('active'); // Keep this line for existing functionality
+    }
+
+    const tl = gsap.timeline();
+    
+    // Background fade
+    tl.to(musicModal, {
+        duration: 0.3,
+        opacity: 1,
+        ease: "power2.out"
+    })
+    // Glitch effect on content
+    .from(".music-modal-content", {
+        duration: 0.1,
+        x: -10,
+        opacity: 0,
+    })
+    // ... (rest of the glitch moves) ...
+    .to(".music-modal-content", {
+        duration: 0.1,
+        x: 0,
+    })
+    // Icon spins in
+    .from(".music-icon", {
+        duration: 0.6,
+        scale: 0,
+        rotation: 360,
+        ease: "power4.out"
+    }, "-=0.2")
+    // Text glitches in
+    .from(".music-title", {
+        duration: 0.4,
+        opacity: 0,
+        skewX: 20,
+        ease: "power4.out"
+    })
+    .from(".music-subtitle", {
+        duration: 0.3,
+        opacity: 0,
+        ease: "power2.out"
+    })
+    // Buttons slide from sides (Using .fromTo for maximum visibility guarantee)
+    .fromTo(".music-yes", 
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }
+    )
+    .fromTo(".music-no", 
+        { x: 50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        "-=0.4"
+    )
+    .fromTo(".music-hint", 
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3 }
+    );
+
+}, null, 7.2); // This 7.2 value must match the original timing in your timeline
 
   // ===================================================
   // MUSIC MODAL HANDLERS
@@ -463,3 +464,4 @@ loaderTimeline.call(() => {
   </script>
   </body>
 </html>
+
