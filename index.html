@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Gods Rank Awakening</title>
   
-  <!-- ✅ FAVICON -->
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   
-  <!-- ✅ META TAGS FOR SOCIAL SHARING -->
   <meta name="description" content="In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura. Dive into the multiverse war.">
   <meta name="keywords" content="web novel, fantasy, action, gods rank awakening, multiverse">
   <meta name="author" content="Thunder2700c">
   
-  <!-- Open Graph (Facebook, Discord, LinkedIn) -->
   <meta property="og:title" content="The Gods Rank Awakening">
   <meta property="og:description" content="In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite.">
   <meta property="og:image" content="https://thunder2700c.github.io/TheGodsRankAwakening/assets/images/og-cover.jpeg">
@@ -22,17 +19,14 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Gods Rank Awakening">
   
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Thunder2700c">
   <meta name="twitter:title" content="The Gods Rank Awakening">
   <meta name="twitter:description" content="Epic web novel. Hell portals rip open. Ranks clash. Read free.">
   <meta name="twitter:image" content="https://thunder2700c.github.io/TheGodsRankAwakening/assets/images/og-cover.jpeg">
   
-  <!-- Theme Color (for mobile browsers) -->
   <meta name="theme-color" content="#ff6b6b">
   
-  <!-- ✅ CSS (loader.css REMOVED) -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/loader.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -40,12 +34,10 @@
   
 <body class="homepage">
 
-  <!-- ✅ AUDIO ELEMENT (hidden) -->
-<audio id="themeAudio" loop preload="auto">
+  <audio id="themeAudio" loop preload="auto">
   <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ✅ MUSIC PROMPT MODAL -->
 <div class="music-modal" id="musicModal">
   <div class="music-modal-content liquid-glass">
     <div class="music-icon">🎵</div>
@@ -67,13 +59,11 @@
   </div>
 </div>
 
-<!-- ✅ FLOATING MUSIC TOGGLE (appears after choice) -->
 <button class="music-toggle" id="musicToggle" title="Toggle Music">
   <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
 </button>
 
-   <!-- ✅ LOADER -->
-  <div class="loader-wrapper" id="loaderWrapper">
+   <div class="loader-wrapper" id="loaderWrapper">
     <h1 class="loader-counter">0</h1>
     <div class="loader-overlay">
       <div class="loader-bar"></div>
@@ -89,8 +79,7 @@
     </div>
   </div>
 
-  <!-- ✅ NEW: Logo Reveal -->
-    <div class="loader-logo-reveal" id="logoReveal">
+  <div class="loader-logo-reveal" id="logoReveal">
       <div class="logo-half logo-left">
         <span>TG</span>
       </div>
@@ -100,9 +89,7 @@
       </div>
     </div>
     
-</div>
   
-  <!-- ✅ DARK MODE TOGGLE -->
   <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
     <i class="fa-solid fa-moon" id="themeIcon"></i>
   </button>
@@ -126,7 +113,6 @@
     </div>
   </section>
 
-  <!-- ✅ CONTINUE READING SECTION (Shows if user has progress) -->
   <section class="continue-section" id="continueSection" style="display: none;">
     <div class="continue-card liquid-glass">
       <div class="continue-icon">📖</div>
@@ -140,7 +126,6 @@
     </div>
   </section>
 
-  <!-- MAIN CAST SECTION -->
   <section class="cast-section">
     <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cast-card liquid-glass">
       <div class="cast-image-wrapper">
@@ -169,11 +154,9 @@
     <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
   </nav>
 
-  <!-- GSAP (Homepage animations only) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="scripts/animations.js"></script>
-  <!-- MAIN JS -->
   <script src="scripts/main.js"></script>
   <script src="scripts/loader.js"></script>
 
@@ -321,7 +304,14 @@ loaderTimeline.call(() => {
         x: -10,
         opacity: 0,
     })
-    // ... (rest of the glitch moves) ...
+    .to(".music-modal-content", {
+        duration: 0.1,
+        x: 10,
+    })
+    .to(".music-modal-content", {
+        duration: 0.1,
+        x: -5,
+    })
     .to(".music-modal-content", {
         duration: 0.1,
         x: 0,
@@ -366,21 +356,47 @@ loaderTimeline.call(() => {
   // MUSIC MODAL HANDLERS
   // ===================================================
 
+  // 💥 FIXED proceedToSite function
   function proceedToSite() {
-    // Hide modal
-    musicModal.classList.remove('active');
     
-    // Show music toggle button
-    setTimeout(() => {
-      musicToggle.classList.add('visible');
-    }, 500);
+    // 1. Hide Music Modal immediately with animation
+    gsap.to(musicModal, {
+        duration: 0.4,
+        opacity: 0,
+        ease: "power2.in",
+        onComplete: () => {
+            musicModal.style.display = 'none';
+        }
+    });
+    
+    // 2. Hide the main loader wrapper immediately
+    const loaderWrapper = document.getElementById("loaderWrapper");
+    if (loaderWrapper) {
+        gsap.to(loaderWrapper, {
+            duration: 0.1,
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+            onComplete: () => {
+                // Ensure it is completely removed after animation
+                loaderWrapper.remove();
+            }
+        });
+    }
 
-    // Remove loader
-    setTimeout(() => {
-      document.getElementById("loaderWrapper").remove();
-    }, 600);
+    // 3. Show music toggle button
+    gsap.to(musicToggle, {
+        duration: 0.5,
+        opacity: 1,
+        scale: 1,
+        ease: "back.out(1.7)",
+        delay: 0.3, // Delay slightly after modal disappears
+        onStart: () => {
+            musicToggle.classList.add('visible');
+        }
+    });
 
-    // Animate main content
+    // 4. Animate main content (as you had it)
     gsap.from(".hero-container", {
       duration: 1.2,
       y: 80,
@@ -410,7 +426,8 @@ loaderTimeline.call(() => {
   document.getElementById('musicYes').addEventListener('click', function() {
     musicEnabled = true;
     themeAudio.volume = 0.5; // Start at 50% volume
-    themeAudio.play();
+    themeAudio.loop = true; // Added loop, just in case
+    themeAudio.play().catch(e => console.error("Audio play failed:", e));
     
     // Update toggle button
     musicToggle.classList.add('playing');
@@ -444,7 +461,7 @@ loaderTimeline.call(() => {
       musicToggleIcon.classList.add('fa-volume-xmark');
     } else {
       // Turn on
-      themeAudio.play();
+      themeAudio.play().catch(e => console.error("Audio play failed:", e));
       musicEnabled = true;
       musicToggle.classList.add('playing');
       musicToggleIcon.classList.remove('fa-volume-xmark');
@@ -464,4 +481,3 @@ loaderTimeline.call(() => {
   </script>
   </body>
 </html>
-
