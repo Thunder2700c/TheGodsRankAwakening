@@ -292,18 +292,18 @@
    FLOATING MUSIC TOGGLE BUTTON
    =================================================== */
 
+
 .music-toggle {
+    /* --- NEW POSITION: TOP RIGHT, GROUPED WITH THEME TOGGLE --- */
     position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: var(--glass-surface, rgba(255, 255, 255, 0.55));
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.4));
+    top: 20px;     /* Position 20px down from the top edge */
+    right: 70px;
+    height: 40px;
+    width: 40px;
+    padding: 0; /* Remove padding as it has a fixed width/height */
+    border-radius: 50%; /* Make it a perfect circle */
+    background: var(--glass-surface, rgba(255, 255, 255, 0.7));
+    border: 2px solid var(--glass-border, rgba(255, 255, 255, 0.4));
     cursor: pointer;
     z-index: 999;
     display: flex;
@@ -315,6 +315,11 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
+}
+
+.music-toggle.visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .music-toggle.visible {
