@@ -40,6 +40,38 @@
   
 <body class="homepage">
 
+  <!-- ✅ AUDIO ELEMENT (hidden) -->
+<audio id="themeAudio" loop preload="auto">
+  <source src="assets/audio/theme.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ✅ MUSIC PROMPT MODAL -->
+<div class="music-modal" id="musicModal">
+  <div class="music-modal-content liquid-glass">
+    <div class="music-icon">🎵</div>
+    <h2 class="music-title">Experience the Full Journey?</h2>
+    <p class="music-subtitle">Enable epic theme music for immersion</p>
+    
+    <div class="music-buttons">
+      <button class="music-btn music-yes" id="musicYes">
+        <i class="fa-solid fa-volume-high"></i>
+        Yes, Play
+      </button>
+      <button class="music-btn music-no" id="musicNo">
+        <i class="fa-solid fa-volume-xmark"></i>
+        No Thanks
+      </button>
+    </div>
+    
+    <small class="music-hint">You can toggle this anytime</small>
+  </div>
+</div>
+
+<!-- ✅ FLOATING MUSIC TOGGLE (appears after choice) -->
+<button class="music-toggle" id="musicToggle" title="Toggle Music">
+  <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
+</button>
+
    <!-- ✅ LOADER -->
   <div class="loader-wrapper" id="loaderWrapper">
     <h1 class="loader-counter">0</h1>
@@ -289,3 +321,4 @@
   </script>
   </body>
 </html>
+
