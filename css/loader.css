@@ -43,7 +43,18 @@
 
 /* Individual bars */
 .loader-bar {
-    width: 10vw;
-    height: 105vh;
-    background: #1a1a1a;
+    background: linear-gradient(
+        180deg,
+        #ff6b6b,
+        #5f27cd,
+        #1a1a1a
+    );
+    background-size: 100% 300%;
+    animation: loaderGradient 2s ease infinite;
+}
+
+@keyframes loaderGradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
 }
