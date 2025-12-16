@@ -1,5 +1,5 @@
 /* ===================================================
-   LOADER STYLES - All scoped with "loader-" prefix
+   LOADER STYLES - TGRA Epic Intro
    =================================================== */
 
 /* Wrapper - covers everything during load */
@@ -10,10 +10,12 @@
     width: 100%;
     height: 100%;
     z-index: 99999;
-    pointer-events: none;
+    background: #0f0f0f;
 }
 
-/* Counter */
+/* ===================================================
+   COUNTER
+   =================================================== */
 .loader-counter {
     position: fixed;
     bottom: 0;
@@ -22,15 +24,18 @@
     justify-content: flex-end;
     align-items: flex-end;
     z-index: 100001;
-    color: #fff;
-    padding: 1rem;
-    font-size: 15vw;
+    color: #ff6b6b;
+    padding: 1rem 1.5rem;
+    font-size: 12vw;
     font-weight: 900;
     font-family: 'Inter', sans-serif;
     line-height: 1;
+    text-shadow: 0 0 40px rgba(255, 107, 107, 0.5);
 }
 
-/* Overlay - contains bars */
+/* ===================================================
+   OVERLAY BARS
+   =================================================== */
 .loader-overlay {
     position: fixed;
     top: 0;
@@ -41,8 +46,10 @@
     display: flex;
 }
 
-/* Individual bars */
+/* Animated Gradient Bars */
 .loader-bar {
+    width: 10vw;
+    height: 105vh;
     background: linear-gradient(
         180deg,
         #ff6b6b,
@@ -57,4 +64,111 @@
     0% { background-position: 0% 0%; }
     50% { background-position: 0% 100%; }
     100% { background-position: 0% 0%; }
+}
+
+/* Stagger the animation for each bar */
+.loader-bar:nth-child(1) { animation-delay: 0s; }
+.loader-bar:nth-child(2) { animation-delay: 0.1s; }
+.loader-bar:nth-child(3) { animation-delay: 0.2s; }
+.loader-bar:nth-child(4) { animation-delay: 0.3s; }
+.loader-bar:nth-child(5) { animation-delay: 0.4s; }
+.loader-bar:nth-child(6) { animation-delay: 0.5s; }
+.loader-bar:nth-child(7) { animation-delay: 0.6s; }
+.loader-bar:nth-child(8) { animation-delay: 0.7s; }
+.loader-bar:nth-child(9) { animation-delay: 0.8s; }
+.loader-bar:nth-child(10) { animation-delay: 0.9s; }
+
+/* ===================================================
+   LOGO REVEAL - TG | RA
+   =================================================== */
+.loader-logo-reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100002;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    background: #0f0f0f;
+}
+
+.logo-half {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.logo-half span {
+    font-family: 'Inter', sans-serif;
+    font-size: 20vw;
+    font-weight: 900;
+    background: linear-gradient(
+        135deg,
+        #ff6b6b 0%,
+        #ff8e8e 25%,
+        #5f27cd 75%,
+        #7c3aed 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(255, 107, 107, 0.3));
+}
+
+.logo-left {
+    justify-content: flex-end;
+    padding-right: 2vw;
+}
+
+.logo-right {
+    justify-content: flex-start;
+    padding-left: 2vw;
+}
+
+/* Center Divider Line */
+.logo-divider {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 0%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        #ff6b6b 20%,
+        #5f27cd 80%,
+        transparent 100%
+    );
+    border-radius: 2px;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+}
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+@media (max-width: 768px) {
+    .loader-counter {
+        font-size: 20vw;
+        padding: 0.5rem 1rem;
+    }
+    
+    .logo-half span {
+        font-size: 25vw;
+    }
+    
+    .logo-left {
+        padding-right: 3vw;
+    }
+    
+    .logo-right {
+        padding-left: 3vw;
+    }
 }
