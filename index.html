@@ -144,9 +144,13 @@
   <!-- MAIN JS -->
   <script src="scripts/main.js"></script>
   <script src="scripts/loader.js"></script>
+  
   <script>
+  // ===================================================
+  // LOADER ANIMATION - TGRA Epic Intro
+  // ===================================================
 
-    function startLoader() {
+  function startLoader() {
     let counterElement = document.querySelector(".loader-counter");
     let currentValue = 0;
 
@@ -172,36 +176,116 @@
 
   startLoader();
 
-  // Fade out counter
-  gsap.to(".loader-counter", {
-    duration: 0.25,
-    delay: 3.5,
-    opacity: 0,
-  });
+  // ===================================================
+  // GSAP TIMELINE - Sequenced Animations
+  // ===================================================
 
-  // Slide bars up and out
-  gsap.to(".loader-bar", {
-    duration: 1.5,
-    delay: 3.5,
+  const loaderTimeline = gsap.timeline();
+
+  // Step 1: Fade out counter (after ~3.5s)
+  loaderTimeline.to(".loader-counter", {
+    duration: 0.5,
+    opacity: 0,
+    ease: "power2.out"
+  }, 3.5);
+
+  // Step 2: Slide bars up
+  loaderTimeline.to(".loader-bar", {
+    duration: 1,
     y: "-100%",
     stagger: {
-      amount: 0.5
+      amount: 0.4,
+      from: "edges"  // Bars slide from edges to center
     },
-    ease: "power4.inOut",
-    onComplete: function() {
-      // Remove loader from DOM after animation
-      document.getElementById("loaderWrapper").remove();
-    }
-  });
+    ease: "power4.inOut"
+  }, 3.5);
 
-  // Animate main content in
-  gsap.from(".hero-container", {
-    duration: 1.5,
-    delay: 4,
-    y: 100,
+  // Step 3: Show logo reveal background
+  loaderTimeline.to(".loader-logo-reveal", {
+    duration: 0.5,
+    opacity: 1,
+    ease: "power2.inOut"
+  }, 4.3);
+
+  // Step 4: Animate divider line (grows from center)
+  loaderTimeline.to(".logo-divider", {
+    duration: 0.8,
+    height: "60%",
+    ease: "power4.out"
+  }, 4.5);
+
+  // Step 5: Animate TG and RA letters in
+  loaderTimeline.from(".logo-left span", {
+    duration: 0.8,
+    x: 100,
     opacity: 0,
-    ease: "power4.out",
-  });
+    ease: "power4.out"
+  }, 4.6);
+
+  loaderTimeline.from(".logo-right span", {
+    duration: 0.8,
+    x: -100,
+    opacity: 0,
+    ease: "power4.out"
+  }, 4.6);
+
+  // Step 6: Hold for a moment (viewers appreciate the logo)
+  // Then split apart
+
+  // Step 7: Divider shrinks
+  loaderTimeline.to(".logo-divider", {
+    duration: 0.6,
+    height: "0%",
+    ease: "power4.in"
+  }, 5.8);
+
+  // Step 8: TG slides left, RA slides right
+  loaderTimeline.to(".logo-left", {
+    duration: 1,
+    x: "-100%",
+    ease: "power4.inOut"
+  }, 6.2);
+
+  loaderTimeline.to(".logo-right", {
+    duration: 1,
+    x: "100%",
+    ease: "power4.inOut"
+  }, 6.2);
+
+  // Step 9: Fade out entire loader
+  loaderTimeline.to(".loader-logo-reveal", {
+    duration: 0.5,
+    opacity: 0,
+    ease: "power2.inOut"
+  }, 6.8);
+
+  // Step 10: Remove loader from DOM
+  loaderTimeline.call(() => {
+    document.getElementById("loaderWrapper").remove();
+    document.body.style.overflow = "auto";
+  }, null, 7.3);
+
+  // Step 11: Animate main content in
+  loaderTimeline.from(".hero-container", {
+    duration: 1.2,
+    y: 80,
+    opacity: 0,
+    ease: "power4.out"
+  }, 7);
+
+  loaderTimeline.from(".floating-dock", {
+    duration: 1,
+    y: 50,
+    opacity: 0,
+    ease: "power4.out"
+  }, 7.2);
+
+  loaderTimeline.from(".theme-toggle", {
+    duration: 0.8,
+    scale: 0,
+    opacity: 0,
+    ease: "back.out(1.7)"
+  }, 7.4);
   </script>
   </body>
 </html>
