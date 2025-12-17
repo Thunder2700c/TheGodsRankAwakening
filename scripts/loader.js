@@ -224,29 +224,61 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.inOut"
     }, 6.8);
 
-    // ===================================================
-    // Step 9: EPIC MUSIC MODAL ANIMATION
-    // Glitch Background + Split Reveal + Staggered Content
-    // ===================================================
+// Step 9: Show music modal
+loaderTimeline.call(() => {
+    if (!musicModal) return;
     
-    loaderTimeline.call(() => {
-        if (!musicModal) return;
-        
-        // Move modal to body root for proper z-index
-        document.body.appendChild(musicModal);
-        
-        // Prepare modal
-        musicModal.style.visibility = 'visible';
-        musicModal.style.zIndex = '999999';
-        musicModal.classList.add('active');
-        
-        // Set initial state for clip-path animation
-        gsap.set(".music-modal-content", {
-            clipPath: "inset(0 50% 0 50%)",
-            opacity: 0
-        });
-        
-        const modalTl = gsap.timeline();
+    document.body.appendChild(musicModal);
+    musicModal.classList.add('active');
+    
+    // Simple fade in animation
+    gsap.to(musicModal, {
+        duration: 0.5,
+        opacity: 1,
+        ease: "power2.out"
+    });
+    
+    gsap.from(".music-modal-content", {
+        duration: 0.6,
+        scale: 0.8,
+        opacity: 0,
+        ease: "back.out(1.7)"
+    });
+    
+    gsap.from(".music-icon", {
+        duration: 0.5,
+        scale: 0,
+        rotation: -180,
+        delay: 0.3,
+        ease: "back.out(1.7)"
+    });
+    
+    gsap.from(".music-title, .music-subtitle", {
+        duration: 0.4,
+        y: 20,
+        opacity: 0,
+        stagger: 0.1,
+        delay: 0.4,
+        ease: "power3.out"
+    });
+    
+    // BUTTONS - Simple and reliable
+    gsap.from(".music-btn", {
+        duration: 0.5,
+        y: 30,
+        opacity: 0,
+        stagger: 0.15,
+        delay: 0.6,
+        ease: "power3.out"
+    });
+    
+    gsap.from(".music-hint", {
+        duration: 0.3,
+        opacity: 0,
+        delay: 0.9
+    });
+
+}, null, 7.2);
         
         // ===== PHASE 1: Glitch Background Entry =====
         modalTl.to(musicModal, { duration: 0.1, opacity: 0.3 })
