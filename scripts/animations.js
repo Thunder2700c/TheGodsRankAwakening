@@ -6,13 +6,34 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Add class to body so CSS knows GSAP is ready
-    document.body.classList.add('gsap-loaded');
-
     // ===================================================
-    // PAGE LOAD ANIMATIONS
+    // CHECK IF HOMEPAGE WITH LOADER
     // ===================================================
     
+    const isHomepage = document.body.classList.contains('homepage');
+    const hasLoader = document.getElementById('loaderWrapper');
+    
+    // If homepage with loader, DON'T run load animations here
+    // loader.js will handle the reveal animations
+    if (isHomepage && hasLoader) {
+        // Only setup scroll-based animations (they'll work after loader)
+        setupScrollAnimations();
+        setupParallax();
+        return;
+    }
+    
+    // For pages WITHOUT loader (chapter pages, etc.)
+    document.body.classList.add('gsap-loaded');
+    runLoadAnimations();
+    setupScrollAnimations();
+    setupParallax();
+});
+
+// ===================================================
+// PAGE LOAD ANIMATIONS (for non-loader pages)
+// ===================================================
+
+function runLoadAnimations() {
     const loadTimeline = gsap.timeline({
         defaults: {
             ease: "power3.out",
@@ -21,104 +42,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Hero Image - Fade in and scale up
-    loadTimeline.fromTo(".hero-image-wrapper", 
-        {
-            opacity: 0,
-            y: 60,
-            scale: 0.95
-        },
-        {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1
-        }
-    );
+    if (document.querySelector(".hero-image-wrapper")) {
+        loadTimeline.fromTo(".hero-image-wrapper", 
+            { opacity: 0, y: 60, scale: 0.95 },
+            { opacity: 1, y: 0, scale: 1, duration: 1 }
+        );
+    }
 
     // Title - Slide up
-    loadTimeline.fromTo(".hero-title",
-        {
-            opacity: 0,
-            y: 40
-        },
-        {
-            opacity: 1,
-            y: 0
-        },
-        "-=0.6" // Overlap with previous
-    );
+    if (document.querySelector(".hero-title")) {
+        loadTimeline.fromTo(".hero-title",
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0 },
+            "-=0.6"
+        );
+    }
 
     // Description - Fade in
-    loadTimeline.fromTo(".hero-container > p",
-        {
-            opacity: 0,
-            y: 30
-        },
-        {
-            opacity: 0.7, // Your original opacity
-            y: 0
-        },
-        "-=0.5"
-    );
+    if (document.querySelector(".hero-description")) {
+        loadTimeline.fromTo(".hero-description",
+            { opacity: 0, y: 30 },
+            { opacity: 0.7, y: 0 },
+            "-=0.5"
+        );
+    }
 
     // Search bar - Slide up
-    loadTimeline.fromTo(".search-wrapper",
-        {
-            opacity: 0,
-            y: 30
-        },
-        {
-            opacity: 1,
-            y: 0
-        },
-        "-=0.4"
-    );
+    if (document.querySelector(".search-wrapper")) {
+        loadTimeline.fromTo(".search-wrapper",
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0 },
+            "-=0.4"
+        );
+    }
 
-    // Cast Section - Fade in with slight scale
-    loadTimeline.fromTo(".cast-section",
-        {
-            opacity: 0,
-            y: 40,
-            scale: 0.98
-        },
-        {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6
-        },
-        "-=0.3"
-    );
+    // Cast Section
+    if (document.querySelector(".cast-section")) {
+        loadTimeline.fromTo(".cast-section",
+            { opacity: 0, y: 40, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.6 },
+            "-=0.3"
+        );
+    }
 
-    // Floating Dock - Pop up from bottom
-    loadTimeline.fromTo(".floating-dock",
-        {
-            opacity: 0,
-            y: 50
-        },
-        {
-            opacity: 1,
-            y: 0,
-            ease: "back.out(1.5)",
-            duration: 0.6
-        },
-        "-=0.3"
-    );
+    // Floating Dock
+    if (document.querySelector(".floating-dock")) {
+        loadTimeline.fromTo(".floating-dock",
+            { opacity: 0, y: 50 },
+            { opacity: 1, y: 0, ease: "back.out(1.5)", duration: 0.6 },
+            "-=0.3"
+        );
+    }
 
-    // ===================================================
-    // SCROLL ANIMATIONS - Chapter Cards
-    // ===================================================
+    // Theme Toggle
+    if (document.querySelector(".theme-toggle")) {
+        loadTimeline.fromTo(".theme-toggle",
+            { opacity: 0, scale: 0 },
+            { opacity: 1, scale: 1, ease: "back.out(1.7)", duration: 0.5 },
+            "-=0.3"
+        );
+    }
+}
 
+// ===================================================
+// SCROLL ANIMATIONS - Chapter Cards
+// ===================================================
+
+function setupScrollAnimations() {
     // Wait for cards to be generated by main.js
     setTimeout(() => {
         const cards = document.querySelectorAll('.chapter-card');
         
         if (cards.length > 0) {
             // Set initial state
-            gsap.set(cards, {
-                opacity: 0,
-                y: 60
-            });
+            gsap.set(cards, { opacity: 0, y: 60 });
 
             // Animate each card when it enters viewport
             cards.forEach((card, index) => {
@@ -129,59 +126,55 @@ document.addEventListener('DOMContentLoaded', () => {
                     ease: "power2.out",
                     scrollTrigger: {
                         trigger: card,
-                        start: "top 85%", // When card top hits 85% of viewport
+                        start: "top 85%",
                         toggleActions: "play none none none"
                     },
-                    delay: index * 0.1 // Stagger effect
+                    delay: index * 0.1
                 });
             });
         }
-    }, 100); // Small delay to let main.js create cards
 
-    // ===================================================
-    // BONUS: Parallax on Hero Image (Subtle)
-    // ===================================================
-
-    gsap.to(".hero-image", {
-        y: 50,
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".hero-container",
-            start: "top top",
-            end: "bottom top",
-            scrub: 1 // Smooth parallax
+        // Cast Section Reveal
+        if (document.querySelector(".cast-section")) {
+            ScrollTrigger.create({
+                trigger: ".cast-section",
+                start: "top 80%",
+                onEnter: () => {
+                    gsap.to(".cast-image", {
+                        scale: 1.05,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    });
+                    gsap.to(".cast-info", {
+                        y: -5,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    });
+                },
+                onLeaveBack: () => {
+                    gsap.to(".cast-image", { scale: 1, duration: 0.5 });
+                    gsap.to(".cast-info", { y: 0, duration: 0.4 });
+                },
+            });
         }
-    });
+    }, 100);
+}
 
-    // ===================================================
-    // BONUS: Cast Section Reveal on Scroll
-    // ===================================================
+// ===================================================
+// PARALLAX EFFECT
+// ===================================================
 
-    ScrollTrigger.create({
-        trigger: ".cast-section",
-        start: "top 80%",
-        onEnter: () => {
-            gsap.to(".cast-image", {
-                scale: 1.05,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-            gsap.to(".cast-info", {
-                y: -5,
-                duration: 0.6,
-                ease: "power2.out"
-            });
-        },
-        onLeaveBack: () => {
-            gsap.to(".cast-image", {
-                scale: 1,
-                duration: 0.5
-            });
-            gsap.to(".cast-info", {
-                y: 0,
-                duration: 0.4
-            });
-        },
-    });
-
-});
+function setupParallax() {
+    if (document.querySelector(".hero-image") && document.querySelector(".hero-container")) {
+        gsap.to(".hero-image", {
+            y: 50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-container",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+    }
+}
