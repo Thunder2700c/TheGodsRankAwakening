@@ -378,3 +378,13 @@ body.dark-mode .music-toggle:not(.playing) {
         height: 45px;
     }
 }
+
+.music-modal-content {
+    /* ... existing styles ... */
+    will-change: clip-path, opacity, transform;
+}
+
+.music-modal {
+    /* ... existing styles ... */
+    opacity: 0;
+}
