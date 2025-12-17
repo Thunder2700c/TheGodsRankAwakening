@@ -480,11 +480,14 @@ body {
 .homepage .chapter-card,
 .homepage .floating-dock,
 .homepage .continue-section,
-.homepage .theme-toggle {
+.homepage .theme-toggle,
+.homepage .music-toggle {
   opacity: 0;
+  visibility: hidden;
 }
 
-/* After GSAP loads, make visible */
+/* After GSAP loads and animates, elements become visible */
+/* The visibility is now controlled by GSAP inline styles */
 .homepage.gsap-loaded .hero-image-wrapper,
 .homepage.gsap-loaded .hero-title,
 .homepage.gsap-loaded .hero-description,
@@ -494,11 +497,17 @@ body {
 .homepage.gsap-loaded .floating-dock,
 .homepage.gsap-loaded .continue-section,
 .homepage.gsap-loaded .theme-toggle {
-  opacity: 1;
+  visibility: visible;
+  /* opacity is set by GSAP animations */
+}
+
+/* Music toggle has its own .visible class */
+.homepage.gsap-loaded .music-toggle.visible {
+  visibility: visible;
 }
 
 /* ===================================================
-   DARK MODE TOGGLE BUTTON
+   DARK MODE TOGGLE BUTTON - FIXED
    =================================================== */
 
 .theme-toggle {
@@ -522,11 +531,17 @@ body {
   color: var(--text-primary);
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* Remove will-change to prevent layer issues */
 }
 
 .theme-toggle:hover {
   transform: scale(1.1) rotate(15deg);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure theme toggle is always clickable after animation */
+.gsap-loaded .theme-toggle {
+  pointer-events: auto;
 }
 
 /* ===================================================
