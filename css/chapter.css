@@ -744,3 +744,72 @@ body.dark-mode .nav-btn:hover {
     font-size: 1.5rem;
   }
 }
+
+/* ===================================================
+   ADDITIONAL CHAPTER STYLES
+   =================================================== */
+
+/* Chapter Date Line */
+.chapter-date-line {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ff6b6b;
+  margin: 1.5rem 0;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(95, 39, 205, 0.1));
+  border-radius: 10px;
+}
+
+/* Chapter Images */
+.chapter-image {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.chapter-image img {
+  max-width: 80%;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Author's Note */
+.author-note {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(95, 39, 205, 0.08));
+  border-radius: 16px;
+  border-left: 4px solid #5f27cd;
+}
+
+.author-note h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: #5f27cd;
+}
+
+.author-note p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* To Be Continued */
+.to-be-continued {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #ff6b6b;
+  margin: 2rem 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Responsive Images */
+@media (max-width: 600px) {
+  .chapter-image img {
+    max-width: 100%;
+  }
+}
