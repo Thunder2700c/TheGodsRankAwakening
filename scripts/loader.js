@@ -255,69 +255,96 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.inOut"
     }, 6.8);
 
-    // ===================================================
-    // MUSIC MODAL ANIMATION
+        // ===================================================
+    // Step 9: MUSIC MODAL ANIMATION - FIXED
     // ===================================================
     
     loaderTimeline.call(() => {
         if (!musicModal) return;
         
+        // Move modal to body for proper z-index
         document.body.appendChild(musicModal);
         musicModal.classList.add('active');
         musicModal.style.visibility = 'visible';
         
+        // Get button elements
+        const yesBtn = document.querySelector('.music-yes');
+        const noBtn = document.querySelector('.music-no');
+        const modalContent = document.querySelector('.music-modal-content');
+        const musicIcon = document.querySelector('.music-icon');
+        const musicTitle = document.querySelector('.music-title');
+        const musicSubtitle = document.querySelector('.music-subtitle');
+        const musicHint = document.querySelector('.music-hint');
+        
+        // IMPORTANT: Reset any hidden states first
+        if (yesBtn) {
+            yesBtn.style.visibility = 'visible';
+            yesBtn.style.opacity = '1';
+        }
+        if (noBtn) {
+            noBtn.style.visibility = 'visible';
+            noBtn.style.opacity = '1';
+        }
+        
+        // Glitch background in
         const modalTl = gsap.timeline();
         
-        modalTl.to(musicModal, { duration: 0.1, opacity: 0.3 })
+        modalTl
+        // Glitch effect for modal background
+        .to(musicModal, { duration: 0.1, opacity: 0.3 })
         .to(musicModal, { duration: 0.05, opacity: 0 })
         .to(musicModal, { duration: 0.1, opacity: 0.6 })
         .to(musicModal, { duration: 0.05, opacity: 0.2 })
         .to(musicModal, { duration: 0.1, opacity: 1 })
         
-        .from(".music-modal-content", {
-            duration: 0.6,
-            scale: 0.8,
-            opacity: 0,
-            ease: "back.out(1.7)"
-        }, "-=0.2")
+        // Content box scales in
+        .fromTo(modalContent,
+            { scale: 0.8, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
+            "-=0.2"
+        )
         
-        .from(".music-icon", {
-            duration: 0.5,
-            scale: 0,
-            rotation: -180,
-            ease: "back.out(1.7)"
-        }, "-=0.3")
+        // Icon spins in
+        .fromTo(musicIcon,
+            { scale: 0, rotation: -180, opacity: 0 },
+            { scale: 1, rotation: 0, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+            "-=0.3"
+        )
         
-        .from(".music-title", {
-            duration: 0.4,
-            y: 20,
-            opacity: 0,
-            ease: "power3.out"
-        }, "-=0.2")
-        .from(".music-subtitle", {
-            duration: 0.4,
-            y: 20,
-            opacity: 0,
-            ease: "power3.out"
-        }, "-=0.3")
+        // Title slides up
+        .fromTo(musicTitle,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+            "-=0.2"
+        )
         
-        .from(".music-yes", {
-            duration: 0.5,
-            x: 50,
-            opacity: 0,
-            ease: "power3.out"
-        }, "-=0.2")
-        .from(".music-no", {
-            duration: 0.5,
-            x: -50,
-            opacity: 0,
-            ease: "power3.out"
-        }, "-=0.4")
+        // Subtitle slides up
+        .fromTo(musicSubtitle,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
+            "-=0.3"
+        )
         
-        .from(".music-hint", {
-            duration: 0.3,
-            opacity: 0
-        }, "-=0.2");
+        // YES button - slides from right (USING fromTo)
+        .fromTo(yesBtn,
+            { x: 30, opacity: 0, visibility: 'visible' },
+            { x: 0, opacity: 1, visibility: 'visible', duration: 0.5, ease: "power3.out" },
+            "-=0.2"
+        )
+        
+        // NO button - slides from left (USING fromTo)
+        .fromTo(noBtn,
+            { x: -30, opacity: 0, visibility: 'visible' },
+            { x: 0, opacity: 1, visibility: 'visible', duration: 0.5, ease: "power3.out" },
+            "-=0.4"
+        )
+        
+        // Hint fades in
+        .fromTo(musicHint,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.3 },
+            "-=0.2"
+        );
 
     }, null, 7.2);
 
