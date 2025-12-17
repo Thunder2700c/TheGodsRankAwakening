@@ -1,0 +1,746 @@
+/* ===================================================
+   CHAPTER PAGE STYLES - TGRA
+   =================================================== */
+
+/* ===================================================
+   BASE SETUP
+   =================================================== */
+
+.chapter-page {
+  padding-bottom: 100px;
+}
+
+/* ===================================================
+   READING PROGRESS BAR
+   =================================================== */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 0%;
+  background: linear-gradient(90deg, #ff6b6b, #5f27cd, #ff6b6b);
+  background-size: 200% 100%;
+  animation: progressShine 2s linear infinite;
+  z-index: 9999;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+@keyframes progressShine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ===================================================
+   SETTINGS TOGGLE
+   =================================================== */
+
+.settings-toggle {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.settings-toggle:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.settings-toggle.active {
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+}
+
+/* ===================================================
+   SETTINGS PANEL
+   =================================================== */
+
+.settings-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.settings-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.settings-content {
+  padding: 1.5rem;
+  min-width: 280px;
+}
+
+.settings-content h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.setting-row:last-child {
+  margin-bottom: 0;
+}
+
+.setting-row span {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.font-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.font-controls button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.font-controls button:hover {
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  border-color: transparent;
+}
+
+.font-controls #currentSize {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.width-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.width-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.width-btn:hover {
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.width-btn.active {
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  border-color: transparent;
+}
+
+/* ===================================================
+   READER CONTAINER
+   =================================================== */
+
+.reader-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  transition: max-width 0.3s ease;
+}
+
+/* ===================================================
+   CHAPTER HEADER
+   =================================================== */
+
+.chapter-header {
+  text-align: center;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.back-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  color: #ff6b6b;
+  transform: translateX(-5px);
+}
+
+.chapter-meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.chapter-number {
+  display: inline-block;
+  padding: 5px 15px;
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.chapter-date,
+.chapter-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.chapter-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 1rem 0 0.5rem 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chapter-progress-info {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
+#scrollPercent {
+  font-weight: 700;
+  color: #ff6b6b;
+}
+
+/* Dark mode title */
+body.dark-mode .chapter-title {
+  background: linear-gradient(135deg, #fff, #aaa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===================================================
+   CHAPTER CONTENT
+   =================================================== */
+
+.chapter-content {
+  background: var(--glass-surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.chapter-content p {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.chapter-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===================================================
+   DIALOGUE STYLING
+   =================================================== */
+
+.dialogue {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(95, 39, 205, 0.08));
+  border-left: 4px solid #ff6b6b;
+  border-radius: 0 16px 16px 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.dialogue .speaker {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.dialogue p {
+  margin: 0;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.dialogue p::before {
+  content: '"';
+  font-size: 1.5rem;
+  color: #ff6b6b;
+  margin-right: 2px;
+}
+
+.dialogue p::after {
+  content: '"';
+  font-size: 1.5rem;
+  color: #ff6b6b;
+  margin-left: 2px;
+}
+
+/* Alternate dialogue style (for different characters) */
+.dialogue.alt {
+  border-left-color: #5f27cd;
+  background: linear-gradient(135deg, rgba(95, 39, 205, 0.08), rgba(255, 107, 107, 0.08));
+}
+
+.dialogue.alt .speaker {
+  background: linear-gradient(135deg, #5f27cd, #ff6b6b);
+}
+
+.dialogue.alt p::before,
+.dialogue.alt p::after {
+  color: #5f27cd;
+}
+
+/* ===================================================
+   SCENE BREAK
+   =================================================== */
+
+.scene-break {
+  text-align: center;
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.scene-break::before,
+.scene-break::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+}
+
+.scene-break::before {
+  left: 0;
+}
+
+.scene-break::after {
+  right: 0;
+}
+
+.scene-break span {
+  display: inline-block;
+  font-size: 1.5rem;
+  padding: 0 1rem;
+  background: var(--glass-surface);
+}
+
+/* ===================================================
+   CHAPTER END
+   =================================================== */
+
+.chapter-end {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.end-divider {
+  display: inline-block;
+  padding: 10px 30px;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(95, 39, 205, 0.1));
+  border-radius: 30px;
+  border: 1px solid var(--glass-border);
+}
+
+.end-divider span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ===================================================
+   REACTIONS SECTION
+   =================================================== */
+
+.chapter-reactions {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.chapter-reactions p {
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.reaction-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.reaction-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reaction-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-5px) scale(1.05);
+}
+
+.reaction-btn.active {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.15);
+}
+
+.reaction-emoji {
+  font-size: 1.8rem;
+}
+
+.reaction-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.reaction-btn.active .reaction-count {
+  color: #ff6b6b;
+}
+
+/* Dark mode */
+body.dark-mode .reaction-btn {
+  background: rgba(50, 50, 70, 0.5);
+}
+
+body.dark-mode .reaction-btn:hover {
+  background: rgba(70, 70, 90, 0.8);
+}
+
+/* ===================================================
+   SHARE SECTION
+   =================================================== */
+
+.share-section {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.share-section > p {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 50px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.share-btn.twitter {
+  background: #000;
+  color: white;
+}
+
+.share-btn.twitter:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+.share-btn.copy {
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+.share-btn.copy:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.copy-confirm {
+  margin-top: 0.75rem;
+  color: #1dd1a1;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.copy-confirm.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===================================================
+   CHAPTER NAVIGATION
+   =================================================== */
+
+.chapter-nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+.nav-btn.prev {
+  justify-content: flex-start;
+}
+
+.nav-btn.next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.nav-btn.toc {
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.nav-btn.toc i {
+  font-size: 1.2rem;
+}
+
+.nav-btn.toc span {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.nav-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-info small {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-info span {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav-btn i {
+  font-size: 1rem;
+  color: #ff6b6b;
+}
+
+/* Dark mode nav */
+body.dark-mode .nav-btn {
+  background: rgba(50, 50, 70, 0.5);
+}
+
+body.dark-mode .nav-btn:hover {
+  background: rgba(70, 70, 90, 0.8);
+}
+
+/* ===================================================
+   FLOATING DOCK ADJUSTMENTS FOR CHAPTER
+   =================================================== */
+
+.chapter-page .floating-dock {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+
+@media (max-width: 768px) {
+  .settings-toggle {
+    top: 15px;
+    right: 70px;
+    width: 42px;
+    height: 42px;
+  }
+  
+  .settings-panel {
+    right: 10px;
+    left: 10px;
+  }
+  
+  .settings-content {
+    min-width: auto;
+  }
+  
+  .chapter-header {
+    padding: 1.5rem 1rem;
+  }
+  
+  .back-link {
+    position: static;
+    margin-bottom: 1rem;
+  }
+  
+  .chapter-title {
+    font-size: 1.8rem;
+  }
+  
+  .chapter-content {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+  
+  .chapter-content p {
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .dialogue {
+    padding: 1rem;
+  }
+  
+  .chapter-nav {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  
+  .nav-btn.toc {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .nav-info span {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .reader-container {
+    padding: 10px;
+  }
+  
+  .chapter-meta {
+    gap: 0.5rem;
+  }
+  
+  .chapter-date,
+  .chapter-time {
+    font-size: 0.75rem;
+  }
+  
+  .reaction-btn {
+    padding: 10px 14px;
+  }
+  
+  .reaction-emoji {
+    font-size: 1.5rem;
+  }
+}
