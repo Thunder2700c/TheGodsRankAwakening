@@ -1,48 +1,457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prologue - The Gods Rank Awakening</title>
-  <link rel="stylesheet" href="../css/styles.css"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Day Hell Opened - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Year 2058 - Scientists began exploring parallel worlds. The story of Project Quantum Worlds and the dimension gate begins.">
+  <meta name="theme-color" content="#ff6b6b">
+  
+  <meta property="og:title" content="The Day Hell Opened - TGRA">
+  <meta property="og:description" content="The portal opens... and hell awaits.">
+  <meta property="og:type" content="article">
+  
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chapter.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
 
-  <main class="reader-container liquid-glass">
-    <header> <small>Prologue</small>
-      <h1>Defiant Stand</h1>
-      <div>Oct 21, 2120</div>
-    </header>
+<body class="chapter-page">
 
-    <article class="prose">
-      <p>That day was a change in the life of killers.</p>
-      
-      <div class="dialogue">
-        <strong>Kanasura:</strong> “This is the right time, put your weapons down...”
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
+
+  <!-- Settings Toggle -->
+  <button class="settings-toggle" id="settingsToggle" title="Reading Settings">
+    <i class="fa-solid fa-text-height"></i>
+  </button>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-content liquid-glass">
+      <h4>Reading Settings</h4>
+      <div class="setting-row">
+        <span>Font Size</span>
+        <div class="font-controls">
+          <button id="fontDecrease">A-</button>
+          <span id="currentSize">18</span>
+          <button id="fontIncrease">A+</button>
+        </div>
       </div>
-
-      <p>Sky was crimson red, land full of ruins and blood...</p>
-      
-    </article>
-
-    <div style="margin-top: 50px; opacity: 0.7;">
-      <h3>Reader Thoughts</h3>
-      <div class="glass-search liquid-glass" style="margin-top: 15px;">
-        <input type="text" placeholder="Comments disabled (Offline Mode)">
+      <div class="setting-row">
+        <span>Width</span>
+        <div class="width-controls">
+          <button class="width-btn active" data-width="700">Narrow</button>
+          <button class="width-btn" data-width="850">Medium</button>
+          <button class="width-btn" data-width="1000">Wide</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Main Reader Container -->
+  <main class="reader-container">
+    
+    <!-- Chapter Header -->
+    <header class="chapter-header liquid-glass">
+      <a href="../index.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      
+      <div class="chapter-meta">
+        <span class="chapter-number">Chapter 3</span>
+        <span class="chapter-date"><i class="fa-regular fa-calendar"></i> Year 2058-2098</span>
+        <span class="chapter-time"><i class="fa-regular fa-clock"></i> 15 min read</span>
+      </div>
+      
+      <h1 class="chapter-title">The Day Hell Opened</h1>
+      
+      <div class="chapter-progress-info">
+        <span id="scrollPercent">0%</span> complete
+      </div>
+    </header>
+
+    <!-- Chapter Content -->
+    <article class="chapter-content" id="chapterContent">
+      
+      <p class="chapter-date-line"><strong>Year 2058, Earth Venta</strong></p>
+
+      <p>It was the years when Scientists started to think about a way to explore parallel Worlds after proving thier exsistance. Wormhole theory, this theory was conceptualized through Einstein's field equations, provides the mathematical foundation for creating traversable bridges between distant point in spacetime.</p>
+
+      <p>Dr. Oscar Oyl was the one who was appointed to be Main Researcher of this project and the one who laid basic foundation for this project. That project was named "Project Quantum Worlds" Dr. Oscar belives that Einstein-Rosen bridges represent solutions to general relativity that theoretically allow for shortcuts through the fabric of spacetime.</p>
+
+      <div class="chapter-image">
+        <img src="../assets/images/chapters/1.jpeg" alt="Wormhole Theory Diagram">
+      </div>
+
+      <p>He also suggested that String theory contributes the mathematical framework for understanding extra dimensions beyond our familiar four-dimensional spacetime. The theory suggests that our universe may contain up to 11 dimensions, with the additional seven dimensions compactified at microscopic scales. Accessing these higher dimensions could provide pathways to parallel universe with fundamentally different properties. It took him 3 years to get permission for starting the project.</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>🔬</span>
+      </div>
+
+      <p class="chapter-date-line"><strong>Year 2068, Earth Venta</strong></p>
+
+      <p>It is 10 years since the research started, and all the researchers were working on finishing the theory so that they can procced to next step.</p>
+
+      <p>Dr. Oscar Oyl and 6 other researchers made big contribution in the research. Their names are Dr. Stephen Brown, Dr. Mahesh Thakur, Dr. Farhad Muhammad, Dr. Ellina McDonald, and Dr. Xi Zhixun.</p>
+
+      <p>They were able to develop a comprehensive mathematical model for worm hole model.</p>
+
+      <p>Their major achievements are theory related to Quantum Gravitational Stabilisation, dimensional resonance theory and negative energy field dynamics.</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>⚡</span>
+      </div>
+
+      <p class="chapter-date-line"><strong>Year 2078, Earth Venta</strong></p>
+
+      <p>After 10 more years researchers have determined all required energy, they needed for making the portal working. They also found two new type of matter which were accidently invented. It was a major Leep in the research as they were one of the most important energy sources for the portal.</p>
+
+      <p>These power sources were named exotic matter generator and negative energy generation.</p>
+
+      <p>The energy requirements are as follow.</p>
+
+      <div class="chapter-image">
+        <img src="../assets/images/chapters/2.jpeg" alt="Energy Requirements Chart">
+      </div>
+
+      <p>The biggest challange they faced is the energy requirement which was almost impossible to fulfill.</p>
+
+      <p>For solving this problem a new type of matter was discovered. Exotic matter - theoretical material with negative energy density that violates conventional energy conditions.</p>
+
+      <p>Researchers research shows that maintaining a stable portal would require enormous energy inputs, potentially on the order of 857 petajoules (8.57 × 10^17 Joules). The largest energy requirement comes from spacetime curvature manipulation (37.3% of total energy), followed by dimensional breach creation (24.5%) and exotic matter generation (21.0%).</p>
+
+      <p>Electromagnetic field control represents another critical component, with field strengths potentially reaching 500 Tesla or higher required for spacetime manipulation.</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>🔧</span>
+      </div>
+
+      <p class="chapter-date-line"><strong>Year 2088, Earth Venta</strong></p>
+
+      <p>This was the time when the final blueprint of the dimension gate started. After successfully creating the blue print the actual building of the project started.</p>
+
+      <div class="chapter-image">
+        <img src="../assets/images/chapters/blueprint.png" alt="Dimension Gate Blueprint">
+      </div>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>🌀</span>
+      </div>
+
+      <p class="chapter-date-line"><strong>Year 2098, Earth Venta</strong></p>
+
+      <p>It was the day finally researchers were able to finally complete the Dimension gate. The only thing left is to decide the coordinates.</p>
+
+      <p>The present head researcher at that time were Dr. Rajesh Mehta, Dr. Sarah Chen, Dr. Marcus Webb, Dr. Elena Vasquez and Dr. Yuki Tanaka.</p>
+
+      <p>It was time they start the gate, they put random coordinates.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>Start the gate and let the rng (random number generator) decide coordinates</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Dr. Yuki</span>
+        <p>Starting the gate, Input of coordinates successful, connection 30%,50%,75%,99%,100%, link to coordinates successful. Error, fluctuations are within acceptable parameter. Team Sarah hurry up and patch the fluctuation. It took the resources of 12 countries and 40 years of hard work we can't fail</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Sarah Chen</span>
+        <p>Fixing the fluctuations, will be fixed in 10 seconds, 10,9,8,7,6,5,4,3,2,1. All fluctuations solved continue the operation</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Dr. Marcus Webb</span>
+        <p>Everyone get away from the Dimesion Gate high heat found on the otherside</p>
+      </div>
+
+      <p>The Gate opened with a very dark crimson colour glowing portal. Everyone stood there, completely silent, a light whispering, a humming sound coming from portal. But everyone confused wondering that did they found an alternate reality?</p>
+
+      <p>Everyone frustrated.</p>
+
+      <p>One of the Researcher Shouted "Forty years. Forty goddamn years of research, failed experiments, blown budgets, and enough theoretical mathematics to fill a small library will it work? Will we succeed?"</p>
+
+      <p>Dr. Mehta stared at the fifteen-meter ring of exotic matter, watching space itself bend and twist inside the aperture. The air shimmered like heat waves, but cold. So cold it made his teeth ache.</p>
+
+      <p>"Status report." His voice cracked.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Sara Chen</span>
+        <p>Portal stable. Energy output holding at optimal parameters. No dimensional fluctuations detected.</p>
+      </div>
+
+      <p>The technician's hands trembled as she read the displays.</p>
+
+      <p>"Sir, we actually did it, we actually did it, I am not dreaming YEAH"</p>
+
+      <p>They tried to look through the portal but couldn't see anything but darkness beyond, a thick, impenetrable black that their instruments couldn't penetrate. One of the Impatient Researcher jumped into the portal as he was much eager to check what was beyond the portal and darkness.</p>
+
+      <p>"I will come back after seeing what we have done hahahaha(crazy laugh)."</p>
+
+      <p>Everyone was waiting for him and were discussing possibilities about what is there.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Dr. Jaskaran Singh</span>
+        <p>What do you think is there?</p>
+      </div>
+
+      <p>One of the rookies of team Dr. Jaskaran Singh who joined the team 2 years ago.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>Could be anything. Maybe Parallel Earth, Higher dimension, Hell or could be a dead planet in another universe.</p>
+      </div>
+
+      <p>All the Researchers started debating with each other while the key one were observing the portal and waiting for Jasman singh to return(The one who ran inside the portal).</p>
+
+      <p>Half of the team believed that portal had connected to alternate reality where history went differently. While others said it was some kind of spatial fold that bent normal physics. Everyone had theories. But no one had answers.</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>⏰</span>
+      </div>
+
+      <p><strong>2 Hours later.</strong></p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Dr. Jaskaran</span>
+        <p>Dr. Metha, Jasman didn't came back did something happen to him? We need to hurry and check.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>Contact military and and ask them to send a small squad of soldiers and also arrange space suits, signal transmitter and high heat resistance cameras.</p>
+      </div>
+
+      <p>Combined forces of continent sended their special team which consisted of 6 young officers.</p>
+
+      <p>The soldiers were pretty good at their age surpassing many. They suited up in the experimental heat-resistant gear without hesitation, checked their weapons, tested their body cameras twice. Standard recon protocol for unknown environments.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Soldier Benjamin</span>
+        <p>Squad leader speaking, cameras video feed active. Suit integrity good. Temperature regulation online.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>This is reconnaissance only. Get in, look around, get out. Fifteen minutes maximum.</p>
+      </div>
+
+      <p>"Copy that, Doc"</p>
+
+      <p>They stepped through.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Gabriel</span>
+        <p>Sir this look exactly like same as outside. But it is not empty darkness, something doesn't feel right.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Hugo</span>
+        <p>Yes it seems like something evil and creepy is here.</p>
+      </div>
+
+      <p>Thier helmet light cut through a shadow that seem too thick.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Hannele</span>
+        <p>Ahh a monster ahh</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Adler</span>
+        <p>Open your eyes and stop behaving like a kid monster doesn't exists. I know you are a new recruit but behaving like a kid. And don't worry your seniors would protect you if something happened.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Antoine</span>
+        <p>Hannele look carefully at what it is revealing, it looks like a cracked brown soil and skeletal remains of what might have been trees or something similar.</p>
+      </div>
+
+      <p>"Jesus," Benjamin muttered. "This place looked like it got nuked."</p>
+
+      <p>They looked above, the sky looked like burning and is dark red colour. It looked the sky was angrier, like looking up through blood.</p>
+
+      <p>The rivers were dried out, all vegetation were dried out and lava was almost at every place.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Benjamin</span>
+        <p>It seems entry point is same but for some reason this looks very creepy let's bring equipment's for setting up a temporary strong hold Antoine, Hugo and Gabriel would setup the router near the portal for sending signal, which will help us communicate back to earth and send camera feeds.</p>
+      </div>
+
+      <p>"Roger sir".</p>
+
+      <div class="dialogue">
+        <span class="speaker">Benjamin</span>
+        <p>Hannele, Adler and I will go back to earth and bring materials for building a mini stronghold as a proof of our territory. Any question</p>
+      </div>
+
+      <p>"No Sir"</p>
+
+      <div class="dialogue">
+        <span class="speaker">Benjamin</span>
+        <p>So, we are now starting to move second team start marching and first team you are up for the setting up the whole thing.</p>
+      </div>
+
+      <p>While the first team was setting up router for sending transmission and signals. It took them 45 minutes for the entire setup and testing took 20 minutes and took a small break of half hour.</p>
+
+      <p>The second team have already brought half of resources for building the stronghold. The first team started to set up the base foundation of the stronghold. It was not a big one but a small one as a line of defence with 6 rooms, 2 washroom and a hall which will be useful in future. 2 hours later all materials are ready, and it took them 20 hours to do it.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Benjamin</span>
+        <p>I am going for giving status report to Dr. Metha, be on guard.</p>
+      </div>
+
+      <p>"Dr. Metha the construction of stronghold is completed."</p>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>Good work, but it was pretty fast.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Benjamin</span>
+        <p>No, I don't think so.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>But still you completed it in 5 hours, it very amazing.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Benjamin</span>
+        <p>What are you saying Dr. Metha, it took us 20 hours to build it.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Dr. Mehta</span>
+        <p>If this is true that means time there moves faster than on our earth, according to us it only took you 5 hours. So, time there is 5 times slower than earth. Let me calculate so according to time difference your mission will start 2 days after inside the portal. Continue to observe boundary for 2 days and don't go away from stronghold until mission starts that's the order.</p>
+      </div>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>⚔️</span>
+      </div>
+
+      <p class="to-be-continued"><strong>To Be Continued...</strong></p>
+
+    </article>
+
+    <!-- Chapter End -->
+    <div class="chapter-end">
+      <div class="end-divider">
+        <span>— End of Chapter 3 —</span>
+      </div>
+    </div>
+
+    <!-- Reactions Section -->
+    <section class="chapter-reactions liquid-glass">
+      <p>How was this chapter?</p>
+      <div class="reaction-buttons">
+        <button class="reaction-btn" data-reaction="fire">
+          <span class="reaction-emoji">🔥</span>
+          <span class="reaction-count" id="count-fire">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="love">
+          <span class="reaction-emoji">❤️</span>
+          <span class="reaction-count" id="count-love">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="mindblown">
+          <span class="reaction-emoji">🤯</span>
+          <span class="reaction-count" id="count-mindblown">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="sad">
+          <span class="reaction-emoji">😢</span>
+          <span class="reaction-count" id="count-sad">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="angry">
+          <span class="reaction-emoji">😤</span>
+          <span class="reaction-count" id="count-angry">0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="share-section liquid-glass">
+      <p>Enjoyed this chapter? Share it!</p>
+      <div class="share-buttons">
+        <button onclick="shareTwitter()" class="share-btn twitter">
+          <i class="fa-brands fa-x-twitter"></i> Tweet
+        </button>
+        <button onclick="copyLink()" class="share-btn copy">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
+      </div>
+      <p class="copy-confirm" id="copyConfirm">✓ Link copied!</p>
+    </section>
+
+    <!-- Chapter Navigation -->
+    <nav class="chapter-nav liquid-glass">
+      <a href="2-epilogue-1.html" class="nav-btn prev">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="nav-info">
+          <small>Previous</small>
+          <span>Epilogue I</span>
+        </div>
+      </a>
+      
+      <a href="../toc.html" class="nav-btn toc">
+        <i class="fa-solid fa-list"></i>
+        <span>Contents</span>
+      </a>
+      
+      <a href="4-awakening-the-ancients.html" class="nav-btn next">
+        <div class="nav-info">
+          <small>Next Chapter</small>
+          <span>Awakening the Ancients</span>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+
   </main>
-  
-  <nav class="chapter-nav-static floating-dock">
+
+  <!-- Floating Dock -->
+  <nav class="floating-dock" id="floatingDock">
     <a href="../index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="../toc.html" class="dock-icon" title="Contents"><i class="fa-solid fa-list"></i></a>
     <a href="#" class="dock-icon active" title="Reading"><i class="fa-solid fa-glasses"></i></a>
-    <a href="2-epilogue-1.html" class="dock-icon" title="Previous Chapter"><i class="fa-solid fa-arrow-left"></i></a>
-    <a href="4-awakening-the-ancients.html" class="dock-icon" title="Next Chapter"><i class="fa-solid fa-arrow-right"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
   </nav>
+
+  <script src="../scripts/chapter.js"></script>
+  
+  <script>
+    function shareTwitter() {
+      const title = document.querySelector('.chapter-title').textContent;
+      const text = `Just read "${title}" from The Gods Rank Awakening! 🔥⚔️`;
+      const url = window.location.href;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=Thunder2700c`, '_blank');
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const confirm = document.getElementById('copyConfirm');
+      confirm.classList.add('show');
+      setTimeout(() => confirm.classList.remove('show'), 2000);
+    }
+  </script>
 
 </body>
 </html>
-
-
-
