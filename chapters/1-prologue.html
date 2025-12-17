@@ -1,54 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prologue - The Gods Rank Awakening</title>
-  <link rel="stylesheet" href="../css/styles.css"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prologue: Defiant Stand - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="October 21, 2120 - That Day was a change in the life of killers. The battle between Aditya and Asura King Kanasura begins.">
+  <meta name="theme-color" content="#ff6b6b">
+  
+  <meta property="og:title" content="Prologue: Defiant Stand - TGRA">
+  <meta property="og:description" content="The epic battle begins...">
+  <meta property="og:type" content="article">
+  
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chapter.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
 
-  <main class="reader-container liquid-glass">
-    <header> <small>Prologue</small>
-      <h1>Defiant Stand</h1>
-      <div>Oct 21, 2120</div>
-    </header>
+<body class="chapter-page">
 
-    <article class="prose">
-      <p>That day was a change in the life of killers.</p>
-      <p class="dialoge">
-        "No, No, Nooooo, I will not die, not until I... kill him, cut down... his head."
-        A Final Battle Starts, The Sword and two Two-Sided Dragger of that Asura King Kanasura strike and emerging very heavy fire spark.
-      </p>
-      <p class="dialoge">
-        <strong>KANASURA SAYS</strong>"This is right time, put your weapons down and work for me and I will spare your life".
-      </p>
-      
-      <div class="dialogue">
-        <strong>Kanasura:</strong> “This is the right time, put your weapons down...”
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
+
+  <!-- Settings Toggle -->
+  <button class="settings-toggle" id="settingsToggle" title="Reading Settings">
+    <i class="fa-solid fa-text-height"></i>
+  </button>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-content liquid-glass">
+      <h4>Reading Settings</h4>
+      <div class="setting-row">
+        <span>Font Size</span>
+        <div class="font-controls">
+          <button id="fontDecrease">A-</button>
+          <span id="currentSize">18</span>
+          <button id="fontIncrease">A+</button>
+        </div>
       </div>
-
-      <p>Sky was crimson red, land full of ruins and blood...</p>
-      
-    </article>
-
-    <div style="margin-top: 50px; opacity: 0.7;">
-      <h3>Reader Thoughts</h3>
-      <div class="glass-search liquid-glass" style="margin-top: 15px;">
-        <input type="text" placeholder="Comments disabled (Offline Mode)">
+      <div class="setting-row">
+        <span>Width</span>
+        <div class="width-controls">
+          <button class="width-btn active" data-width="700">Narrow</button>
+          <button class="width-btn" data-width="850">Medium</button>
+          <button class="width-btn" data-width="1000">Wide</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Main Reader Container -->
+  <main class="reader-container">
+    
+    <!-- Chapter Header -->
+    <header class="chapter-header liquid-glass">
+      <a href="../index.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      
+      <div class="chapter-meta">
+        <span class="chapter-number">Prologue</span>
+        <span class="chapter-date"><i class="fa-regular fa-calendar"></i> Oct 21, 2120</span>
+        <span class="chapter-time"><i class="fa-regular fa-clock"></i> 3 min read</span>
+      </div>
+      
+      <h1 class="chapter-title">Defiant Stand</h1>
+      
+      <div class="chapter-progress-info">
+        <span id="scrollPercent">0%</span> complete
+      </div>
+    </header>
+
+    <!-- Chapter Content -->
+    <article class="chapter-content" id="chapterContent">
+      
+      <p class="chapter-date-line"><strong>October 21, 2120, CE</strong></p>
+
+      <p>That Day was a change in the life of killers.</p>
+
+      <p>"No, No, Nooooo, I will not die, i will... kill him, cut down... his head". A Final Battle Starts, The Sword and Two-Sided Dragger of that Asura King Kanasura strike and emerging very heavy fire sparks".</p>
+
+      <div class="dialogue">
+        <span class="speaker">Kanasura</span>
+        <p>This is the right time, put your weapons down and work for me and I will spare your life</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Aditya</span>
+        <p>Work for you no way in the hell. My goal is to take your head, and I am not stopping until I chop your head</p>
+      </div>
+
+      <p>Sky was crimson Red, Land full of ruins and blood, dead bodies of all soldiers surrounded everywhere.</p>
+
+      <p>The killer staggered amid the crimson ruins, shadows flickering at his core like a killer's awakening system, killing intent surging to push him beyond mortal limits. Blood stained the grounds, but his eyes burned with defiance as KANSASURA circled, spear gleaming with infernal light.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Kansasura</span>
+        <p>I think you will not understand</p>
+      </div>
+
+      <p>The Asura King snarled, lunging forword with blinding speed thrusting the spear straight toword the killer's midsection, poised to pierce between stomach and chest in a fatal strike that could end it all...</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>⚔️</span>
+      </div>
+
+      <!-- Author's Note -->
+      <div class="author-note">
+        <h3>Author's Note</h3>
+        <p>Hello, fellow readers! Thanks for reading through this epic prologue. We are two friends who started this project. Our names are Harmanjot Singh Ubhi and Gurtej Singh Jassal. Next chapter is dropping soon stay tuned on our official website.</p>
+      </div>
+
+    </article>
+
+    <!-- Chapter End -->
+    <div class="chapter-end">
+      <div class="end-divider">
+        <span>— End of Prologue —</span>
+      </div>
+    </div>
+
+    <!-- Reactions Section -->
+    <section class="chapter-reactions liquid-glass">
+      <p>How was this chapter?</p>
+      <div class="reaction-buttons">
+        <button class="reaction-btn" data-reaction="fire">
+          <span class="reaction-emoji">🔥</span>
+          <span class="reaction-count" id="count-fire">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="love">
+          <span class="reaction-emoji">❤️</span>
+          <span class="reaction-count" id="count-love">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="mindblown">
+          <span class="reaction-emoji">🤯</span>
+          <span class="reaction-count" id="count-mindblown">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="sad">
+          <span class="reaction-emoji">😢</span>
+          <span class="reaction-count" id="count-sad">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="angry">
+          <span class="reaction-emoji">😤</span>
+          <span class="reaction-count" id="count-angry">0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="share-section liquid-glass">
+      <p>Enjoyed this chapter? Share it!</p>
+      <div class="share-buttons">
+        <button onclick="shareTwitter()" class="share-btn twitter">
+          <i class="fa-brands fa-x-twitter"></i> Tweet
+        </button>
+        <button onclick="copyLink()" class="share-btn copy">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
+      </div>
+      <p class="copy-confirm" id="copyConfirm">✓ Link copied!</p>
+    </section>
+
+    <!-- Chapter Navigation -->
+    <nav class="chapter-nav liquid-glass">
+      <a href="../index.html" class="nav-btn prev">
+        <i class="fa-solid fa-house"></i>
+        <div class="nav-info">
+          <small>Back to</small>
+          <span>Home</span>
+        </div>
+      </a>
+      
+      <a href="../toc.html" class="nav-btn toc">
+        <i class="fa-solid fa-list"></i>
+        <span>Contents</span>
+      </a>
+      
+      <a href="2-epilogue-1.html" class="nav-btn next">
+        <div class="nav-info">
+          <small>Next Chapter</small>
+          <span>Epilogue I</span>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+
   </main>
-  
-  <nav class="chapter-nav-static floating-dock">
+
+  <!-- Floating Dock -->
+  <nav class="floating-dock" id="floatingDock">
     <a href="../index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="../toc.html" class="dock-icon" title="Contents"><i class="fa-solid fa-list"></i></a>
     <a href="#" class="dock-icon active" title="Reading"><i class="fa-solid fa-glasses"></i></a>
-    <a href="2-epilogue-1.html" class="dock-icon" title="Next Chapter"><i class="fa-solid fa-arrow-right"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
   </nav>
+
+  <script src="../scripts/chapter.js"></script>
+  
+  <script>
+    function shareTwitter() {
+      const title = document.querySelector('.chapter-title').textContent;
+      const text = `Just read "${title}" from The Gods Rank Awakening! 🔥⚔️`;
+      const url = window.location.href;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=Thunder2700c`, '_blank');
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const confirm = document.getElementById('copyConfirm');
+      confirm.classList.add('show');
+      setTimeout(() => confirm.classList.remove('show'), 2000);
+    }
+  </script>
 
 </body>
 </html>
-
-
-
