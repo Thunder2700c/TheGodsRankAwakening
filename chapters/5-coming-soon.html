@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Chapter 5 coming soon! Stay tuned for more epic content.">
+  <meta name="theme-color" content="#ff6b6b">
+  
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chapter.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    .coming-soon-container {
+      text-align: center;
+      padding: 4rem 2rem;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .coming-soon-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .coming-soon-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .coming-soon-text {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    
+    .social-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .social-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+    }
+    
+    .jojo-container {
+      margin-top: 2rem;
+    }
+    
+    .jojo-gif {
+      max-width: 250px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
 
+<body class="chapter-page">
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
+
+  <!-- Main Reader Container -->
+  <main class="reader-container">
+    
+    <!-- Chapter Header -->
+    <header class="chapter-header liquid-glass">
+      <a href="../index.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      
+      <div class="chapter-meta">
+        <span class="chapter-number">Chapter 5</span>
+      </div>
+      
+      <h1 class="chapter-title">Coming Soon</h1>
+    </header>
+
+    <!-- Coming Soon Content -->
+    <div class="chapter-content">
+      <div class="coming-soon-container">
+        <span class="coming-soon-icon">🚀</span>
+        <h2 class="coming-soon-title">New Chapter Dropping Soon!</h2>
+        <p class="coming-soon-text">
+          The story continues... Follow us on Twitter to get notified when new chapters release!
+        </p>
+        
+        <a href="https://x.com/Thunder2700c" target="_blank" class="social-cta">
+          <i class="fa-brands fa-x-twitter"></i>
+          Follow @Thunder2700c
+        </a>
+        
+        <div class="jojo-container">
+          <p style="color: var(--text-secondary); margin: 2rem 0 1rem;">Until then... Star Platinum!</p>
+          <img src="../assets/images/chapters/Jojo.gif" alt="Star Platinum" class="jojo-gif">
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter Navigation -->
+    <nav class="chapter-nav liquid-glass">
+      <a href="4-awakening-the-ancients.html" class="nav-btn prev">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="nav-info">
+          <small>Previous</small>
+          <span>Awakening the Ancients</span>
+        </div>
+      </a>
+      
+      <a href="../toc.html" class="nav-btn toc">
+        <i class="fa-solid fa-list"></i>
+        <span>Contents</span>
+      </a>
+      
+      <a href="../index.html" class="nav-btn next">
+        <div class="nav-info">
+          <small>Back to</small>
+          <span>Home</span>
+        </div>
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </nav>
+
+  </main>
+
+  <!-- Floating Dock -->
+  <nav class="floating-dock" id="floatingDock">
+    <a href="../index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="../toc.html" class="dock-icon" title="Contents"><i class="fa-solid fa-list"></i></a>
+    <a href="#" class="dock-icon active" title="Reading"><i class="fa-solid fa-glasses"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
+  </nav>
+
+  <script src="../scripts/chapter.js"></script>
+
+</body>
+</html>
