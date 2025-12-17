@@ -468,7 +468,7 @@
 }
 
 /* ===================================================
-   MUSIC BUTTONS - FIXED LAYOUT
+   MUSIC BUTTONS - GUARANTEED VISIBLE
    =================================================== */
 
 .music-buttons {
@@ -479,6 +479,8 @@
     align-items: center;
     width: 100%;
     padding: 0 0.5rem;
+    position: relative;
+    z-index: 10;
 }
 
 .music-btn {
@@ -496,6 +498,10 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    /* FORCE VISIBILITY */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none;
 }
 
 /* YES Button - Glowing Gradient */
@@ -536,26 +542,33 @@
 
 /* NO Button - Ghost Style */
 .music-no {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     color: #aaa;
     border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 .music-no:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.4);
     color: #fff;
     transform: scale(1.05) translateY(-2px);
 }
 
-/* Hint Text */
-.music-hint {
-    display: block;
-    margin-top: 1.5rem;
-    font-size: 0.75rem;
-    color: #555;
-    letter-spacing: 0.5px;
+/* Ensure buttons show on mobile too */
+@media (max-width: 480px) {
+    .music-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .music-btn {
+        width: 100%;
+        min-width: unset;
+        padding: 14px 20px;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
 }
 
 /* ===================================================
