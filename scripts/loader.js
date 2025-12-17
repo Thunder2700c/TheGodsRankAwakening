@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const loaderWrapper = document.getElementById("loaderWrapper");
     const counterElement = document.querySelector(".loader-counter");
     
+    // If no loader, exit early (for pages without loader)
+    if (!loaderWrapper) {
+        document.body.classList.add('gsap-loaded');
+        return;
+    }
+    
     // Load initial music state from storage
     let musicEnabled = localStorage.getItem('musicEnabled') === 'true'; 
     
@@ -58,11 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCounter();
     }
 
-    // ✅ START THE COUNTER
     startLoader();
 
     // ===================================================
-    // PROCEED TO SITE - EXIT ANIMATION
+    // PROCEED TO SITE - EXIT ANIMATION (FIXED)
     // ===================================================
 
     function proceedToSite() {
@@ -76,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power2.in"
         })
         
-        // Cleanup
+        // Cleanup loader
         .call(() => {
             if (musicModal) {
                 musicModal.style.visibility = 'hidden';
@@ -86,29 +91,71 @@ document.addEventListener("DOMContentLoaded", () => {
             if (loaderWrapper) {
                 loaderWrapper.remove();
             }
+            
+            // Add gsap-loaded class NOW so CSS kicks in
+            document.body.classList.add('gsap-loaded');
         })
         
-        // Reveal main content
-        .from(".hero-container", {
-            duration: 1.2,
-            y: 80,
-            opacity: 0,
-            ease: "power4.out"
-        }, "-=0.2")
+        // ===================================================
+        // REVEAL MAIN CONTENT (Use .fromTo for explicit control)
+        // ===================================================
         
-        .from(".floating-dock", {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: "power4.out"
-        }, "-=0.9")
+        .fromTo(".hero-image-wrapper", 
+            { opacity: 0, y: 80, scale: 0.95 },
+            { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power4.out" },
+            "-=0.1"
+        )
         
-        .from(".theme-toggle", {
-            duration: 0.8,
-            scale: 0,
-            opacity: 0,
-            ease: "back.out(1.7)"
-        }, "-=0.7")
+        .fromTo(".hero-title",
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+            "-=0.7"
+        )
+        
+        .fromTo(".hero-description",
+            { opacity: 0, y: 30 },
+            { opacity: 0.7, y: 0, duration: 0.8, ease: "power3.out" },
+            "-=0.6"
+        )
+        
+        .fromTo(".search-wrapper",
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+            "-=0.5"
+        )
+        
+        .fromTo(".continue-section",
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+            "-=0.4"
+        )
+        
+        .fromTo(".cast-section",
+            { opacity: 0, y: 40, scale: 0.98 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" },
+            "-=0.5"
+        )
+        
+        .fromTo(".floating-dock",
+            { opacity: 0, y: 50 },
+            { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" },
+            "-=0.6"
+        )
+        
+        // ===================================================
+        // THEME TOGGLE - FIXED (use .fromTo)
+        // ===================================================
+        .fromTo(".theme-toggle",
+            { opacity: 0, scale: 0, rotation: -45 },
+            { 
+                opacity: 1, 
+                scale: 1, 
+                rotation: 0,
+                duration: 0.6, 
+                ease: "back.out(1.7)" 
+            },
+            "-=0.5"
+        )
         
         // Show music toggle
         .call(() => {
@@ -119,48 +166,57 @@ document.addEventListener("DOMContentLoaded", () => {
                     { duration: 0.5, scale: 1, opacity: 1, ease: "back.out(1.7)" }
                 );
             }
-        }, null, "-=0.5");
+        }, null, "-=0.3")
+        
+        // Animate chapter cards after a tiny delay
+        .call(() => {
+            const cards = document.querySelectorAll('.chapter-card');
+            if (cards.length > 0) {
+                gsap.fromTo(cards,
+                    { opacity: 0, y: 40 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 0.5, 
+                        stagger: 0.1,
+                        ease: "power2.out"
+                    }
+                );
+            }
+        }, null, "-=0.2");
     }
 
     // ===================================================
-    // GSAP TIMELINE - EPIC INTRO
+    // GSAP TIMELINE - EPIC INTRO (unchanged)
     // ===================================================
     
     const loaderTimeline = gsap.timeline();
 
-    // Step 1: Fade out counter (at 3.5s)
     loaderTimeline.to(".loader-counter", {
         duration: 0.5,
         opacity: 0,
         ease: "power2.out"
     }, 3.5);
 
-    // Step 2: Slide bars up from edges
     loaderTimeline.to(".loader-bar", {
         duration: 1,
         y: "-100%",
-        stagger: {
-            amount: 0.4,
-            from: "edges"
-        },
+        stagger: { amount: 0.4, from: "edges" },
         ease: "power4.inOut"
     }, 3.5);
 
-    // Step 3: Show logo reveal background
     loaderTimeline.to(".loader-logo-reveal", {
         duration: 0.5,
         opacity: 1,
         ease: "power2.inOut"
     }, 4.3);
 
-    // Step 4: Divider line grows
     loaderTimeline.to(".logo-divider", {
         duration: 0.8,
         height: "60%",
         ease: "power4.out"
     }, 4.5);
 
-    // Step 5: TG and RA letters animate in
     loaderTimeline.from(".logo-left span", {
         duration: 0.8,
         x: 100,
@@ -175,14 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power4.out"
     }, 4.6);
 
-    // Step 6: Divider shrinks
     loaderTimeline.to(".logo-divider", {
         duration: 0.6,
         height: "0%",
         ease: "power4.in"
     }, 5.8);
 
-    // Step 7: TG slides left, RA slides right
     loaderTimeline.to(".logo-left", {
         duration: 1,
         x: "-100%",
@@ -195,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power4.inOut"
     }, 6.2);
 
-    // Step 8: Fade out logo reveal
     loaderTimeline.to(".loader-logo-reveal", {
         duration: 0.5,
         opacity: 0,
@@ -203,18 +256,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 6.8);
 
     // ===================================================
-    // Step 9: MUSIC MODAL ANIMATION
+    // MUSIC MODAL ANIMATION
     // ===================================================
     
     loaderTimeline.call(() => {
         if (!musicModal) return;
         
-        // Move modal to body for proper z-index
         document.body.appendChild(musicModal);
         musicModal.classList.add('active');
         musicModal.style.visibility = 'visible';
         
-        // Glitch background in
         const modalTl = gsap.timeline();
         
         modalTl.to(musicModal, { duration: 0.1, opacity: 0.3 })
@@ -223,7 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .to(musicModal, { duration: 0.05, opacity: 0.2 })
         .to(musicModal, { duration: 0.1, opacity: 1 })
         
-        // Content scales in
         .from(".music-modal-content", {
             duration: 0.6,
             scale: 0.8,
@@ -231,7 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "back.out(1.7)"
         }, "-=0.2")
         
-        // Icon spins in
         .from(".music-icon", {
             duration: 0.5,
             scale: 0,
@@ -239,7 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "back.out(1.7)"
         }, "-=0.3")
         
-        // Title and subtitle
         .from(".music-title", {
             duration: 0.4,
             y: 20,
@@ -253,7 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power3.out"
         }, "-=0.3")
         
-        // Buttons animate in
         .from(".music-yes", {
             duration: 0.5,
             x: 50,
@@ -267,7 +314,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power3.out"
         }, "-=0.4")
         
-        // Hint fades in
         .from(".music-hint", {
             duration: 0.3,
             opacity: 0
@@ -279,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // MUSIC CONSENT BUTTONS
     // ===================================================
 
-    // YES - Play music
     document.getElementById('musicYes')?.addEventListener('click', function() {
         musicEnabled = true;
         
@@ -297,7 +342,6 @@ document.addEventListener("DOMContentLoaded", () => {
         proceedToSite();
     });
 
-    // NO - Skip music
     document.getElementById('musicNo')?.addEventListener('click', function() {
         musicEnabled = false;
         
@@ -315,7 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     musicToggle?.addEventListener('click', function() {
         if (musicEnabled) {
-            // Turn off
             themeAudio?.pause();
             musicEnabled = false;
             musicToggle.classList.remove('playing');
@@ -323,7 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
             musicToggleIcon?.classList.add('fa-volume-xmark');
             localStorage.setItem('musicEnabled', 'false');
         } else {
-            // Turn on
             themeAudio?.play().catch(e => console.error("Audio play failed:", e));
             musicEnabled = true;
             musicToggle.classList.add('playing');
