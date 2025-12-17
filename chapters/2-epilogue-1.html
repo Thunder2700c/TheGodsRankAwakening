@@ -1,49 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prologue - The Gods Rank Awakening</title>
-  <link rel="stylesheet" href="../css/styles.css"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epilogue I: Tea & Revelations - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Armaan Singh meets Abhijeet Sharma, son of his old comrade Aditya. The truth about The Day Hell Opened begins to unfold.">
+  <meta name="theme-color" content="#ff6b6b">
+  
+  <meta property="og:title" content="Epilogue I: Tea & Revelations - TGRA">
+  <meta property="og:description" content="The truth begins to unfold...">
+  <meta property="og:type" content="article">
+  
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/chapter.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
 
-  <main class="reader-container liquid-glass">
-    <header> <small>Prologue</small>
-      <h1>Defiant Stand</h1>
-      <div>Oct 21, 2120</div>
-    </header>
+<body class="chapter-page">
 
-    <article class="prose">
-      <p>That day was a change in the life of killers.</p>
-      
-      <div class="dialogue">
-        <strong>Kanasura:</strong> “This is the right time, put your weapons down...”
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+    <i class="fa-solid fa-moon" id="themeIcon"></i>
+  </button>
+
+  <!-- Settings Toggle -->
+  <button class="settings-toggle" id="settingsToggle" title="Reading Settings">
+    <i class="fa-solid fa-text-height"></i>
+  </button>
+
+  <!-- Settings Panel -->
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-content liquid-glass">
+      <h4>Reading Settings</h4>
+      <div class="setting-row">
+        <span>Font Size</span>
+        <div class="font-controls">
+          <button id="fontDecrease">A-</button>
+          <span id="currentSize">18</span>
+          <button id="fontIncrease">A+</button>
+        </div>
       </div>
-
-      <p>Sky was crimson red, land full of ruins and blood...</p>
-      
-    </article>
-
-    <div style="margin-top: 50px; opacity: 0.7;">
-      <h3>Reader Thoughts</h3>
-      <div class="glass-search liquid-glass" style="margin-top: 15px;">
-        <input type="text" placeholder="Comments disabled (Offline Mode)">
+      <div class="setting-row">
+        <span>Width</span>
+        <div class="width-controls">
+          <button class="width-btn active" data-width="700">Narrow</button>
+          <button class="width-btn" data-width="850">Medium</button>
+          <button class="width-btn" data-width="1000">Wide</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Main Reader Container -->
+  <main class="reader-container">
+    
+    <!-- Chapter Header -->
+    <header class="chapter-header liquid-glass">
+      <a href="../index.html" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+      </a>
+      
+      <div class="chapter-meta">
+        <span class="chapter-number">Epilogue I</span>
+        <span class="chapter-date"><i class="fa-regular fa-calendar"></i> The Future</span>
+        <span class="chapter-time"><i class="fa-regular fa-clock"></i> 8 min read</span>
+      </div>
+      
+      <h1 class="chapter-title">Tea & Revelations</h1>
+      
+      <div class="chapter-progress-info">
+        <span id="scrollPercent">0%</span> complete
+      </div>
+    </header>
+
+    <!-- Chapter Content -->
+    <article class="chapter-content" id="chapterContent">
+      
+      <p>The dim glow of enchanted lanterns flickered across the dusty shelves of Armaan Singh's library, casting long shadows over ancient tomes and relics. The old man is in his late fifties etched into every wrinkle and grey streak in his beard, slumped in his favorite armchair, meanwhile his servant making his favourite herbal tea.</p>
+
+      <p>It is a Quiet Evening, Armaan speaks "Back in the old days quiet was a luxury... or a curse".</p>
+
+      <p>A sharp ring echoed through the house- the doorbell, insistent and out of place in the stillness.</p>
+
+      <p>He heaved himself up, joints creaking like old hinges, and opens the door.</p>
+
+      <p>With twist of the knob, the door opened, revealing a young man in his late twenties standing on the threshold. Tall, sharp-featured, with long golden hair that caught the evening light and eyes that sparkled like polished diamond. But there was an air of quiet intensity about him, like a storm cloud holding back lighting.</p>
+
+      <p>Armaan blinked, squinting against the fading sunset. "Who are you? State your business, lad.</p>
+
+      <p>The young man tilted his head, a faint, knowing smile playing on his lips. But before he could respond, Armaan's eyes widened, tracing the familiar lines of a Stanger's face.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Hold on... I think I've seen you before. No, not you exactly, but those features. They scream of my old comrade-in-arms, Aditya Sharma. The man who could stare down a monster from hell and make it blink first. You, his kin or something? A long-lost cousin peddling family heirloom?</p>
+      </div>
+
+      <p>The young man's smile deepened, but voice carried a weight.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Young Man</span>
+        <p>You are sharper than you look, chacha(Uncle) Armaan. I am the one who's been chasing the most precious thing in my life, lost to time and betrayal. I'm the strongest on the outside, forged in battles that would break lesser men, but inside... well, I'm a son of your old friend 'Aditya Sharma'. My name is Abhijeet Sharma, Nice to meet you, Armaan Chacha</p>
+      </div>
+
+      <p>Armaan frozen, the words hit him like slamming into a collapsing estate wall. "Aditya's son Oh My God you are alive, where have you been for past years".</p>
+
+      <p>His mind started remembering all the memories Armaan and Aditiya shares, eyes filled with tears.</p>
+
+      <div class="dialogue alt">
+        <span class="speaker">Abhijeet</span>
+        <p>Chacha ji are you ok why are you crying?</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Yes, my boy. *Hugs him* I am just so happy that the tears started flowing out of my eyes. I am so glad that you are ok. Come in think of it as your own home.</p>
+      </div>
+
+      <p>They Settled down</p>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Can I ask you some things, ohh wait sorry I forgot to ask you about drinks what would you like to drink Tea, Coffee, Juice, Cold drink?</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Abhijeet</span>
+        <p>I guess a cup of Tea would be nice.</p>
+      </div>
+
+      <p>Armaan order's his servant to bring the Tea as per Abhijeet's request. He thought for a second that even his drinking preferences are just like Aditiya.</p>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Answer me few things where were you these past years. And who took care of you and what is the most precious thing you are trying to find.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Abhijeet</span>
+        <p>Ok but promise me that you will give me all the information I want.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Yes, I will be glad if I can be useful to you.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Abhijeet</span>
+        <p>Ok, here I go. When Dad and Mom disappeared Bhua ji (father's sister) took me to a different country and raised me there and then I started journey to find the truth what happened on The Day Hell Opened and I was never able to get any usable information. On my 24th Birthday Bhua ji said that it is time for you to learn the truth. She told me about you, that you were my father's best friend, comrade-in-arms and the only one who could tell me the truth. Now that I have explained everything, Chacha ji it is now your turn to tell me about that day.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>I will tell you about it, but it will be a long story and not a pleasant story that anyone would want to listen.</p>
+      </div>
+
+      <div class="dialogue alt">
+        <span class="speaker">Abhijeet</span>
+        <p>No problem, I just want to find the truth what happened then, and it might help me found about how my father used to be.</p>
+      </div>
+
+      <div class="dialogue">
+        <span class="speaker">Armaan</span>
+        <p>Hahaha, I will say the determination you got directly came from father. He looks very familiar to you and even way you talk, and think are all matching.</p>
+      </div>
+
+      <p>Let's start it was...</p>
+
+      <!-- Scene Break -->
+      <div class="scene-break">
+        <span>🌍</span>
+      </div>
+
+      <p class="chapter-date-line"><strong>Year 2098, Earth Venta</strong></p>
+
+    </article>
+
+    <!-- Chapter End -->
+    <div class="chapter-end">
+      <div class="end-divider">
+        <span>— End of Epilogue I —</span>
+      </div>
+    </div>
+
+    <!-- Reactions Section -->
+    <section class="chapter-reactions liquid-glass">
+      <p>How was this chapter?</p>
+      <div class="reaction-buttons">
+        <button class="reaction-btn" data-reaction="fire">
+          <span class="reaction-emoji">🔥</span>
+          <span class="reaction-count" id="count-fire">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="love">
+          <span class="reaction-emoji">❤️</span>
+          <span class="reaction-count" id="count-love">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="mindblown">
+          <span class="reaction-emoji">🤯</span>
+          <span class="reaction-count" id="count-mindblown">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="sad">
+          <span class="reaction-emoji">😢</span>
+          <span class="reaction-count" id="count-sad">0</span>
+        </button>
+        <button class="reaction-btn" data-reaction="angry">
+          <span class="reaction-emoji">😤</span>
+          <span class="reaction-count" id="count-angry">0</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="share-section liquid-glass">
+      <p>Enjoyed this chapter? Share it!</p>
+      <div class="share-buttons">
+        <button onclick="shareTwitter()" class="share-btn twitter">
+          <i class="fa-brands fa-x-twitter"></i> Tweet
+        </button>
+        <button onclick="copyLink()" class="share-btn copy">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
+      </div>
+      <p class="copy-confirm" id="copyConfirm">✓ Link copied!</p>
+    </section>
+
+    <!-- Chapter Navigation -->
+    <nav class="chapter-nav liquid-glass">
+      <a href="1-prologue.html" class="nav-btn prev">
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="nav-info">
+          <small>Previous</small>
+          <span>Prologue</span>
+        </div>
+      </a>
+      
+      <a href="../toc.html" class="nav-btn toc">
+        <i class="fa-solid fa-list"></i>
+        <span>Contents</span>
+      </a>
+      
+      <a href="3-the-day-hell-opened.html" class="nav-btn next">
+        <div class="nav-info">
+          <small>Next Chapter</small>
+          <span>The Day Hell Opened</span>
+        </div>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+
   </main>
-  
-  <nav class="chapter-nav-static floating-dock">
+
+  <!-- Floating Dock -->
+  <nav class="floating-dock" id="floatingDock">
     <a href="../index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="../toc.html" class="dock-icon" title="Contents"><i class="fa-solid fa-list"></i></a>
     <a href="#" class="dock-icon active" title="Reading"><i class="fa-solid fa-glasses"></i></a>
-    <a href="1-prologue.html" class="dock-icon" title="Previous Chapter"><i class="fa-solid fa-arrow-left"></i></a>
-    <a href="3-the-day-hell-opened.html" class="dock-icon" title="Next Chapter"><i class="fa-solid fa-arrow-right"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
   </nav>
 
+  <script src="../scripts/chapter.js"></script>
+  
+  <script>
+    function shareTwitter() {
+      const title = document.querySelector('.chapter-title').textContent;
+      const text = `Just read "${title}" from The Gods Rank Awakening! 🔥⚔️`;
+      const url = window.location.href;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&via=Thunder2700c`, '_blank');
+    }
+
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href);
+      const confirm = document.getElementById('copyConfirm');
+      confirm.classList.add('show');
+      setTimeout(() => confirm.classList.remove('show'), 2000);
+    }
+  </script>
+
 </body>
-</html>
-
-
-
-
+        </html>
