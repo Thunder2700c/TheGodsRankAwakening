@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (musicEnabled && themeAudio) {
         themeAudio.volume = 0.5;
         themeAudio.loop = true;
-        // The actual play() will happen after the modal, but we set the flag.
     }
 
     // Initialize toggle icon state based on saved preference
@@ -34,10 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
-    // Counter animation (The manual animation loop you had)
+    // Counter animation
     function startLoader() {
         let counterElement = document.querySelector(".loader-counter");
+        if (!counterElement) return;
+        
         let currentValue = 0;
 
         function updateCounter() {
@@ -58,79 +58,96 @@ document.addEventListener("DOMContentLoaded", () => {
     startLoader();
 
     // ===================================================
-    // CORE FUNCTION: PROCEED TO SITE (Unblocks the page)
+    // EPIC EXIT ANIMATION - PROCEED TO SITE
     // ===================================================
 
     function proceedToSite() {
         
-        // 1. Hide Music Modal immediately with animation
-        gsap.to(musicModal, {
+        const exitTl = gsap.timeline();
+        
+        // ===== PHASE 1: Buttons Split Apart =====
+        exitTl.to(".music-yes", {
             duration: 0.4,
+            x: -100,
             opacity: 0,
-            ease: "power2.in",
-            onComplete: () => {
+            ease: "power3.in"
+        })
+        .to(".music-no", {
+            duration: 0.4,
+            x: 100,
+            opacity: 0,
+            ease: "power3.in"
+        }, "-=0.4")
+        
+        // ===== PHASE 2: Content Collapses Back to Line =====
+        .to(".music-modal-content", {
+            duration: 0.5,
+            clipPath: "inset(0 50% 0 50%)",
+            opacity: 0,
+            ease: "power4.in"
+        }, "-=0.2")
+        
+        // ===== PHASE 3: Glitch Out Background =====
+        .to(musicModal, { duration: 0.1, opacity: 0.5 })
+        .to(musicModal, { duration: 0.05, opacity: 0.8 })
+        .to(musicModal, { duration: 0.1, opacity: 0.3 })
+        .to(musicModal, { duration: 0.1, opacity: 0 })
+        
+        // ===== PHASE 4: Cleanup =====
+        .call(() => {
+            if (musicModal) {
+                musicModal.style.visibility = 'hidden';
                 musicModal.style.display = 'none';
             }
-        });
-        
-        // 2. Hide the main loader wrapper immediately
-        if (loaderWrapper) {
-            gsap.to(loaderWrapper, {
-                duration: 0.1,
-                opacity: 0,
-                pointerEvents: "none",
-                zIndex: -1,
-                onComplete: () => {
-                    loaderWrapper.remove();
-                }
-            });
-        }
-
-        // 3. Show music toggle button
-        gsap.to(musicToggle, {
-            duration: 0.5,
-            opacity: 1,
-            scale: 1,
-            ease: "back.out(1.7)",
-            delay: 0.3,
-            onStart: () => {
-                musicToggle.classList.add('visible');
+            
+            if (loaderWrapper) {
+                loaderWrapper.remove();
             }
-        });
-
-        // 4. Animate main content (as you had it)
-        gsap.from(".hero-container", {
+        })
+        
+        // ===== PHASE 5: Reveal Main Content =====
+        .from(".hero-container", {
             duration: 1.2,
             y: 80,
             opacity: 0,
-            ease: "power4.out",
-            delay: 0.3
-        });
-
-        gsap.from(".floating-dock", {
+            ease: "power4.out"
+        }, "-=0.3")
+        
+        .from(".floating-dock", {
             duration: 1,
             y: 50,
             opacity: 0,
-            ease: "power4.out",
-            delay: 0.5
-        });
-
-        gsap.from(".theme-toggle", {
+            ease: "power4.out"
+        }, "-=0.9")
+        
+        .from(".theme-toggle", {
             duration: 0.8,
             scale: 0,
             opacity: 0,
-            ease: "back.out(1.7)",
-            delay: 0.7
-        });
+            ease: "back.out(1.7)"
+        }, "-=0.7")
+        
+        // ===== PHASE 6: Show Music Toggle =====
+        .call(() => {
+            if (musicToggle) {
+                musicToggle.classList.add('visible');
+                gsap.fromTo(musicToggle, 
+                    { scale: 0, opacity: 0 },
+                    { 
+                        duration: 0.5, 
+                        scale: 1, 
+                        opacity: 1, 
+                        ease: "back.out(1.7)" 
+                    }
+                );
+            }
+        }, null, "-=0.5");
     }
 
-
     // ===================================================
-    // GSAP TIMELINE (Epic Intro)
+    // GSAP TIMELINE - EPIC INTRO
     // ===================================================
     
-    // ... (Steps 1 through 8 of your GSAP timeline are here) ... 
-    // ... (I omitted them for brevity, but they should remain the same as your previous working version) ...
     const loaderTimeline = gsap.timeline();
 
     // Step 1: Fade out counter
@@ -140,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.out"
     }, 3.5);
 
-    // Step 2: Slide bars up
+    // Step 2: Slide bars up from edges
     loaderTimeline.to(".loader-bar", {
         duration: 1,
         y: "-100%",
@@ -206,71 +223,121 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 0,
         ease: "power2.inOut"
     }, 6.8);
-    // ... (End of Steps 1 through 8) ...
 
-
-    // Step 9: Glitchy entrance for Music Modal
+    // ===================================================
+    // Step 9: EPIC MUSIC MODAL ANIMATION
+    // Glitch Background + Split Reveal + Staggered Content
+    // ===================================================
+    
     loaderTimeline.call(() => {
-        // CRITICAL FIX: Move the modal outside the main document flow
-        if (musicModal) {
-            document.body.appendChild(musicModal);
-            
-            musicModal.style.visibility = 'visible';
-            musicModal.style.opacity = '1';
-            musicModal.style.zIndex = '999999';
-            musicModal.classList.add('active');
-        }
-
-        const tl = gsap.timeline();
+        if (!musicModal) return;
         
-        // Background fade
-        tl.to(musicModal, {
-            duration: 0.3, opacity: 1, ease: "power2.out"
-        })
-        // Glitch effect on content
-        .from(".music-modal-content", {
-            duration: 0.1, x: -10, opacity: 0,
-        })
+        // Move modal to body root for proper z-index
+        document.body.appendChild(musicModal);
+        
+        // Prepare modal
+        musicModal.style.visibility = 'visible';
+        musicModal.style.zIndex = '999999';
+        musicModal.classList.add('active');
+        
+        // Set initial state for clip-path animation
+        gsap.set(".music-modal-content", {
+            clipPath: "inset(0 50% 0 50%)",
+            opacity: 0
+        });
+        
+        const modalTl = gsap.timeline();
+        
+        // ===== PHASE 1: Glitch Background Entry =====
+        modalTl.to(musicModal, { duration: 0.1, opacity: 0.3 })
+        .to(musicModal, { duration: 0.05, opacity: 0 })
+        .to(musicModal, { duration: 0.1, opacity: 0.6 })
+        .to(musicModal, { duration: 0.05, opacity: 0.2 })
+        .to(musicModal, { duration: 0.1, opacity: 1 })
+        
+        // ===== PHASE 2: Split Reveal on Content =====
         .to(".music-modal-content", {
-            duration: 0.1, x: 10,
+            duration: 0.8,
+            clipPath: "inset(0 0% 0 0%)",
+            opacity: 1,
+            ease: "power4.out"
         })
-        .to(".music-modal-content", {
-            duration: 0.1, x: -5,
-        })
-        .to(".music-modal-content", {
-            duration: 0.1, x: 0,
-        })
-        // Icon spins in
+        
+        // ===== PHASE 3: Staggered Content Reveal =====
+        
+        // Icon pops with rotation
         .from(".music-icon", {
-            duration: 0.6, scale: 0, rotation: 360, ease: "power4.out"
-        }, "-=0.2")
-        // Text glitches in
+            duration: 0.6,
+            scale: 0,
+            rotation: -180,
+            ease: "back.out(1.7)"
+        }, "-=0.3")
+        
+        // Title glitches in
         .from(".music-title", {
-            duration: 0.4, opacity: 0, skewX: 20, ease: "power4.out"
+            duration: 0.1,
+            opacity: 0,
+            x: -10,
+        }, "-=0.2")
+        .to(".music-title", {
+            duration: 0.05,
+            x: 10,
         })
+        .to(".music-title", {
+            duration: 0.05,
+            x: -5,
+        })
+        .to(".music-title", {
+            duration: 0.1,
+            x: 0,
+        })
+        
+        // Subtitle fades up
         .from(".music-subtitle", {
-            duration: 0.3, opacity: 0, ease: "power2.out"
-        })
-        // Buttons slide from sides
-        .fromTo(".music-yes", { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" })
-        .fromTo(".music-no", { x: 50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, "-=0.4")
-        .fromTo(".music-hint", { opacity: 0 }, { opacity: 1, duration: 0.3 });
+            duration: 0.4,
+            y: 15,
+            opacity: 0,
+            ease: "power3.out"
+        }, "-=0.1")
+        
+        // Buttons split from center (like TG | RA)
+        .from(".music-yes", {
+            duration: 0.6,
+            x: 50,
+            opacity: 0,
+            ease: "power4.out"
+        }, "-=0.2")
+        .from(".music-no", {
+            duration: 0.6,
+            x: -50,
+            opacity: 0,
+            ease: "power4.out"
+        }, "-=0.5")
+        
+        // Hint fades in last
+        .from(".music-hint", {
+            duration: 0.4,
+            opacity: 0,
+            y: 10,
+            ease: "power2.out"
+        }, "-=0.2");
 
     }, null, 7.2);
 
-
     // ===================================================
-    // MUSIC CONSENT BUTTONS AND TOGGLE LOGIC
+    // MUSIC CONSENT BUTTONS
     // ===================================================
 
     // YES - Play music
     document.getElementById('musicYes')?.addEventListener('click', function() {
         musicEnabled = true;
-        themeAudio.volume = 0.5;
-        themeAudio.loop = true;
-        themeAudio.play().catch(e => console.error("Audio play failed:", e));
         
-        // Update both the state and the floating toggle icon
+        if (themeAudio) {
+            themeAudio.volume = 0.5;
+            themeAudio.loop = true;
+            themeAudio.play().catch(e => console.error("Audio play failed:", e));
+        }
+        
         musicToggle?.classList.add('playing');
         musicToggleIcon?.classList.remove('fa-volume-xmark');
         musicToggleIcon?.classList.add('fa-volume-high');
@@ -282,16 +349,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // NO - Skip music
     document.getElementById('musicNo')?.addEventListener('click', function() {
         musicEnabled = false;
-        themeAudio.pause(); // Ensure it is stopped if somehow running
+        
+        if (themeAudio) {
+            themeAudio.pause();
+        }
+        
         localStorage.setItem('musicEnabled', 'false');
         proceedToSite();
     });
 
-    // FLOATING MUSIC TOGGLE (The logic you asked about)
+    // ===================================================
+    // FLOATING MUSIC TOGGLE
+    // ===================================================
+
     musicToggle?.addEventListener('click', function() {
         if (musicEnabled) {
             // Turn off
-            themeAudio.pause();
+            themeAudio?.pause();
             musicEnabled = false;
             musicToggle.classList.remove('playing');
             musicToggleIcon?.classList.remove('fa-volume-high');
@@ -299,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem('musicEnabled', 'false');
         } else {
             // Turn on
-            themeAudio.play().catch(e => console.error("Audio play failed:", e));
+            themeAudio?.play().catch(e => console.error("Audio play failed:", e));
             musicEnabled = true;
             musicToggle.classList.add('playing');
             musicToggleIcon?.classList.remove('fa-volume-xmark');
@@ -308,7 +382,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // ===================================================
     // KEYBOARD SHORTCUT (M to toggle music)
+    // ===================================================
+
     document.addEventListener('keydown', function(e) {
         if (e.key.toLowerCase() === 'm' && musicToggle?.classList.contains('visible')) {
             musicToggle.click();
