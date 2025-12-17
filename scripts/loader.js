@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const musicToggle = document.getElementById('musicToggle');
     const musicToggleIcon = document.getElementById('musicToggleIcon');
     const loaderWrapper = document.getElementById("loaderWrapper");
+    const counterElement = document.querySelector(".loader-counter");
     
     // Load initial music state from storage
     let musicEnabled = localStorage.getItem('musicEnabled') === 'true'; 
@@ -33,9 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Counter animation
+    // ===================================================
+    // COUNTER ANIMATION (0 → 100)
+    // ===================================================
+    
     function startLoader() {
-        let counterElement = document.querySelector(".loader-counter");
         if (!counterElement) return;
         
         let currentValue = 0;
@@ -55,45 +58,25 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCounter();
     }
 
+    // ✅ START THE COUNTER
     startLoader();
 
     // ===================================================
-    // EPIC EXIT ANIMATION - PROCEED TO SITE
+    // PROCEED TO SITE - EXIT ANIMATION
     // ===================================================
 
     function proceedToSite() {
         
         const exitTl = gsap.timeline();
         
-        // ===== PHASE 1: Buttons Split Apart =====
-        exitTl.to(".music-yes", {
+        // Fade out modal
+        exitTl.to(musicModal, {
             duration: 0.4,
-            x: -100,
             opacity: 0,
-            ease: "power3.in"
+            ease: "power2.in"
         })
-        .to(".music-no", {
-            duration: 0.4,
-            x: 100,
-            opacity: 0,
-            ease: "power3.in"
-        }, "-=0.4")
         
-        // ===== PHASE 2: Content Collapses Back to Line =====
-        .to(".music-modal-content", {
-            duration: 0.5,
-            clipPath: "inset(0 50% 0 50%)",
-            opacity: 0,
-            ease: "power4.in"
-        }, "-=0.2")
-        
-        // ===== PHASE 3: Glitch Out Background =====
-        .to(musicModal, { duration: 0.1, opacity: 0.5 })
-        .to(musicModal, { duration: 0.05, opacity: 0.8 })
-        .to(musicModal, { duration: 0.1, opacity: 0.3 })
-        .to(musicModal, { duration: 0.1, opacity: 0 })
-        
-        // ===== PHASE 4: Cleanup =====
+        // Cleanup
         .call(() => {
             if (musicModal) {
                 musicModal.style.visibility = 'hidden';
@@ -105,13 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
         
-        // ===== PHASE 5: Reveal Main Content =====
+        // Reveal main content
         .from(".hero-container", {
             duration: 1.2,
             y: 80,
             opacity: 0,
             ease: "power4.out"
-        }, "-=0.3")
+        }, "-=0.2")
         
         .from(".floating-dock", {
             duration: 1,
@@ -127,18 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "back.out(1.7)"
         }, "-=0.7")
         
-        // ===== PHASE 6: Show Music Toggle =====
+        // Show music toggle
         .call(() => {
             if (musicToggle) {
                 musicToggle.classList.add('visible');
                 gsap.fromTo(musicToggle, 
                     { scale: 0, opacity: 0 },
-                    { 
-                        duration: 0.5, 
-                        scale: 1, 
-                        opacity: 1, 
-                        ease: "back.out(1.7)" 
-                    }
+                    { duration: 0.5, scale: 1, opacity: 1, ease: "back.out(1.7)" }
                 );
             }
         }, null, "-=0.5");
@@ -150,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const loaderTimeline = gsap.timeline();
 
-    // Step 1: Fade out counter
+    // Step 1: Fade out counter (at 3.5s)
     loaderTimeline.to(".loader-counter", {
         duration: 0.5,
         opacity: 0,
@@ -168,21 +146,21 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power4.inOut"
     }, 3.5);
 
-    // Step 3: Show logo reveal
+    // Step 3: Show logo reveal background
     loaderTimeline.to(".loader-logo-reveal", {
         duration: 0.5,
         opacity: 1,
         ease: "power2.inOut"
     }, 4.3);
 
-    // Step 4: Divider grows
+    // Step 4: Divider line grows
     loaderTimeline.to(".logo-divider", {
         duration: 0.8,
         height: "60%",
         ease: "power4.out"
     }, 4.5);
 
-    // Step 5: Letters animate in
+    // Step 5: TG and RA letters animate in
     loaderTimeline.from(".logo-left span", {
         duration: 0.8,
         x: 100,
@@ -204,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power4.in"
     }, 5.8);
 
-    // Step 7: Split TG | RA
+    // Step 7: TG slides left, RA slides right
     loaderTimeline.to(".logo-left", {
         duration: 1,
         x: "-100%",
@@ -224,134 +202,75 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power2.inOut"
     }, 6.8);
 
-// Step 9: Show music modal
-loaderTimeline.call(() => {
-    if (!musicModal) return;
+    // ===================================================
+    // Step 9: MUSIC MODAL ANIMATION
+    // ===================================================
     
-    document.body.appendChild(musicModal);
-    musicModal.classList.add('active');
-    
-    // Simple fade in animation
-    gsap.to(musicModal, {
-        duration: 0.5,
-        opacity: 1,
-        ease: "power2.out"
-    });
-    
-    gsap.from(".music-modal-content", {
-        duration: 0.6,
-        scale: 0.8,
-        opacity: 0,
-        ease: "back.out(1.7)"
-    });
-    
-    gsap.from(".music-icon", {
-        duration: 0.5,
-        scale: 0,
-        rotation: -180,
-        delay: 0.3,
-        ease: "back.out(1.7)"
-    });
-    
-    gsap.from(".music-title, .music-subtitle", {
-        duration: 0.4,
-        y: 20,
-        opacity: 0,
-        stagger: 0.1,
-        delay: 0.4,
-        ease: "power3.out"
-    });
-    
-    // BUTTONS - Simple and reliable
-    gsap.from(".music-btn", {
-        duration: 0.5,
-        y: 30,
-        opacity: 0,
-        stagger: 0.15,
-        delay: 0.6,
-        ease: "power3.out"
-    });
-    
-    gsap.from(".music-hint", {
-        duration: 0.3,
-        opacity: 0,
-        delay: 0.9
-    });
-
-}, null, 7.2);
+    loaderTimeline.call(() => {
+        if (!musicModal) return;
         
-        // ===== PHASE 1: Glitch Background Entry =====
+        // Move modal to body for proper z-index
+        document.body.appendChild(musicModal);
+        musicModal.classList.add('active');
+        musicModal.style.visibility = 'visible';
+        
+        // Glitch background in
+        const modalTl = gsap.timeline();
+        
         modalTl.to(musicModal, { duration: 0.1, opacity: 0.3 })
         .to(musicModal, { duration: 0.05, opacity: 0 })
         .to(musicModal, { duration: 0.1, opacity: 0.6 })
         .to(musicModal, { duration: 0.05, opacity: 0.2 })
         .to(musicModal, { duration: 0.1, opacity: 1 })
         
-        // ===== PHASE 2: Split Reveal on Content =====
-        .to(".music-modal-content", {
-            duration: 0.8,
-            clipPath: "inset(0 0% 0 0%)",
-            opacity: 1,
-            ease: "power4.out"
-        })
-        
-        // ===== PHASE 3: Staggered Content Reveal =====
-        
-        // Icon pops with rotation
-        .from(".music-icon", {
+        // Content scales in
+        .from(".music-modal-content", {
             duration: 0.6,
+            scale: 0.8,
+            opacity: 0,
+            ease: "back.out(1.7)"
+        }, "-=0.2")
+        
+        // Icon spins in
+        .from(".music-icon", {
+            duration: 0.5,
             scale: 0,
             rotation: -180,
             ease: "back.out(1.7)"
         }, "-=0.3")
         
-        // Title glitches in
+        // Title and subtitle
         .from(".music-title", {
-            duration: 0.1,
-            opacity: 0,
-            x: -10,
-        }, "-=0.2")
-        .to(".music-title", {
-            duration: 0.05,
-            x: 10,
-        })
-        .to(".music-title", {
-            duration: 0.05,
-            x: -5,
-        })
-        .to(".music-title", {
-            duration: 0.1,
-            x: 0,
-        })
-        
-        // Subtitle fades up
-        .from(".music-subtitle", {
             duration: 0.4,
-            y: 15,
+            y: 20,
             opacity: 0,
             ease: "power3.out"
-        }, "-=0.1")
+        }, "-=0.2")
+        .from(".music-subtitle", {
+            duration: 0.4,
+            y: 20,
+            opacity: 0,
+            ease: "power3.out"
+        }, "-=0.3")
         
-        // Buttons split from center (like TG | RA)
+        // Buttons animate in
         .from(".music-yes", {
-            duration: 0.6,
+            duration: 0.5,
             x: 50,
             opacity: 0,
-            ease: "power4.out"
+            ease: "power3.out"
         }, "-=0.2")
         .from(".music-no", {
-            duration: 0.6,
+            duration: 0.5,
             x: -50,
             opacity: 0,
-            ease: "power4.out"
-        }, "-=0.5")
+            ease: "power3.out"
+        }, "-=0.4")
         
-        // Hint fades in last
+        // Hint fades in
         .from(".music-hint", {
-            duration: 0.4,
-            opacity: 0,
-            y: 10,
-            ease: "power2.out"
+            duration: 0.3,
+            opacity: 0
         }, "-=0.2");
 
     }, null, 7.2);
