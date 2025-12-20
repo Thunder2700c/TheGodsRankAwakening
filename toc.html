@@ -14,7 +14,7 @@
   
   <style>
     /* ===================================================
-       HACKER TERMINAL THEME - TABLE OF CONTENTS
+       HACKER TERMINAL THEME - COMPLETE STYLES
        =================================================== */
     
     :root {
@@ -32,6 +32,20 @@
       --scanline: rgba(0, 255, 65, 0.03);
     }
     
+    /* Light Mode Variables */
+    .light-mode {
+      --bg-dark: #e8efe8;
+      --bg-darker: #f5faf5;
+      --terminal-green: #007020;
+      --terminal-cyan: #0070a0;
+      --terminal-purple: #8000a0;
+      --terminal-red: #c00030;
+      --text-dim: #90b090;
+      --text-medium: #408040;
+      --border-glow: rgba(0, 112, 32, 0.3);
+      --scanline: rgba(0, 112, 32, 0.02);
+    }
+    
     * {
       box-sizing: border-box;
       margin: 0;
@@ -45,6 +59,282 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
+    }
+    
+    /* Hide main content until loader completes */
+    .main-content {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .main-content.loaded {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* ===================================================
+       LOADER - HACKER TERMINAL BOOT
+       =================================================== */
+    
+    .hacker-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99999;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .hacker-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    
+    /* Loader Terminal Window */
+    .loader-terminal {
+      width: 100%;
+      max-width: 700px;
+      background: #0a0a0f;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 50px rgba(0, 255, 65, 0.2),
+        0 20px 60px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Terminal Header */
+    .loader-terminal-header {
+      background: #111;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    }
+    
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #28ca42; }
+    
+    .loader-terminal-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      color: #00ff41;
+      letter-spacing: 2px;
+    }
+    
+    /* Terminal Body */
+    .loader-terminal-body {
+      padding: 25px;
+      min-height: 350px;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    
+    /* Boot Lines */
+    .boot-line {
+      opacity: 0;
+      transform: translateY(10px);
+      margin-bottom: 8px;
+    }
+    
+    .boot-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+    
+    .boot-line .ok { color: #00ff41; }
+    .boot-line .fail { color: #ff0040; }
+    .boot-line .warn { color: #ffcc00; }
+    .boot-line .info { color: #00d4ff; }
+    .boot-line .dim { color: #0a4a1f; }
+    .boot-line .path { color: #bf00ff; }
+    
+    /* Progress Bar in Loader */
+    .loader-progress {
+      margin: 20px 0;
+    }
+    
+    .loader-progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.75rem;
+    }
+    
+    .loader-progress-bar {
+      height: 6px;
+      background: #111;
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .loader-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ff41, #00d4ff);
+      box-shadow: 0 0 10px #00ff41;
+      transition: width 0.3s ease;
+    }
+    
+    /* ASCII Art in Loader */
+    .loader-ascii {
+      font-size: 0.4rem;
+      line-height: 1.1;
+      color: #00d4ff;
+      text-align: center;
+      margin: 20px 0;
+      text-shadow: 0 0 10px #00d4ff;
+      opacity: 0;
+      white-space: pre;
+    }
+    
+    .loader-ascii.visible {
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+    
+    /* Cursor Blink */
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 18px;
+      background: #00ff41;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    /* ===================================================
+       MUSIC PROMPT - TERMINAL STYLE
+       =================================================== */
+    
+    .music-prompt {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      border-radius: 8px;
+    }
+    
+    .music-prompt.visible {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .music-prompt-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
+    
+    .music-prompt-header i {
+      font-size: 1.5rem;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .music-prompt-text {
+      color: #00ff41;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+    
+    .music-prompt-text span {
+      color: #00d4ff;
+    }
+    
+    .music-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .music-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 20px;
+      background: transparent;
+      border: 1px solid;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .music-btn-yes {
+      border-color: #00ff41;
+      color: #00ff41;
+    }
+    
+    .music-btn-yes:hover {
+      background: rgba(0, 255, 65, 0.2);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .music-btn-no {
+      border-color: #ff0040;
+      color: #ff0040;
+    }
+    
+    .music-btn-no:hover {
+      background: rgba(255, 0, 64, 0.2);
+      box-shadow: 0 0 20px rgba(255, 0, 64, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .music-hint {
+      margin-top: 15px;
+      font-size: 0.7rem;
+      color: #0a4a1f;
+      text-align: center;
     }
     
     /* ===================================================
@@ -105,7 +395,6 @@
       );
     }
     
-    /* CRT Flicker */
     .scanlines::after {
       content: '';
       position: absolute;
@@ -200,11 +489,6 @@
       box-shadow: 0 0 10px var(--terminal-green);
     }
     
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    
     /* ===================================================
        TERMINAL BODY
        =================================================== */
@@ -222,7 +506,7 @@
     }
     
     /* ===================================================
-       BOOT SEQUENCE
+       BOOT SEQUENCE (Main Page)
        =================================================== */
     
     .boot-sequence {
@@ -231,29 +515,29 @@
       border-bottom: 1px dashed var(--text-dim);
     }
     
-    .boot-line {
+    .boot-sequence .boot-line {
       font-size: 0.8rem;
       margin-bottom: 5px;
       opacity: 0;
       animation: typeIn 0.5s forwards;
     }
     
-    .boot-line:nth-child(1) { animation-delay: 0.1s; }
-    .boot-line:nth-child(2) { animation-delay: 0.3s; }
-    .boot-line:nth-child(3) { animation-delay: 0.5s; }
-    .boot-line:nth-child(4) { animation-delay: 0.7s; }
-    .boot-line:nth-child(5) { animation-delay: 0.9s; }
+    .boot-sequence .boot-line:nth-child(1) { animation-delay: 0.1s; }
+    .boot-sequence .boot-line:nth-child(2) { animation-delay: 0.3s; }
+    .boot-sequence .boot-line:nth-child(3) { animation-delay: 0.5s; }
+    .boot-sequence .boot-line:nth-child(4) { animation-delay: 0.7s; }
+    .boot-sequence .boot-line:nth-child(5) { animation-delay: 0.9s; }
     
     @keyframes typeIn {
       0% { opacity: 0; transform: translateX(-10px); }
       100% { opacity: 1; transform: translateX(0); }
     }
     
-    .boot-line .success { color: var(--terminal-green); }
-    .boot-line .warning { color: var(--terminal-yellow); }
-    .boot-line .info { color: var(--terminal-cyan); }
-    .boot-line .error { color: var(--terminal-red); }
-    .boot-line .dim { color: var(--text-medium); }
+    .boot-sequence .boot-line .success { color: var(--terminal-green); }
+    .boot-sequence .boot-line .warning { color: var(--terminal-yellow); }
+    .boot-sequence .boot-line .info { color: var(--terminal-cyan); }
+    .boot-sequence .boot-line .error { color: var(--terminal-red); }
+    .boot-sequence .boot-line .dim { color: var(--text-medium); }
     
     /* ===================================================
        ASCII LOGO
@@ -323,6 +607,7 @@
       gap: 10px;
       margin-bottom: 20px;
       font-size: 0.9rem;
+      flex-wrap: wrap;
     }
     
     .prompt-user { color: var(--terminal-cyan); }
@@ -333,12 +618,6 @@
     
     .command-text {
       color: #fff;
-      animation: blink-cursor 1s infinite;
-    }
-    
-    @keyframes blink-cursor {
-      0%, 50% { border-right: 2px solid var(--terminal-green); }
-      51%, 100% { border-right: 2px solid transparent; }
     }
     
     /* ===================================================
@@ -477,6 +756,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
     
     .chapter-title .new-badge {
@@ -768,6 +1048,53 @@
     }
     
     /* ===================================================
+       MUSIC TOGGLE FLOATING BUTTON
+       =================================================== */
+    
+    .music-toggle-float {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid var(--border-glow);
+      background: rgba(10, 10, 15, 0.9);
+      color: var(--text-medium);
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    .music-toggle-float.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .music-toggle-float:hover {
+      transform: scale(1.1);
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    }
+    
+    .music-toggle-float.playing {
+      background: linear-gradient(135deg, #00ff41, #00d4ff);
+      color: #000;
+      animation: musicGlow 2s ease-in-out infinite;
+    }
+    
+    @keyframes musicGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 65, 0.5); }
+      50% { box-shadow: 0 0 30px rgba(0, 255, 65, 0.8); }
+    }
+    
+    /* ===================================================
        GLITCH TEXT EFFECT
        =================================================== */
     
@@ -834,6 +1161,10 @@
         font-size: 0.35rem;
       }
       
+      .loader-ascii {
+        font-size: 0.3rem;
+      }
+      
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -868,6 +1199,13 @@
       .cmd-btn {
         justify-content: center;
       }
+      
+      .music-toggle-float {
+        top: 15px;
+        right: 15px;
+        width: 42px;
+        height: 42px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -884,53 +1222,191 @@
       .volume-status {
         align-self: flex-start;
       }
+      
+      .loader-terminal-body {
+        padding: 15px;
+        font-size: 0.8rem;
+      }
+      
+      .music-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Matrix Background -->
-  <div class="matrix-bg"></div>
-  
-  <!-- Scanlines -->
-  <div class="scanlines"></div>
+  <!-- Audio Element -->
+  <audio id="themeAudio" loop preload="auto">
+    <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- Main Terminal Container -->
-  <div class="terminal-container">
+  <!-- ===================================================
+       HACKER LOADER
+       =================================================== -->
+  <div class="hacker-loader" id="hackerLoader">
+    <div class="loader-terminal">
+      
+      <!-- Terminal Header -->
+      <div class="loader-terminal-header">
+        <div class="terminal-dots">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+        </div>
+        <div class="loader-terminal-title">TGRA://SYSTEM_INIT</div>
+        <div></div>
+      </div>
+      
+      <!-- Terminal Body -->
+      <div class="loader-terminal-body">
+        
+        <!-- Boot Lines -->
+        <div class="boot-line" id="boot1">
+          <span class="dim">[</span><span class="ok">BOOT</span><span class="dim">]</span> 
+          Initializing TGRA Neural Interface v3.0.1...
+        </div>
+        
+        <div class="boot-line" id="boot2">
+          <span class="dim">[</span><span class="ok">OK</span><span class="dim">]</span> 
+          Kernel loaded: <span class="path">tgra-reader-core.sys</span>
+        </div>
+        
+        <div class="boot-line" id="boot3">
+          <span class="dim">[</span><span class="ok">OK</span><span class="dim">]</span> 
+          Mounting chapter database...
+        </div>
+        
+        <div class="boot-line" id="boot4">
+          <span class="dim">[</span><span class="info">INFO</span><span class="dim">]</span> 
+          Found <span class="info">5</span> chapter files in <span class="path">/volumes/awakening/</span>
+        </div>
+        
+        <div class="boot-line" id="boot5">
+          <span class="dim">[</span><span class="ok">OK</span><span class="dim">]</span> 
+          Decrypting storyline archives...
+        </div>
+        
+        <div class="boot-line" id="boot6">
+          <span class="dim">[</span><span class="warn">WARN</span><span class="dim">]</span> 
+          Volume 2 access: <span class="fail">CLASSIFIED</span>
+        </div>
+        
+        <div class="boot-line" id="boot7">
+          <span class="dim">[</span><span class="ok">OK</span><span class="dim">]</span> 
+          Loading reader profile: <span class="info">ANONYMOUS</span>
+        </div>
+        
+        <div class="boot-line" id="boot8">
+          <span class="dim">[</span><span class="ok">OK</span><span class="dim">]</span> 
+          Establishing secure connection...
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="loader-progress" id="loaderProgress" style="display: none;">
+          <div class="loader-progress-label">
+            <span>SYSTEM LOAD</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="loader-progress-bar">
+            <div class="loader-progress-fill" id="progressFillLoader"></div>
+          </div>
+        </div>
+        
+        <!-- ASCII Logo -->
+        <pre class="loader-ascii" id="loaderAscii">
+████████╗ ██████╗ ██████╗  █████╗ 
+╚══██╔══╝██╔════╝ ██╔══██╗██╔══██╗
+   ██║   ██║  ███╗██████╔╝███████║
+   ██║   ██║   ██║██╔══██╗██╔══██║
+   ██║   ╚██████╔╝██║  ██║██║  ██║
+   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+        </pre>
+        
+        <div class="boot-line" id="boot9" style="text-align: center;">
+          <span class="ok">SYSTEM READY</span><span class="cursor"></span>
+        </div>
+        
+        <!-- Music Prompt -->
+        <div class="music-prompt" id="musicPrompt">
+          <div class="music-prompt-header">
+            <i class="fa-solid fa-volume-high"></i>
+            <span>AUDIO MODULE DETECTED</span>
+          </div>
+          <div class="music-prompt-text">
+            > Enable <span>immersive audio experience</span>?<br>
+            > Theme: <span class="path">epic_orchestral.mp3</span>
+          </div>
+          <div class="music-buttons">
+            <button class="music-btn music-btn-yes" id="musicYes">
+              <i class="fa-solid fa-play"></i>
+              [Y] ENABLE
+            </button>
+            <button class="music-btn music-btn-no" id="musicNo">
+              <i class="fa-solid fa-volume-xmark"></i>
+              [N] SKIP
+            </button>
+          </div>
+          <p class="music-hint">// Press [Y] or [N] to continue • Toggle anytime with [M]</p>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Music Toggle Floating Button -->
+  <button class="music-toggle-float" id="musicToggle" title="Toggle Music [M]">
+    <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
+  </button>
+
+  <!-- ===================================================
+       MAIN CONTENT (Hidden until loader completes)
+       =================================================== -->
+  <div class="main-content" id="mainContent">
     
-    <!-- Terminal Header Bar -->
-    <header class="terminal-header">
-      <div class="terminal-buttons">
-        <button class="terminal-btn close" onclick="window.location.href='index.html'"></button>
-        <button class="terminal-btn minimize"></button>
-        <button class="terminal-btn maximize"></button>
-      </div>
-      
-      <div class="terminal-title">
-        TGRA://SYSTEM/CHAPTERS_INDEX
-      </div>
-      
-      <div class="terminal-status">
-        <span class="status-dot"></span>
-        <span>CONNECTED</span>
-      </div>
-    </header>
+    <!-- Matrix Background -->
+    <div class="matrix-bg"></div>
     
-    <!-- Terminal Body -->
-    <main class="terminal-body">
+    <!-- Scanlines -->
+    <div class="scanlines"></div>
+
+    <!-- Main Terminal Container -->
+    <div class="terminal-container">
       
-      <!-- Boot Sequence -->
-      <div class="boot-sequence">
-        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Initializing TGRA Reader System v2.0...</div>
-        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Loading chapter database...</div>
-        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Establishing neural connection...</div>
-        <div class="boot-line"><span class="dim">[</span><span class="info">INFO</span><span class="dim">]</span> Reader profile loaded: <span class="info">ANONYMOUS_USER</span></div>
-        <div class="boot-line"><span class="dim">[</span><span class="success">READY</span><span class="dim">]</span> System ready. Access granted. <span class="success">█</span></div>
-      </div>
+      <!-- Terminal Header Bar -->
+      <header class="terminal-header">
+        <div class="terminal-buttons">
+          <button class="terminal-btn close" onclick="window.location.href='index.html'"></button>
+          <button class="terminal-btn minimize"></button>
+          <button class="terminal-btn maximize"></button>
+        </div>
+        
+        <div class="terminal-title">
+          TGRA://SYSTEM/CHAPTERS_INDEX
+        </div>
+        
+        <div class="terminal-status">
+          <span class="status-dot"></span>
+          <span>CONNECTED</span>
+        </div>
+      </header>
       
-      <!-- ASCII Logo -->
-      <pre class="ascii-logo">
+      <!-- Terminal Body -->
+      <main class="terminal-body">
+        
+        <!-- Boot Sequence -->
+        <div class="boot-sequence">
+          <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Initializing TGRA Reader System v2.0...</div>
+          <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Loading chapter database...</div>
+          <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Establishing neural connection...</div>
+          <div class="boot-line"><span class="dim">[</span><span class="info">INFO</span><span class="dim">]</span> Reader profile loaded: <span class="info">ANONYMOUS_USER</span></div>
+          <div class="boot-line"><span class="dim">[</span><span class="success">READY</span><span class="dim">]</span> System ready. Access granted. <span class="success">█</span></div>
+        </div>
+        
+        <!-- ASCII Logo -->
+        <pre class="ascii-logo">
 ████████╗ ██████╗ ██████╗  █████╗ 
 ╚══██╔══╝██╔════╝ ██╔══██╗██╔══██╗
    ██║   ██║  ███╗██████╔╝███████║
@@ -938,290 +1414,456 @@
    ██║   ╚██████╔╝██║  ██║██║  ██║
    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
    ═══ THE GODS RANK AWAKENING ═══
-      </pre>
-      
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-value">05</div>
-          <div class="stat-label">Chapters</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">03</div>
-          <div class="stat-label">Released</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">26</div>
-          <div class="stat-label">Min Read</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">01</div>
-          <div class="stat-label">Volumes</div>
-        </div>
-      </div>
-      
-      <!-- Command Prompt -->
-      <div class="command-prompt">
-        <span class="prompt-user">reader</span>
-        <span class="prompt-at">@</span>
-        <span class="prompt-host">tgra-server</span>
-        <span class="prompt-symbol">:</span>
-        <span class="prompt-path">~/chapters</span>
-        <span class="prompt-symbol">$</span>
-        <span class="command-text">ls -la --chapters</span>
-      </div>
-      
-      <!-- Volume 1 -->
-      <section class="volume-section">
-        <div class="volume-header">
-          <span class="volume-icon"><i class="fa-solid fa-book-skull"></i></span>
-          <div class="volume-info">
-            <h2 class="volume-title glitch" data-text="Volume 1: The Awakening">Volume 1: The Awakening</h2>
-            <p class="volume-meta">5 chapters • Year 2058-2120 CE • Earth Venta</p>
+        </pre>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value">05</div>
+            <div class="stat-label">Chapters</div>
           </div>
-          <span class="volume-status">ACTIVE</span>
-        </div>
-        
-        <div class="chapter-list" id="chapterList">
-          
-          <!-- Chapter 1 -->
-          <a href="chapters/1-prologue.html" class="chapter-item" data-chapter="1">
-            <div class="chapter-num">
-              01
-              <span>FILE</span>
-            </div>
-            <div class="chapter-info">
-              <h3 class="chapter-title">
-                Prologue: Defiant Stand
-              </h3>
-              <p class="chapter-desc">> "No way in hell..." — Aditya vs Kanasura</p>
-            </div>
-            <div class="chapter-meta-info">
-              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 3 min</span>
-              <span class="chapter-date">Oct 21, 2120</span>
-            </div>
-            <div class="chapter-status">
-              <span class="status-tag read" id="status-1">● READ</span>
-            </div>
-            <i class="fa-solid fa-terminal chapter-arrow"></i>
-          </a>
-          
-          <!-- Chapter 2 -->
-          <a href="chapters/2-epilogue-1.html" class="chapter-item" data-chapter="2">
-            <div class="chapter-num">
-              02
-              <span>FILE</span>
-            </div>
-            <div class="chapter-info">
-              <h3 class="chapter-title">
-                Epilogue I: Tea & Revelations
-              </h3>
-              <p class="chapter-desc">> Armaan meets Abhijeet — Aditya's son seeks truth</p>
-            </div>
-            <div class="chapter-meta-info">
-              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 8 min</span>
-              <span class="chapter-date">The Future</span>
-            </div>
-            <div class="chapter-status">
-              <span class="status-tag unread" id="status-2">○ UNREAD</span>
-            </div>
-            <i class="fa-solid fa-terminal chapter-arrow"></i>
-          </a>
-          
-          <!-- Chapter 3 -->
-          <a href="chapters/3-the-day-hell-opened.html" class="chapter-item" data-chapter="3">
-            <div class="chapter-num">
-              03
-              <span>FILE</span>
-            </div>
-            <div class="chapter-info">
-              <h3 class="chapter-title">
-                The Day Hell Opened
-                <span class="new-badge">NEW</span>
-              </h3>
-              <p class="chapter-desc">> 40 years of research. One portal. Hell awaits.</p>
-            </div>
-            <div class="chapter-meta-info">
-              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 15 min</span>
-              <span class="chapter-date">Year 2098</span>
-            </div>
-            <div class="chapter-status">
-              <span class="status-tag unread" id="status-3">○ UNREAD</span>
-            </div>
-            <i class="fa-solid fa-terminal chapter-arrow"></i>
-          </a>
-          
-          <!-- Chapter 4 -->
-          <a href="chapters/4-awakening-the-ancients.html" class="chapter-item" data-chapter="4">
-            <div class="chapter-num">
-              04
-              <span>FILE</span>
-            </div>
-            <div class="chapter-info">
-              <h3 class="chapter-title">
-                Awakening the Ancients
-              </h3>
-              <p class="chapter-desc">> Shadows of Patala stir... [WORK IN PROGRESS]</p>
-            </div>
-            <div class="chapter-meta-info">
-              <span class="chapter-time"><i class="fa-solid fa-hammer"></i> WIP</span>
-              <span class="chapter-date">Coming Soon</span>
-            </div>
-            <div class="chapter-status">
-              <span class="status-tag wip" id="status-4">◐ WIP</span>
-            </div>
-            <i class="fa-solid fa-terminal chapter-arrow"></i>
-          </a>
-          
-          <!-- Chapter 5 -->
-          <a href="chapters/5-coming-soon.html" class="chapter-item" data-chapter="5">
-            <div class="chapter-num">
-              05
-              <span>FILE</span>
-            </div>
-            <div class="chapter-info">
-              <h3 class="chapter-title">
-                Chapter 5
-              </h3>
-              <p class="chapter-desc">> [ENCRYPTED] — Awaiting data upload...</p>
-            </div>
-            <div class="chapter-meta-info">
-              <span class="chapter-time"><i class="fa-solid fa-lock"></i> ???</span>
-              <span class="chapter-date">TBA</span>
-            </div>
-            <div class="chapter-status">
-              <span class="status-tag locked" id="status-5">◯ LOCKED</span>
-            </div>
-            <i class="fa-solid fa-terminal chapter-arrow"></i>
-          </a>
-          
-        </div>
-      </section>
-      
-      <!-- Volume 2 - Locked -->
-      <section class="volume-section volume-locked">
-        <div class="volume-header">
-          <span class="volume-icon"><i class="fa-solid fa-lock"></i></span>
-          <div class="volume-info">
-            <h2 class="volume-title">Volume 2: [CLASSIFIED]</h2>
-            <p class="volume-meta">??? chapters • Access Denied</p>
+          <div class="stat-box">
+            <div class="stat-value">03</div>
+            <div class="stat-label">Released</div>
           </div>
-          <span class="volume-status">LOCKED</span>
+          <div class="stat-box">
+            <div class="stat-value">26</div>
+            <div class="stat-label">Min Read</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value">01</div>
+            <div class="stat-label">Volumes</div>
+          </div>
         </div>
         
-        <div class="locked-message">
-          <i class="fa-solid fa-shield-halved"></i>
-          <p>// ACCESS DENIED — CLEARANCE LEVEL INSUFFICIENT</p>
-          <p>// Complete Volume 1 to unlock access...</p>
-        </div>
-      </section>
-      
-      <!-- Reading Progress -->
-      <div class="reading-progress-section">
-        <div class="progress-header">
-          <span class="progress-label">VOLUME 1 COMPLETION</span>
-          <span class="progress-value" id="progressPercent">20%</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
-        </div>
-      </div>
-      
-      <!-- Footer Commands -->
-      <footer class="terminal-footer">
-        <div class="footer-commands">
-          <a href="index.html" class="cmd-btn">
-            <i class="fa-solid fa-house"></i>
-            cd ~/home
-            <span class="key">H</span>
-          </a>
-          <a href="chapters/1-prologue.html" class="cmd-btn">
-            <i class="fa-solid fa-play"></i>
-            ./start_reading.sh
-            <span class="key">S</span>
-          </a>
-          <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cmd-btn">
-            <i class="fa-solid fa-users"></i>
-            cat characters.json
-            <span class="key">C</span>
-          </a>
-          <button class="cmd-btn" id="themeToggle">
-            <i class="fa-solid fa-moon" id="themeIcon"></i>
-            toggle_theme
-            <span class="key">T</span>
-          </button>
-        </div>
-        
-        <div class="command-prompt" style="margin-top: 20px; opacity: 0.5;">
-          <span class="prompt-user">system</span>
+        <!-- Command Prompt -->
+        <div class="command-prompt">
+          <span class="prompt-user">reader</span>
           <span class="prompt-at">@</span>
-          <span class="prompt-host">tgra</span>
+          <span class="prompt-host">tgra-server</span>
           <span class="prompt-symbol">:</span>
-          <span class="prompt-path">~</span>
+          <span class="prompt-path">~/chapters</span>
           <span class="prompt-symbol">$</span>
-          <span style="color: var(--text-dim);">Awaiting input... █</span>
+          <span class="command-text">ls -la --chapters</span>
         </div>
-      </footer>
+        
+        <!-- Volume 1 -->
+        <section class="volume-section">
+          <div class="volume-header">
+            <span class="volume-icon"><i class="fa-solid fa-book-skull"></i></span>
+            <div class="volume-info">
+              <h2 class="volume-title glitch" data-text="Volume 1: The Awakening">Volume 1: The Awakening</h2>
+              <p class="volume-meta">5 chapters • Year 2058-2120 CE • Earth Venta</p>
+            </div>
+            <span class="volume-status">ACTIVE</span>
+          </div>
+          
+          <div class="chapter-list" id="chapterList">
+            
+            <!-- Chapter 1 -->
+            <a href="chapters/1-prologue.html" class="chapter-item" data-chapter="1">
+              <div class="chapter-num">
+                01
+                <span>FILE</span>
+              </div>
+              <div class="chapter-info">
+                <h3 class="chapter-title">
+                  Prologue: Defiant Stand
+                </h3>
+                <p class="chapter-desc">> "No way in hell..." — Aditya vs Kanasura</p>
+              </div>
+              <div class="chapter-meta-info">
+                <span class="chapter-time"><i class="fa-regular fa-clock"></i> 3 min</span>
+                <span class="chapter-date">Oct 21, 2120</span>
+              </div>
+              <div class="chapter-status">
+                <span class="status-tag read" id="status-1">● READ</span>
+              </div>
+              <i class="fa-solid fa-terminal chapter-arrow"></i>
+            </a>
+            
+            <!-- Chapter 2 -->
+            <a href="chapters/2-epilogue-1.html" class="chapter-item" data-chapter="2">
+              <div class="chapter-num">
+                02
+                <span>FILE</span>
+              </div>
+              <div class="chapter-info">
+                <h3 class="chapter-title">
+                  Epilogue I: Tea & Revelations
+                </h3>
+                <p class="chapter-desc">> Armaan meets Abhijeet — Aditya's son seeks truth</p>
+              </div>
+              <div class="chapter-meta-info">
+                <span class="chapter-time"><i class="fa-regular fa-clock"></i> 8 min</span>
+                <span class="chapter-date">The Future</span>
+              </div>
+              <div class="chapter-status">
+                <span class="status-tag unread" id="status-2">○ UNREAD</span>
+              </div>
+              <i class="fa-solid fa-terminal chapter-arrow"></i>
+            </a>
+            
+            <!-- Chapter 3 -->
+            <a href="chapters/3-the-day-hell-opened.html" class="chapter-item" data-chapter="3">
+              <div class="chapter-num">
+                03
+                <span>FILE</span>
+              </div>
+              <div class="chapter-info">
+                <h3 class="chapter-title">
+                  The Day Hell Opened
+                  <span class="new-badge">NEW</span>
+                </h3>
+                <p class="chapter-desc">> 40 years of research. One portal. Hell awaits.</p>
+              </div>
+              <div class="chapter-meta-info">
+                <span class="chapter-time"><i class="fa-regular fa-clock"></i> 15 min</span>
+                <span class="chapter-date">Year 2098</span>
+              </div>
+              <div class="chapter-status">
+                <span class="status-tag unread" id="status-3">○ UNREAD</span>
+              </div>
+              <i class="fa-solid fa-terminal chapter-arrow"></i>
+            </a>
+            
+            <!-- Chapter 4 -->
+            <a href="chapters/4-awakening-the-ancients.html" class="chapter-item" data-chapter="4">
+              <div class="chapter-num">
+                04
+                <span>FILE</span>
+              </div>
+              <div class="chapter-info">
+                <h3 class="chapter-title">
+                  Awakening the Ancients
+                </h3>
+                <p class="chapter-desc">> Shadows of Patala stir... [WORK IN PROGRESS]</p>
+              </div>
+              <div class="chapter-meta-info">
+                <span class="chapter-time"><i class="fa-solid fa-hammer"></i> WIP</span>
+                <span class="chapter-date">Coming Soon</span>
+              </div>
+              <div class="chapter-status">
+                <span class="status-tag wip" id="status-4">◐ WIP</span>
+              </div>
+              <i class="fa-solid fa-terminal chapter-arrow"></i>
+            </a>
+            
+            <!-- Chapter 5 -->
+            <a href="chapters/5-coming-soon.html" class="chapter-item" data-chapter="5">
+              <div class="chapter-num">
+                05
+                <span>FILE</span>
+              </div>
+              <div class="chapter-info">
+                <h3 class="chapter-title">
+                  Chapter 5
+                </h3>
+                <p class="chapter-desc">> [ENCRYPTED] — Awaiting data upload...</p>
+              </div>
+              <div class="chapter-meta-info">
+                <span class="chapter-time"><i class="fa-solid fa-lock"></i> ???</span>
+                <span class="chapter-date">TBA</span>
+              </div>
+              <div class="chapter-status">
+                <span class="status-tag locked" id="status-5">◯ LOCKED</span>
+              </div>
+              <i class="fa-solid fa-terminal chapter-arrow"></i>
+            </a>
+            
+          </div>
+        </section>
+        
+        <!-- Volume 2 - Locked -->
+        <section class="volume-section volume-locked">
+          <div class="volume-header">
+            <span class="volume-icon"><i class="fa-solid fa-lock"></i></span>
+            <div class="volume-info">
+              <h2 class="volume-title">Volume 2: [CLASSIFIED]</h2>
+              <p class="volume-meta">??? chapters • Access Denied</p>
+            </div>
+            <span class="volume-status">LOCKED</span>
+          </div>
+          
+          <div class="locked-message">
+            <i class="fa-solid fa-shield-halved"></i>
+            <p>// ACCESS DENIED — CLEARANCE LEVEL INSUFFICIENT</p>
+            <p>// Complete Volume 1 to unlock access...</p>
+          </div>
+        </section>
+        
+        <!-- Reading Progress -->
+        <div class="reading-progress-section">
+          <div class="progress-header">
+            <span class="progress-label">VOLUME 1 COMPLETION</span>
+            <span class="progress-value" id="progressPercent">20%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
+          </div>
+        </div>
+        
+        <!-- Footer Commands -->
+        <footer class="terminal-footer">
+          <div class="footer-commands">
+            <a href="index.html" class="cmd-btn">
+              <i class="fa-solid fa-house"></i>
+              cd ~/home
+              <span class="key">H</span>
+            </a>
+            <a href="chapters/1-prologue.html" class="cmd-btn">
+              <i class="fa-solid fa-play"></i>
+              ./start_reading.sh
+              <span class="key">S</span>
+            </a>
+            <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cmd-btn">
+              <i class="fa-solid fa-users"></i>
+              cat characters.json
+              <span class="key">C</span>
+            </a>
+            <button class="cmd-btn" id="themeToggle">
+              <i class="fa-solid fa-sun" id="themeIcon"></i>
+              toggle_theme
+              <span class="key">T</span>
+            </button>
+          </div>
+          
+          <div class="command-prompt" style="margin-top: 20px; opacity: 0.5;">
+            <span class="prompt-user">system</span>
+            <span class="prompt-at">@</span>
+            <span class="prompt-host">tgra</span>
+            <span class="prompt-symbol">:</span>
+            <span class="prompt-path">~</span>
+            <span class="prompt-symbol">$</span>
+            <span style="color: var(--text-dim);">Awaiting input... █</span>
+          </div>
+        </footer>
+        
+      </main>
       
-    </main>
+    </div>
+
+    <!-- Floating Dock -->
+    <nav class="floating-dock">
+      <a href="index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+      <a href="toc.html" class="dock-icon active" title="Chapters"><i class="fa-solid fa-list"></i></a>
+      <a href="chapters/1-prologue.html" class="dock-icon" title="Start Reading"><i class="fa-solid fa-book-open"></i></a>
+      <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Characters"><i class="fa-solid fa-users"></i></a>
+    </nav>
     
   </div>
 
-  <!-- Floating Dock -->
-  <nav class="floating-dock">
-    <a href="index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
-    <a href="toc.html" class="dock-icon active" title="Chapters"><i class="fa-solid fa-list"></i></a>
-    <a href="chapters/1-prologue.html" class="dock-icon" title="Start Reading"><i class="fa-solid fa-book-open"></i></a>
-    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Characters"><i class="fa-solid fa-users"></i></a>
-  </nav>
-
   <script>
     // ===================================================
-    // TERMINAL TOC FUNCTIONALITY
+    // HACKER LOADER + TOC FUNCTIONALITY
     // ===================================================
     
     document.addEventListener('DOMContentLoaded', () => {
       
-      // Theme Toggle
+      // ===============================================
+      // ELEMENTS
+      // ===============================================
+      
+      const hackerLoader = document.getElementById('hackerLoader');
+      const mainContent = document.getElementById('mainContent');
+      const musicPrompt = document.getElementById('musicPrompt');
+      const musicYes = document.getElementById('musicYes');
+      const musicNo = document.getElementById('musicNo');
+      const musicToggle = document.getElementById('musicToggle');
+      const musicToggleIcon = document.getElementById('musicToggleIcon');
+      const themeAudio = document.getElementById('themeAudio');
       const themeToggle = document.getElementById('themeToggle');
       const themeIcon = document.getElementById('themeIcon');
       
-      // Check saved theme
-      if (localStorage.getItem('theme') === 'light') {
-        document.body.style.setProperty('--bg-dark', '#f0f0f0');
-        document.body.style.setProperty('--bg-darker', '#ffffff');
-        document.body.style.setProperty('--terminal-green', '#00aa00');
-        document.body.style.setProperty('--text-medium', '#006600');
-        document.body.style.color = '#00aa00';
+      let musicEnabled = localStorage.getItem('musicEnabled') === 'true';
+      
+      // ===============================================
+      // DARK MODE BY DEFAULT FOR TOC
+      // Uses separate storage key: 'tocTheme'
+      // ===============================================
+      
+      const tocTheme = localStorage.getItem('tocTheme');
+      
+      // Default to DARK if no preference saved
+      if (tocTheme === 'light') {
+        document.body.classList.add('light-mode');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        // Dark mode is default - no class needed
+        document.body.classList.remove('light-mode');
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
       }
       
-      themeToggle?.addEventListener('click', () => {
-        const isDark = getComputedStyle(document.body).getPropertyValue('--bg-dark').trim() === '#0a0a0f';
-        
-        if (isDark) {
-          document.body.style.setProperty('--bg-dark', '#f0f0f0');
-          document.body.style.setProperty('--bg-darker', '#ffffff');
-          document.body.style.setProperty('--terminal-green', '#00aa00');
-          document.body.style.setProperty('--text-medium', '#006600');
-          document.body.style.color = '#00aa00';
-          themeIcon.classList.remove('fa-moon');
-          themeIcon.classList.add('fa-sun');
-          localStorage.setItem('theme', 'light');
+      // ===============================================
+      // BOOT SEQUENCE ANIMATION
+      // ===============================================
+      
+      const bootLines = [
+        'boot1', 'boot2', 'boot3', 'boot4', 
+        'boot5', 'boot6', 'boot7', 'boot8'
+      ];
+      
+      let currentBoot = 0;
+      
+      function showNextBoot() {
+        if (currentBoot < bootLines.length) {
+          const line = document.getElementById(bootLines[currentBoot]);
+          if (line) {
+            line.classList.add('visible');
+          }
+          currentBoot++;
+          setTimeout(showNextBoot, 300 + Math.random() * 200);
         } else {
-          document.body.style.setProperty('--bg-dark', '#0a0a0f');
-          document.body.style.setProperty('--bg-darker', '#050508');
-          document.body.style.setProperty('--terminal-green', '#00ff41');
-          document.body.style.setProperty('--text-medium', '#00aa2a');
-          document.body.style.color = '#00ff41';
-          themeIcon.classList.remove('fa-sun');
-          themeIcon.classList.add('fa-moon');
-          localStorage.setItem('theme', 'dark');
+          // Show progress bar
+          showProgressBar();
+        }
+      }
+      
+      function showProgressBar() {
+        const progressSection = document.getElementById('loaderProgress');
+        const progressFill = document.getElementById('progressFillLoader');
+        const progressText = document.getElementById('progressText');
+        
+        progressSection.style.display = 'block';
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 15 + 5;
+          if (progress > 100) progress = 100;
+          
+          progressFill.style.width = progress + '%';
+          progressText.textContent = Math.round(progress) + '%';
+          
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(showAsciiAndPrompt, 500);
+          }
+        }, 200);
+      }
+      
+      function showAsciiAndPrompt() {
+        // Show ASCII logo
+        const ascii = document.getElementById('loaderAscii');
+        ascii.classList.add('visible');
+        
+        // Show system ready
+        setTimeout(() => {
+          document.getElementById('boot9').classList.add('visible');
+        }, 300);
+        
+        // Show music prompt
+        setTimeout(() => {
+          musicPrompt.classList.add('visible');
+        }, 800);
+      }
+      
+      // Start boot sequence
+      setTimeout(showNextBoot, 500);
+      
+      // ===============================================
+      // MUSIC CONTROLS
+      // ===============================================
+      
+      function proceedToMain() {
+        hackerLoader.classList.add('hidden');
+        mainContent.classList.add('loaded');
+        musicToggle.classList.add('visible');
+        
+        // Update music toggle icon
+        if (musicEnabled) {
+          musicToggleIcon.classList.remove('fa-volume-xmark');
+          musicToggleIcon.classList.add('fa-volume-high');
+          musicToggle.classList.add('playing');
+        }
+      }
+      
+      musicYes?.addEventListener('click', () => {
+        musicEnabled = true;
+        localStorage.setItem('musicEnabled', 'true');
+        
+        if (themeAudio) {
+          themeAudio.volume = 0.5;
+          themeAudio.play().catch(e => console.log('Audio blocked:', e));
+        }
+        
+        proceedToMain();
+      });
+      
+      musicNo?.addEventListener('click', () => {
+        musicEnabled = false;
+        localStorage.setItem('musicEnabled', 'false');
+        proceedToMain();
+      });
+      
+      // Floating music toggle
+      musicToggle?.addEventListener('click', () => {
+        if (musicEnabled) {
+          themeAudio?.pause();
+          musicEnabled = false;
+          musicToggle.classList.remove('playing');
+          musicToggleIcon.classList.remove('fa-volume-high');
+          musicToggleIcon.classList.add('fa-volume-xmark');
+          localStorage.setItem('musicEnabled', 'false');
+        } else {
+          themeAudio?.play().catch(e => console.log('Audio blocked:', e));
+          musicEnabled = true;
+          musicToggle.classList.add('playing');
+          musicToggleIcon.classList.remove('fa-volume-xmark');
+          musicToggleIcon.classList.add('fa-volume-high');
+          localStorage.setItem('musicEnabled', 'true');
         }
       });
       
-      // Mark read chapters
+      // ===============================================
+      // THEME TOGGLE (Independent for TOC)
+      // ===============================================
+      
+      themeToggle?.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        
+        if (document.body.classList.contains('light-mode')) {
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+          localStorage.setItem('tocTheme', 'light');
+        } else {
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+          localStorage.setItem('tocTheme', 'dark');
+        }
+      });
+      
+      // ===============================================
+      // KEYBOARD SHORTCUTS
+      // ===============================================
+      
+      document.addEventListener('keydown', (e) => {
+        const key = e.key.toLowerCase();
+        
+        // During loader
+        if (!hackerLoader.classList.contains('hidden')) {
+          if (key === 'y' && musicPrompt.classList.contains('visible')) {
+            musicYes?.click();
+          }
+          if (key === 'n' && musicPrompt.classList.contains('visible')) {
+            musicNo?.click();
+          }
+          return;
+        }
+        
+        // After loader
+        if (key === 'h') window.location.href = 'index.html';
+        if (key === 's') window.location.href = 'chapters/1-prologue.html';
+        if (key === 'c') window.location.href = 'https://thunder2700c.github.io/TGRA-Character-Introduction/';
+        if (key === 't') themeToggle?.click();
+        if (key === 'm') musicToggle?.click();
+      });
+      
+      // ===============================================
+      // CHAPTER READ STATUS
+      // ===============================================
+      
       const lastChapter = localStorage.getItem('lastChapter');
       if (lastChapter) {
         const data = JSON.parse(lastChapter);
@@ -1240,15 +1882,7 @@
         document.getElementById('progressFill').style.width = progress + '%';
       }
       
-      // Keyboard shortcuts
-      document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'h') window.location.href = 'index.html';
-        if (e.key.toLowerCase() === 's') window.location.href = 'chapters/1-prologue.html';
-        if (e.key.toLowerCase() === 'c') window.location.href = 'https://thunder2700c.github.io/TGRA-Character-Introduction/';
-        if (e.key.toLowerCase() === 't') themeToggle?.click();
-      });
-      
-      // Chapter item click tracking
+      // Track chapter clicks
       document.querySelectorAll('.chapter-item').forEach(item => {
         item.addEventListener('click', () => {
           const chapterId = parseInt(item.dataset.chapter);
