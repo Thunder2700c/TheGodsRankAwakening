@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TGRA://CHAPTERS_INDEX</title>
+  
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Access all chapters of The Gods Rank Awakening">
+  <meta name="theme-color" content="#0a0a0f">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ===================================================
+       HACKER TERMINAL THEME - TABLE OF CONTENTS
+       =================================================== */
+    
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --terminal-green: #00ff41;
+      --terminal-cyan: #00d4ff;
+      --terminal-purple: #bf00ff;
+      --terminal-red: #ff0040;
+      --terminal-yellow: #ffcc00;
+      --terminal-orange: #ff6600;
+      --text-dim: #0a4a1f;
+      --text-medium: #00aa2a;
+      --border-glow: rgba(0, 255, 65, 0.3);
+      --scanline: rgba(0, 255, 65, 0.03);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-dark);
+      color: var(--terminal-green);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* ===================================================
+       MATRIX RAIN BACKGROUND
+       =================================================== */
+    
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.15;
+      pointer-events: none;
+      background: 
+        linear-gradient(180deg, 
+          transparent 0%, 
+          var(--bg-dark) 50%, 
+          transparent 100%
+        );
+    }
+    
+    .matrix-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='30'%3E%3Ctext x='0' y='20' fill='%2300ff41' font-family='monospace' font-size='14'%3E0%3C/text%3E%3C/svg%3E");
+      animation: matrixFall 20s linear infinite;
+    }
+    
+    @keyframes matrixFall {
+      0% { background-position: 0 -100vh; }
+      100% { background-position: 0 100vh; }
+    }
+    
+    /* ===================================================
+       SCANLINES OVERLAY
+       =================================================== */
+    
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        var(--scanline) 2px,
+        var(--scanline) 4px
+      );
+    }
+    
+    /* CRT Flicker */
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 255, 65, 0.01);
+      animation: flicker 0.15s infinite;
+    }
+    
+    @keyframes flicker {
+      0%, 100% { opacity: 0.97; }
+      50% { opacity: 1; }
+    }
+    
+    /* ===================================================
+       MAIN CONTAINER
+       =================================================== */
+    
+    .terminal-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    /* ===================================================
+       TERMINAL HEADER
+       =================================================== */
+    
+    .terminal-header {
+      background: var(--bg-darker);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px 12px 0 0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      box-shadow: 
+        0 0 20px rgba(0, 255, 65, 0.1),
+        inset 0 1px 0 rgba(0, 255, 65, 0.1);
+    }
+    
+    .terminal-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .terminal-btn {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .terminal-btn.close { background: #ff5f57; }
+    .terminal-btn.minimize { background: #ffbd2e; }
+    .terminal-btn.maximize { background: #28ca42; }
+    
+    .terminal-btn:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px currentColor;
+    }
+    
+    .terminal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      color: var(--terminal-cyan);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    
+    .terminal-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--terminal-green);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 10px var(--terminal-green);
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    
+    /* ===================================================
+       TERMINAL BODY
+       =================================================== */
+    
+    .terminal-body {
+      background: var(--bg-darker);
+      border: 1px solid var(--border-glow);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 30px;
+      min-height: 70vh;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(0, 255, 65, 0.05);
+    }
+    
+    /* ===================================================
+       BOOT SEQUENCE
+       =================================================== */
+    
+    .boot-sequence {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--text-dim);
+    }
+    
+    .boot-line {
+      font-size: 0.8rem;
+      margin-bottom: 5px;
+      opacity: 0;
+      animation: typeIn 0.5s forwards;
+    }
+    
+    .boot-line:nth-child(1) { animation-delay: 0.1s; }
+    .boot-line:nth-child(2) { animation-delay: 0.3s; }
+    .boot-line:nth-child(3) { animation-delay: 0.5s; }
+    .boot-line:nth-child(4) { animation-delay: 0.7s; }
+    .boot-line:nth-child(5) { animation-delay: 0.9s; }
+    
+    @keyframes typeIn {
+      0% { opacity: 0; transform: translateX(-10px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+    
+    .boot-line .success { color: var(--terminal-green); }
+    .boot-line .warning { color: var(--terminal-yellow); }
+    .boot-line .info { color: var(--terminal-cyan); }
+    .boot-line .error { color: var(--terminal-red); }
+    .boot-line .dim { color: var(--text-medium); }
+    
+    /* ===================================================
+       ASCII LOGO
+       =================================================== */
+    
+    .ascii-logo {
+      font-size: 0.5rem;
+      line-height: 1.2;
+      color: var(--terminal-cyan);
+      text-align: center;
+      margin: 20px 0 30px;
+      text-shadow: 0 0 10px var(--terminal-cyan);
+      white-space: pre;
+      overflow-x: auto;
+    }
+    
+    /* ===================================================
+       STATS GRID
+       =================================================== */
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-box {
+      background: rgba(0, 255, 65, 0.03);
+      border: 1px solid var(--border-glow);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-box:hover {
+      background: rgba(0, 255, 65, 0.08);
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--terminal-green);
+      text-shadow: 0 0 20px var(--terminal-green);
+    }
+    
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-medium);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 5px;
+    }
+    
+    /* ===================================================
+       COMMAND PROMPT
+       =================================================== */
+    
+    .command-prompt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .prompt-user { color: var(--terminal-cyan); }
+    .prompt-at { color: var(--text-medium); }
+    .prompt-host { color: var(--terminal-purple); }
+    .prompt-path { color: var(--terminal-green); }
+    .prompt-symbol { color: var(--terminal-red); }
+    
+    .command-text {
+      color: #fff;
+      animation: blink-cursor 1s infinite;
+    }
+    
+    @keyframes blink-cursor {
+      0%, 50% { border-right: 2px solid var(--terminal-green); }
+      51%, 100% { border-right: 2px solid transparent; }
+    }
+    
+    /* ===================================================
+       VOLUME SECTION
+       =================================================== */
+    
+    .volume-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 30px 0 20px;
+      padding: 15px;
+      background: linear-gradient(90deg, rgba(0, 255, 65, 0.1), transparent);
+      border-left: 3px solid var(--terminal-green);
+    }
+    
+    .volume-icon {
+      font-size: 1.5rem;
+      color: var(--terminal-green);
+      text-shadow: 0 0 15px var(--terminal-green);
+    }
+    
+    .volume-info {
+      flex: 1;
+    }
+    
+    .volume-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--terminal-green);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .volume-meta {
+      font-size: 0.75rem;
+      color: var(--text-medium);
+      margin-top: 3px;
+    }
+    
+    .volume-status {
+      padding: 5px 12px;
+      background: rgba(0, 255, 65, 0.1);
+      border: 1px solid var(--terminal-green);
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: var(--terminal-green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* ===================================================
+       CHAPTER LIST
+       =================================================== */
+    
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .chapter-item {
+      display: grid;
+      grid-template-columns: 60px 1fr auto auto;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .chapter-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 255, 65, 0.1),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+    
+    .chapter-item:hover::before {
+      left: 100%;
+    }
+    
+    .chapter-item:hover {
+      background: rgba(0, 255, 65, 0.05);
+      border-color: var(--border-glow);
+      transform: translateX(10px);
+      box-shadow: 
+        0 0 30px rgba(0, 255, 65, 0.1),
+        -5px 0 20px rgba(0, 255, 65, 0.2);
+    }
+    
+    /* Chapter Number */
+    .chapter-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--terminal-cyan);
+      text-shadow: 0 0 10px var(--terminal-cyan);
+      text-align: center;
+    }
+    
+    .chapter-num span {
+      display: block;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+    
+    /* Chapter Info */
+    .chapter-info {
+      min-width: 0;
+    }
+    
+    .chapter-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--terminal-green);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .chapter-title .new-badge {
+      padding: 2px 8px;
+      background: var(--terminal-red);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: glow-pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes glow-pulse {
+      0%, 100% { box-shadow: 0 0 5px var(--terminal-red); }
+      50% { box-shadow: 0 0 20px var(--terminal-red); }
+    }
+    
+    .chapter-desc {
+      font-size: 0.8rem;
+      color: var(--text-medium);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Chapter Meta */
+    .chapter-meta-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      font-size: 0.75rem;
+    }
+    
+    .chapter-time {
+      color: var(--terminal-cyan);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .chapter-date {
+      color: var(--text-dim);
+    }
+    
+    /* Chapter Status */
+    .chapter-status {
+      width: 100px;
+      text-align: center;
+    }
+    
+    .status-tag {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .status-tag.read {
+      background: rgba(0, 255, 65, 0.1);
+      color: var(--terminal-green);
+      border: 1px solid var(--terminal-green);
+    }
+    
+    .status-tag.unread {
+      background: rgba(0, 212, 255, 0.1);
+      color: var(--terminal-cyan);
+      border: 1px solid var(--terminal-cyan);
+    }
+    
+    .status-tag.wip {
+      background: rgba(255, 102, 0, 0.1);
+      color: var(--terminal-orange);
+      border: 1px solid var(--terminal-orange);
+    }
+    
+    .status-tag.locked {
+      background: rgba(255, 0, 64, 0.1);
+      color: var(--terminal-red);
+      border: 1px solid var(--terminal-red);
+    }
+    
+    /* Access Arrow */
+    .chapter-arrow {
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+    
+    .chapter-item:hover .chapter-arrow {
+      color: var(--terminal-green);
+      transform: translateX(5px);
+      text-shadow: 0 0 10px var(--terminal-green);
+    }
+    
+    /* ===================================================
+       LOCKED VOLUME
+       =================================================== */
+    
+    .volume-locked {
+      opacity: 0.5;
+    }
+    
+    .volume-locked .volume-header {
+      border-left-color: var(--terminal-red);
+      background: linear-gradient(90deg, rgba(255, 0, 64, 0.1), transparent);
+    }
+    
+    .volume-locked .volume-icon,
+    .volume-locked .volume-title {
+      color: var(--terminal-red);
+      text-shadow: 0 0 15px var(--terminal-red);
+    }
+    
+    .volume-locked .volume-status {
+      background: rgba(255, 0, 64, 0.1);
+      border-color: var(--terminal-red);
+      color: var(--terminal-red);
+    }
+    
+    .locked-message {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+    
+    .locked-message i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+      color: var(--terminal-red);
+    }
+    
+    /* ===================================================
+       FOOTER COMMANDS
+       =================================================== */
+    
+    .terminal-footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--text-dim);
+    }
+    
+    .footer-commands {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .cmd-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--border-glow);
+      border-radius: 6px;
+      color: var(--terminal-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .cmd-btn:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .cmd-btn i {
+      color: var(--terminal-cyan);
+    }
+    
+    .cmd-btn .key {
+      padding: 2px 6px;
+      background: rgba(0, 255, 65, 0.1);
+      border-radius: 3px;
+      font-size: 0.7rem;
+      color: var(--text-medium);
+    }
+    
+    /* ===================================================
+       PROGRESS BAR
+       =================================================== */
+    
+    .reading-progress-section {
+      margin-top: 30px;
+    }
+    
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+    
+    .progress-label {
+      color: var(--text-medium);
+    }
+    
+    .progress-value {
+      color: var(--terminal-green);
+      font-weight: 700;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-glow);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--terminal-green), var(--terminal-cyan));
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--terminal-green);
+      transition: width 0.5s ease;
+    }
+    
+    /* ===================================================
+       FLOATING DOCK
+       =================================================== */
+    
+    .floating-dock {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      padding: 12px 20px;
+      background: rgba(10, 10, 15, 0.95);
+      border: 1px solid var(--border-glow);
+      border-radius: 50px;
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 255, 65, 0.1);
+    }
+    
+    .dock-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-medium);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .dock-icon:hover {
+      color: var(--terminal-green);
+      background: rgba(0, 255, 65, 0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0, 255, 65, 0.3);
+    }
+    
+    .dock-icon.active {
+      color: var(--terminal-green);
+      text-shadow: 0 0 10px var(--terminal-green);
+    }
+    
+    .dock-icon.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      width: 5px;
+      height: 5px;
+      background: var(--terminal-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--terminal-green);
+    }
+    
+    /* ===================================================
+       GLITCH TEXT EFFECT
+       =================================================== */
+    
+    .glitch {
+      position: relative;
+    }
+    
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .glitch::before {
+      color: var(--terminal-cyan);
+      animation: glitch-1 2s infinite linear alternate-reverse;
+      clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    }
+    
+    .glitch::after {
+      color: var(--terminal-red);
+      animation: glitch-2 3s infinite linear alternate-reverse;
+      clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    }
+    
+    @keyframes glitch-1 {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-2px); }
+      40% { transform: translateX(2px); }
+      60% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+    }
+    
+    @keyframes glitch-2 {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(2px); }
+      40% { transform: translateX(-2px); }
+      60% { transform: translateX(1px); }
+      80% { transform: translateX(-1px); }
+    }
+    
+    /* ===================================================
+       RESPONSIVE
+       =================================================== */
+    
+    @media (max-width: 768px) {
+      .terminal-container {
+        padding: 10px;
+      }
+      
+      .terminal-body {
+        padding: 20px 15px;
+      }
+      
+      .terminal-title {
+        font-size: 0.7rem;
+      }
+      
+      .ascii-logo {
+        font-size: 0.35rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .chapter-item {
+        grid-template-columns: 50px 1fr;
+        grid-template-rows: auto auto;
+        gap: 10px;
+        padding: 15px;
+      }
+      
+      .chapter-meta-info {
+        grid-column: 2;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      
+      .chapter-status {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+      
+      .chapter-arrow {
+        display: none;
+      }
+      
+      .footer-commands {
+        flex-direction: column;
+      }
+      
+      .cmd-btn {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .stat-value {
+        font-size: 1.5rem;
+      }
+      
+      .volume-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .volume-status {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Matrix Background -->
+  <div class="matrix-bg"></div>
+  
+  <!-- Scanlines -->
+  <div class="scanlines"></div>
+
+  <!-- Main Terminal Container -->
+  <div class="terminal-container">
+    
+    <!-- Terminal Header Bar -->
+    <header class="terminal-header">
+      <div class="terminal-buttons">
+        <button class="terminal-btn close" onclick="window.location.href='index.html'"></button>
+        <button class="terminal-btn minimize"></button>
+        <button class="terminal-btn maximize"></button>
+      </div>
+      
+      <div class="terminal-title">
+        TGRA://SYSTEM/CHAPTERS_INDEX
+      </div>
+      
+      <div class="terminal-status">
+        <span class="status-dot"></span>
+        <span>CONNECTED</span>
+      </div>
+    </header>
+    
+    <!-- Terminal Body -->
+    <main class="terminal-body">
+      
+      <!-- Boot Sequence -->
+      <div class="boot-sequence">
+        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Initializing TGRA Reader System v2.0...</div>
+        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Loading chapter database...</div>
+        <div class="boot-line"><span class="dim">[</span><span class="success">OK</span><span class="dim">]</span> Establishing neural connection...</div>
+        <div class="boot-line"><span class="dim">[</span><span class="info">INFO</span><span class="dim">]</span> Reader profile loaded: <span class="info">ANONYMOUS_USER</span></div>
+        <div class="boot-line"><span class="dim">[</span><span class="success">READY</span><span class="dim">]</span> System ready. Access granted. <span class="success">█</span></div>
+      </div>
+      
+      <!-- ASCII Logo -->
+      <pre class="ascii-logo">
+████████╗ ██████╗ ██████╗  █████╗ 
+╚══██╔══╝██╔════╝ ██╔══██╗██╔══██╗
+   ██║   ██║  ███╗██████╔╝███████║
+   ██║   ██║   ██║██╔══██╗██╔══██║
+   ██║   ╚██████╔╝██║  ██║██║  ██║
+   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+   ═══ THE GODS RANK AWAKENING ═══
+      </pre>
+      
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value">05</div>
+          <div class="stat-label">Chapters</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">03</div>
+          <div class="stat-label">Released</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">26</div>
+          <div class="stat-label">Min Read</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">01</div>
+          <div class="stat-label">Volumes</div>
+        </div>
+      </div>
+      
+      <!-- Command Prompt -->
+      <div class="command-prompt">
+        <span class="prompt-user">reader</span>
+        <span class="prompt-at">@</span>
+        <span class="prompt-host">tgra-server</span>
+        <span class="prompt-symbol">:</span>
+        <span class="prompt-path">~/chapters</span>
+        <span class="prompt-symbol">$</span>
+        <span class="command-text">ls -la --chapters</span>
+      </div>
+      
+      <!-- Volume 1 -->
+      <section class="volume-section">
+        <div class="volume-header">
+          <span class="volume-icon"><i class="fa-solid fa-book-skull"></i></span>
+          <div class="volume-info">
+            <h2 class="volume-title glitch" data-text="Volume 1: The Awakening">Volume 1: The Awakening</h2>
+            <p class="volume-meta">5 chapters • Year 2058-2120 CE • Earth Venta</p>
+          </div>
+          <span class="volume-status">ACTIVE</span>
+        </div>
+        
+        <div class="chapter-list" id="chapterList">
+          
+          <!-- Chapter 1 -->
+          <a href="chapters/1-prologue.html" class="chapter-item" data-chapter="1">
+            <div class="chapter-num">
+              01
+              <span>FILE</span>
+            </div>
+            <div class="chapter-info">
+              <h3 class="chapter-title">
+                Prologue: Defiant Stand
+              </h3>
+              <p class="chapter-desc">> "No way in hell..." — Aditya vs Kanasura</p>
+            </div>
+            <div class="chapter-meta-info">
+              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 3 min</span>
+              <span class="chapter-date">Oct 21, 2120</span>
+            </div>
+            <div class="chapter-status">
+              <span class="status-tag read" id="status-1">● READ</span>
+            </div>
+            <i class="fa-solid fa-terminal chapter-arrow"></i>
+          </a>
+          
+          <!-- Chapter 2 -->
+          <a href="chapters/2-epilogue-1.html" class="chapter-item" data-chapter="2">
+            <div class="chapter-num">
+              02
+              <span>FILE</span>
+            </div>
+            <div class="chapter-info">
+              <h3 class="chapter-title">
+                Epilogue I: Tea & Revelations
+              </h3>
+              <p class="chapter-desc">> Armaan meets Abhijeet — Aditya's son seeks truth</p>
+            </div>
+            <div class="chapter-meta-info">
+              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 8 min</span>
+              <span class="chapter-date">The Future</span>
+            </div>
+            <div class="chapter-status">
+              <span class="status-tag unread" id="status-2">○ UNREAD</span>
+            </div>
+            <i class="fa-solid fa-terminal chapter-arrow"></i>
+          </a>
+          
+          <!-- Chapter 3 -->
+          <a href="chapters/3-the-day-hell-opened.html" class="chapter-item" data-chapter="3">
+            <div class="chapter-num">
+              03
+              <span>FILE</span>
+            </div>
+            <div class="chapter-info">
+              <h3 class="chapter-title">
+                The Day Hell Opened
+                <span class="new-badge">NEW</span>
+              </h3>
+              <p class="chapter-desc">> 40 years of research. One portal. Hell awaits.</p>
+            </div>
+            <div class="chapter-meta-info">
+              <span class="chapter-time"><i class="fa-regular fa-clock"></i> 15 min</span>
+              <span class="chapter-date">Year 2098</span>
+            </div>
+            <div class="chapter-status">
+              <span class="status-tag unread" id="status-3">○ UNREAD</span>
+            </div>
+            <i class="fa-solid fa-terminal chapter-arrow"></i>
+          </a>
+          
+          <!-- Chapter 4 -->
+          <a href="chapters/4-awakening-the-ancients.html" class="chapter-item" data-chapter="4">
+            <div class="chapter-num">
+              04
+              <span>FILE</span>
+            </div>
+            <div class="chapter-info">
+              <h3 class="chapter-title">
+                Awakening the Ancients
+              </h3>
+              <p class="chapter-desc">> Shadows of Patala stir... [WORK IN PROGRESS]</p>
+            </div>
+            <div class="chapter-meta-info">
+              <span class="chapter-time"><i class="fa-solid fa-hammer"></i> WIP</span>
+              <span class="chapter-date">Coming Soon</span>
+            </div>
+            <div class="chapter-status">
+              <span class="status-tag wip" id="status-4">◐ WIP</span>
+            </div>
+            <i class="fa-solid fa-terminal chapter-arrow"></i>
+          </a>
+          
+          <!-- Chapter 5 -->
+          <a href="chapters/5-coming-soon.html" class="chapter-item" data-chapter="5">
+            <div class="chapter-num">
+              05
+              <span>FILE</span>
+            </div>
+            <div class="chapter-info">
+              <h3 class="chapter-title">
+                Chapter 5
+              </h3>
+              <p class="chapter-desc">> [ENCRYPTED] — Awaiting data upload...</p>
+            </div>
+            <div class="chapter-meta-info">
+              <span class="chapter-time"><i class="fa-solid fa-lock"></i> ???</span>
+              <span class="chapter-date">TBA</span>
+            </div>
+            <div class="chapter-status">
+              <span class="status-tag locked" id="status-5">◯ LOCKED</span>
+            </div>
+            <i class="fa-solid fa-terminal chapter-arrow"></i>
+          </a>
+          
+        </div>
+      </section>
+      
+      <!-- Volume 2 - Locked -->
+      <section class="volume-section volume-locked">
+        <div class="volume-header">
+          <span class="volume-icon"><i class="fa-solid fa-lock"></i></span>
+          <div class="volume-info">
+            <h2 class="volume-title">Volume 2: [CLASSIFIED]</h2>
+            <p class="volume-meta">??? chapters • Access Denied</p>
+          </div>
+          <span class="volume-status">LOCKED</span>
+        </div>
+        
+        <div class="locked-message">
+          <i class="fa-solid fa-shield-halved"></i>
+          <p>// ACCESS DENIED — CLEARANCE LEVEL INSUFFICIENT</p>
+          <p>// Complete Volume 1 to unlock access...</p>
+        </div>
+      </section>
+      
+      <!-- Reading Progress -->
+      <div class="reading-progress-section">
+        <div class="progress-header">
+          <span class="progress-label">VOLUME 1 COMPLETION</span>
+          <span class="progress-value" id="progressPercent">20%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
+        </div>
+      </div>
+      
+      <!-- Footer Commands -->
+      <footer class="terminal-footer">
+        <div class="footer-commands">
+          <a href="index.html" class="cmd-btn">
+            <i class="fa-solid fa-house"></i>
+            cd ~/home
+            <span class="key">H</span>
+          </a>
+          <a href="chapters/1-prologue.html" class="cmd-btn">
+            <i class="fa-solid fa-play"></i>
+            ./start_reading.sh
+            <span class="key">S</span>
+          </a>
+          <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cmd-btn">
+            <i class="fa-solid fa-users"></i>
+            cat characters.json
+            <span class="key">C</span>
+          </a>
+          <button class="cmd-btn" id="themeToggle">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+            toggle_theme
+            <span class="key">T</span>
+          </button>
+        </div>
+        
+        <div class="command-prompt" style="margin-top: 20px; opacity: 0.5;">
+          <span class="prompt-user">system</span>
+          <span class="prompt-at">@</span>
+          <span class="prompt-host">tgra</span>
+          <span class="prompt-symbol">:</span>
+          <span class="prompt-path">~</span>
+          <span class="prompt-symbol">$</span>
+          <span style="color: var(--text-dim);">Awaiting input... █</span>
+        </div>
+      </footer>
+      
+    </main>
+    
+  </div>
+
+  <!-- Floating Dock -->
+  <nav class="floating-dock">
+    <a href="index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="toc.html" class="dock-icon active" title="Chapters"><i class="fa-solid fa-list"></i></a>
+    <a href="chapters/1-prologue.html" class="dock-icon" title="Start Reading"><i class="fa-solid fa-book-open"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Characters"><i class="fa-solid fa-users"></i></a>
+  </nav>
+
+  <script>
+    // ===================================================
+    // TERMINAL TOC FUNCTIONALITY
+    // ===================================================
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Theme Toggle
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      
+      // Check saved theme
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.style.setProperty('--bg-dark', '#f0f0f0');
+        document.body.style.setProperty('--bg-darker', '#ffffff');
+        document.body.style.setProperty('--terminal-green', '#00aa00');
+        document.body.style.setProperty('--text-medium', '#006600');
+        document.body.style.color = '#00aa00';
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+      
+      themeToggle?.addEventListener('click', () => {
+        const isDark = getComputedStyle(document.body).getPropertyValue('--bg-dark').trim() === '#0a0a0f';
+        
+        if (isDark) {
+          document.body.style.setProperty('--bg-dark', '#f0f0f0');
+          document.body.style.setProperty('--bg-darker', '#ffffff');
+          document.body.style.setProperty('--terminal-green', '#00aa00');
+          document.body.style.setProperty('--text-medium', '#006600');
+          document.body.style.color = '#00aa00';
+          themeIcon.classList.remove('fa-moon');
+          themeIcon.classList.add('fa-sun');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.body.style.setProperty('--bg-dark', '#0a0a0f');
+          document.body.style.setProperty('--bg-darker', '#050508');
+          document.body.style.setProperty('--terminal-green', '#00ff41');
+          document.body.style.setProperty('--text-medium', '#00aa2a');
+          document.body.style.color = '#00ff41';
+          themeIcon.classList.remove('fa-sun');
+          themeIcon.classList.add('fa-moon');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+      
+      // Mark read chapters
+      const lastChapter = localStorage.getItem('lastChapter');
+      if (lastChapter) {
+        const data = JSON.parse(lastChapter);
+        for (let i = 1; i <= data.id; i++) {
+          const status = document.getElementById(`status-${i}`);
+          if (status && !status.classList.contains('wip') && !status.classList.contains('locked')) {
+            status.textContent = '● READ';
+            status.classList.remove('unread');
+            status.classList.add('read');
+          }
+        }
+        
+        // Update progress
+        const progress = Math.round((data.id / 5) * 100);
+        document.getElementById('progressPercent').textContent = progress + '%';
+        document.getElementById('progressFill').style.width = progress + '%';
+      }
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'h') window.location.href = 'index.html';
+        if (e.key.toLowerCase() === 's') window.location.href = 'chapters/1-prologue.html';
+        if (e.key.toLowerCase() === 'c') window.location.href = 'https://thunder2700c.github.io/TGRA-Character-Introduction/';
+        if (e.key.toLowerCase() === 't') themeToggle?.click();
+      });
+      
+      // Chapter item click tracking
+      document.querySelectorAll('.chapter-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const chapterId = parseInt(item.dataset.chapter);
+          const title = item.querySelector('.chapter-title').textContent.trim();
+          localStorage.setItem('lastChapter', JSON.stringify({
+            id: chapterId,
+            title: title,
+            file: item.getAttribute('href').split('/').pop()
+          }));
+        });
+      });
+      
+    });
+  </script>
+
+</body>
+</html>
