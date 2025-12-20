@@ -19,65 +19,183 @@
   
 <body class="homepage">
 
-  <audio id="themeAudio" loop preload="auto">
+  <!-- AUDIO -->
+<audio id="themeAudio" loop preload="auto">
   <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
 </audio>
 
-<div class="music-modal" id="musicModal">
-  <div class="music-modal-content liquid-glass">
-    <div class="music-icon">🎵</div>
-    <h2 class="music-title">Experience the Full Journey?</h2>
-    <p class="music-subtitle">Enable epic theme music for immersion</p>
+<!-- SVG FILTERS FOR GLASS DISTORTION -->
+<svg style="display: none">
+  <defs>
+    <!-- Glass Distortion Filter -->
+    <filter id="glass-distortion">
+      <feTurbulence 
+        id="turbulence"
+        type="turbulence" 
+        baseFrequency="0.015" 
+        numOctaves="3" 
+        result="noise"
+      />
+      <feDisplacementMap 
+        id="displacement"
+        in="SourceGraphic" 
+        in2="noise" 
+        scale="8"
+      />
+    </filter>
     
-    <div class="music-buttons">
-      <button class="music-btn music-yes" id="musicYes">
-        <i class="fa-solid fa-volume-high"></i>
-        Yes, Play
-      </button>
-      <button class="music-btn music-no" id="musicNo">
-        <i class="fa-solid fa-volume-xmark"></i>
-        No Thanks
-      </button>
+    <!-- Progress Ring Gradient -->
+    <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="50%" style="stop-color:#764ba2"/>
+      <stop offset="100%" style="stop-color:#f093fb"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- ===================================================
+     APPLE LIQUID GLASS LOADER
+     =================================================== -->
+<div class="loader-wrapper" id="loaderWrapper">
+  
+  <!-- Animated Background Blobs -->
+  <div class="background-layer" id="backgroundLayer">
+    <div class="color-blob blob-1" id="blob1"></div>
+    <div class="color-blob blob-2" id="blob2"></div>
+    <div class="color-blob blob-3" id="blob3"></div>
+    <div class="color-blob blob-4" id="blob4"></div>
+  </div>
+  
+  <!-- Floating Glass Pills (Decorative) -->
+  <div class="floating-pills" id="floatingPills">
+    <div class="glass-pill pill-1" id="pill1">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
     </div>
-    
-    <small class="music-hint">You can toggle this anytime</small>
+    <div class="glass-pill pill-2" id="pill2">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+    </div>
+    <div class="glass-pill pill-3" id="pill3">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+    </div>
+    <div class="glass-pill pill-4" id="pill4">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+    </div>
+  </div>
+  
+  <!-- Progress Ring -->
+  <div class="progress-ring-wrapper">
+    <svg class="progress-ring" viewBox="0 0 340 340">
+      <circle class="progress-ring-bg" cx="170" cy="170" r="165"/>
+      <circle class="progress-ring-fill" id="progressRing" cx="170" cy="170" r="165"/>
+    </svg>
+  </div>
+  
+  <!-- Main Glass Loader Card -->
+  <div class="glass-loader-container">
+    <div class="glass-loader-card" id="glassLoaderCard">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular" id="mainSpecular"></div>
+      <div class="glass-content">
+        <h1 class="loader-counter" id="loaderCounter">0</h1>
+        <p class="loader-label">Loading</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Brand -->
+  <div class="loader-brand">
+    <div class="brand-glass">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      <div class="glass-content">⚔️</div>
+    </div>
+    <span class="brand-text">TGRA</span>
+  </div>
+  
+</div>
+
+<!-- ===================================================
+     LOGO REVEAL
+     =================================================== -->
+<div class="loader-logo-reveal" id="logoReveal">
+  <div class="logo-background">
+    <div class="logo-blob logo-blob-1" id="logoBlob1"></div>
+    <div class="logo-blob logo-blob-2" id="logoBlob2"></div>
+  </div>
+  <div class="logo-glass-container">
+    <div class="logo-glass-card" id="logoGlassCard">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular" id="logoSpecular"></div>
+      <div class="glass-content">
+        <h1 class="logo-text" id="logoText">TGRA</h1>
+        <p class="logo-subtitle" id="logoSubtitle">The Gods Rank Awakening</p>
+      </div>
+    </div>
   </div>
 </div>
 
-<button class="music-toggle" id="musicToggle" title="Toggle Music">
-  <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
-</button>
-
-   <div class="loader-wrapper" id="loaderWrapper">
-    <h1 class="loader-counter">0</h1>
-    <div class="loader-overlay">
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
-      <div class="loader-bar"></div>
+<!-- ===================================================
+     MUSIC MODAL
+     =================================================== -->
+<div class="music-modal" id="musicModal">
+  <div class="music-modal-bg">
+    <div class="music-blob music-blob-1" id="musicBlob1"></div>
+    <div class="music-blob music-blob-2" id="musicBlob2"></div>
+  </div>
+  
+  <div class="music-glass-card" id="musicGlassCard">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular" id="musicSpecular"></div>
+    <div class="glass-content">
+      
+      <div class="music-icon-container">
+        <div class="glass-filter"></div>
+        <div class="glass-overlay"></div>
+        <div class="glass-specular"></div>
+        <div class="glass-content">🎵</div>
+      </div>
+      
+      <h2 class="music-title">Enable Audio?</h2>
+      <p class="music-subtitle">Enhance your experience with immersive background music</p>
+      
+      <div class="music-buttons">
+        <button class="music-btn music-yes" id="musicYes">
+          <i class="fa-solid fa-play"></i>
+          Enable Audio
+        </button>
+        <button class="music-btn music-no" id="musicNo">
+          Continue Without Audio
+        </button>
+      </div>
+      
+      <small class="music-hint">You can change this anytime</small>
     </div>
   </div>
+</div>
 
-  <div class="loader-logo-reveal" id="logoReveal">
-      <div class="logo-half logo-left">
-        <span>TG</span>
-      </div>
-      <div class="logo-divider"></div>
-      <div class="logo-half logo-right">
-        <span>RA</span>
-      </div>
-    </div>
-    
-  
-  <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
-    <i class="fa-solid fa-moon" id="themeIcon"></i>
-  </button>
+<!-- ===================================================
+     MUSIC TOGGLE BUTTON
+     =================================================== -->
+<button class="music-toggle" id="musicToggle" title="Toggle Music [M]">
+  <div class="glass-filter"></div>
+  <div class="glass-overlay"></div>
+  <div class="glass-specular"></div>
+  <div class="glass-content">
+    <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
+  </div>
+</button>
 
   <section class="hero-container">
     
@@ -148,4 +266,5 @@
 
 </body>
 </html>
+
 
