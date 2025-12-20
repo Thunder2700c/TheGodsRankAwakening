@@ -37,49 +37,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================
     // CHAPTER DATA (with reading time)
     // ===================================================
-    
     const chapters = [
-      { 
-        id: 1,
-        title: "Prologue: Defiant Stand", 
-        file: "1-prologue.html", 
-        teaser: "No way in hell... Aditya's roar against Kanasura's spear.", 
-        date: "Oct 21, 2120",
-        readTime: "3 min"
-      },
-      { 
-        id: 2,
-        title: "Epilogue I: Tea & Revelations", 
-        file: "2-epilogue-1.html", 
-        teaser: "Quiet moments shatter with Venta's cosmic truth.", 
-        date: "TBA",
-        readTime: "5 min"
-      },
-      { 
-        id: 3,
-        title: "The Day Hell Opened", 
-        file: "3-the-day-hell-opened.html", 
-        teaser: "Portals ignite—timeline fractures in hell's fury.", 
-        date: "TBA",
-        readTime: "7 min"
-      },
-      { 
-        id: 4,
-        title: "Awakening the Ancients", 
-        file: "4-awakening-the-ancients.html", 
-        teaser: "God-ranks stir from eons of slumber.", 
-        date: "TBA",
-        readTime: "6 min"
-      },
-      { 
-        id: 5,
-        title: "Coming Soon...", 
-        file: "5-coming-soon.html", 
-        teaser: "The rank wars escalate—teaser drops weekly!", 
-        date: "Soon™",
-        readTime: "? min"
-      }
-    ];
+  { 
+    id: 1,
+    title: "Prologue: Defiant Stand", 
+    file: "1-prologue.html", 
+    teaser: "No way in hell... Aditya's roar against Kanasura's spear.", 
+    date: "Oct 21, 2120",
+    readTime: "3 min"
+  },
+  { 
+    id: 2,
+    title: "Epilogue I: Tea & Revelations", 
+    file: "2-epilogue-1.html", 
+    teaser: "Armaan meets Abhijeet—Aditya's son seeks the truth.", 
+    date: "The Future",
+    readTime: "8 min"
+  },
+  { 
+    id: 3,
+    title: "The Day Hell Opened", 
+    file: "3-the-day-hell-opened.html", 
+    teaser: "40 years of research. One portal. Hell awaits.", 
+    date: "Year 2098",
+    readTime: "15 min"
+  },
+  { 
+    id: 4,
+    title: "Awakening the Ancients", 
+    file: "4-awakening-the-ancients.html", 
+    teaser: "Shadows of Patala stir... (Coming Soon)", 
+    date: "WIP",
+    readTime: "? min"
+  },
+  { 
+    id: 5,
+    title: "Chapter 5", 
+    file: "5-coming-soon.html", 
+    teaser: "The story continues... Stay tuned!", 
+    date: "Soon™",
+    readTime: "? min"
+  }
+];
+
   
     const grid = document.getElementById('chaptersGrid');
     const dock = document.getElementById('floatingDock');
