@@ -1,697 +1,507 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // ===================================================
-    // APPLE LIQUID GLASS LOADER - ENHANCED VERSION
-    // Features:
-    // 1. Smooth GSAP Counter Tween
-    // 2. Fluid Morph Transitions
-    // 3. Reactive Background Energy
-    // 4. Staggered Layout Entrance
-    // 5. Liquid Wash Reveal (7 seconds)
-    // ===================================================
+  
+  // ===================================================
+  // TGRA TERMINAL LOADER
+  // Hacker/Console Style Loading Screen
+  // ===================================================
 
-    // Elements
-    const themeAudio = document.getElementById('themeAudio');
-    const musicModal = document.getElementById('musicModal');
-    const musicToggle = document.getElementById('musicToggle');
-    const musicToggleIcon = document.getElementById('musicToggleIcon');
-    const themeToggle = document.getElementById('themeToggle');
-    const loaderWrapper = document.getElementById("loaderWrapper");
-    const loaderCounter = document.getElementById("loaderCounter");
-    const loaderLabel = document.getElementById("loaderLabel");
-    const progressRing = document.getElementById("progressRing");
-    const glassLoaderCard = document.getElementById("glassLoaderCard");
-    const glassLoaderContainer = document.getElementById("glassLoaderContainer");
-    const mainSpecular = document.getElementById("mainSpecular");
-    const backgroundLayer = document.getElementById("backgroundLayer");
-    const colorShiftOverlay = document.getElementById("colorShiftOverlay");
-    const energyRipples = document.getElementById("energyRipples");
-    const liquidWashContainer = document.getElementById("liquidWashContainer");
-    const soundWaveIndicator = document.getElementById("soundWaveIndicator");
-    
-    // Exit if no loader
-    if (!loaderWrapper) {
-        document.body.classList.add('gsap-loaded');
-        initThemeToggle();
-        return;
-    }
-    
-    // Music state
-    let musicEnabled = localStorage.getItem('musicEnabled') === 'true';
-    
-    if (musicToggleIcon && musicEnabled) {
-        musicToggleIcon.classList.remove('fa-volume-xmark');
-        musicToggleIcon.classList.add('fa-volume-high');
-        musicToggle?.classList.add('playing');
-    }
+  // === ELEMENTS ===
+  const tgraLoader = document.getElementById('tgraLoader');
+  const loaderTerminal = document.getElementById('loaderTerminal');
+  const terminalBody = document.getElementById('terminalBody');
+  const terminalLines = document.getElementById('terminalLines');
+  const asciiLogo = document.getElementById('asciiLogo');
+  const terminalProgress = document.getElementById('terminalProgress');
+  const progressBarFill = document.getElementById('progressBarFill');
+  const progressPercent = document.getElementById('progressPercent');
+  const bgParticles = document.getElementById('bgParticles');
+  
+  const terminalModal = document.getElementById('terminalModal');
+  const tgraLogo = document.getElementById('tgraLogo');
+  const musicTerminal = document.getElementById('musicTerminal');
+  const musicLine1 = document.getElementById('musicLine1');
+  const musicLine2 = document.getElementById('musicLine2');
+  const musicLine3 = document.getElementById('musicLine3');
+  const musicInputLine = document.getElementById('musicInputLine');
+  const terminalYes = document.getElementById('terminalYes');
+  const terminalNo = document.getElementById('terminalNo');
+  
+  const sunReveal = document.getElementById('sunReveal');
+  const sunCore = document.getElementById('sunCore');
+  const sunFlash = document.getElementById('sunFlash');
+  
+  const themeAudio = document.getElementById('themeAudio');
+  const musicToggle = document.getElementById('musicToggle');
+  const musicIcon = document.getElementById('musicIcon');
+  
+  // Exit if no loader
+  if (!tgraLoader) {
+    document.body.classList.add('gsap-loaded');
+    return;
+  }
 
-    // ===================================================
-    // 1. SMOOTH GSAP COUNTER TWEEN
-    // No more teleporting numbers!
-    // ===================================================
-    
-    const counterObj = { value: 0 };
-    const circumference = 2 * Math.PI * 165;
-    
-    if (progressRing) {
-        progressRing.style.strokeDasharray = circumference;
-        progressRing.style.strokeDashoffset = circumference;
-    }
-    
-    // Milestone values for energy pulses
-    const milestones = [25, 50, 75, 100];
-    let lastMilestone = 0;
-    
-    // Smooth counter animation using GSAP
-    const counterTween = gsap.to(counterObj, {
-        value: 100,
-        duration: 3.5,
-        ease: "power2.inOut",
-        onUpdate: function() {
-            const currentValue = Math.round(counterObj.value);
-            
-            if (loaderCounter) {
-                loaderCounter.textContent = currentValue;
-            }
-            
-            // Update progress ring smoothly
-            if (progressRing) {
-                const offset = circumference - (counterObj.value / 100) * circumference;
-                progressRing.style.strokeDashoffset = offset;
-            }
-            
-            // Check for milestones and trigger energy effects
-            milestones.forEach(milestone => {
-                if (currentValue >= milestone && lastMilestone < milestone) {
-                    lastMilestone = milestone;
-                    triggerEnergyPulse();
-                    triggerMilestoneEffect();
-                }
-            });
-            
-            // 3. SYNC BACKGROUND ENERGY
-            updateBackgroundEnergy(counterObj.value);
-        },
-        onComplete: function() {
-            if (loaderLabel) {
-                loaderLabel.textContent = "Complete";
-            }
-        }
-    });
+  let musicEnabled = localStorage.getItem('musicEnabled') === 'true';
 
-    // ===================================================
-    // 3. SYNC BACKGROUND ENERGY
-    // Reactive ripples and color shifts
-    // ===================================================
+  // ===================================================
+  // BACKGROUND PARTICLES (Matrix-style characters)
+  // ===================================================
+  
+  function createBackgroundParticles() {
+    if (!bgParticles) return;
     
-    function updateBackgroundEnergy(progress) {
-        // Color shift based on progress
-        if (colorShiftOverlay) {
-            const hue1 = 240 + (progress * 0.6); // Blue to purple
-            const hue2 = 280 + (progress * 0.4); // Purple to pink
-            const intensity = 0.1 + (progress / 100) * 0.2;
-            
-            colorShiftOverlay.style.background = `
-                radial-gradient(
-                    ellipse at ${50 + Math.sin(progress * 0.05) * 20}% ${50 + Math.cos(progress * 0.05) * 20}%,
-                    hsla(${hue1}, 70%, 60%, ${intensity}) 0%,
-                    hsla(${hue2}, 70%, 50%, ${intensity * 0.5}) 50%,
-                    transparent 100%
-                )
-            `;
-            colorShiftOverlay.style.opacity = 1;
-        }
-        
-        // Animate blobs based on progress
-        const blobs = document.querySelectorAll('.color-blob');
-        blobs.forEach((blob, index) => {
-            const scale = 1 + (progress / 100) * 0.2;
-            const blur = 80 + (progress / 100) * 20;
-            blob.style.filter = `blur(${blur}px)`;
-            blob.style.opacity = 0.7 + (progress / 100) * 0.2;
-        });
-    }
+    const chars = ['0', '1', '{', '}', '<', '>', '/', '*', '#', '@', '$', '%', '&'];
     
-    function triggerEnergyPulse() {
-        const rings = document.querySelectorAll('.energy-ring');
-        rings.forEach((ring, index) => {
-            setTimeout(() => {
-                ring.classList.remove('pulse');
-                void ring.offsetWidth; // Trigger reflow
-                ring.classList.add('pulse');
-                
-                // Remove class after animation
-                setTimeout(() => {
-                    ring.classList.remove('pulse');
-                }, 1500);
-            }, index * 150);
-        });
+    for (let i = 0; i < 40; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'bg-particle';
+      particle.textContent = chars[Math.floor(Math.random() * chars.length)];
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDelay = `${Math.random() * 20}s`;
+      particle.style.animationDuration = `${15 + Math.random() * 15}s`;
+      particle.style.fontSize = `${10 + Math.random() * 8}px`;
+      bgParticles.appendChild(particle);
     }
-    
-    function triggerMilestoneEffect() {
-        if (loaderCounter) {
-            loaderCounter.classList.add('milestone');
-            setTimeout(() => {
-                loaderCounter.classList.remove('milestone');
-            }, 500);
-        }
-        
-        // Flash the glass card
-        if (glassLoaderCard) {
-            gsap.to(glassLoaderCard, {
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 60px rgba(102, 126, 234, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2)',
-                duration: 0.3,
-                yoyo: true,
-                repeat: 1
-            });
-        }
-    }
+  }
+  
+  createBackgroundParticles();
 
-    // ===================================================
-    // MOUSE TRACKING FOR SPECULAR HIGHLIGHTS
-    // ===================================================
-    
-    function setupSpecularEffect(element, specularLayer) {
-        if (!element || !specularLayer) return;
-        
-        element.addEventListener('mousemove', (e) => {
-            const rect = element.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            specularLayer.style.background = `radial-gradient(
-                circle at ${x}px ${y}px,
-                rgba(255,255,255,0.25) 0%,
-                rgba(255,255,255,0.1) 25%,
-                rgba(255,255,255,0) 50%
-            )`;
-        });
-        
-        element.addEventListener('mouseleave', () => {
-            specularLayer.style.background = 'none';
-            specularLayer.style.boxShadow = 'inset 1px 1px 1px rgba(255,255,255,0.75)';
-        });
-    }
-    
-    setupSpecularEffect(glassLoaderCard, mainSpecular);
+  // ===================================================
+  // TERMINAL BOOT SEQUENCE
+  // ===================================================
+  
+  const bootMessages = [
+    { text: "Initializing TGRA systems...", class: "info", delay: 0 },
+    { text: "Loading core modules... ", class: "", delay: 400 },
+    { text: "[OK] Kernel loaded", class: "success", delay: 300 },
+    { text: "[OK] Memory allocated", class: "success", delay: 200 },
+    { text: "Connecting to multiverse gateway...", class: "purple", delay: 500 },
+    { text: "[OK] Connection established", class: "success", delay: 400 },
+    { text: "Fetching chapter data...", class: "info", delay: 300 },
+    { text: "[OK] 5 chapters found", class: "success", delay: 200 },
+    { text: "Preparing immersive experience...", class: "warning", delay: 400 },
+  ];
 
-    // ===================================================
-    // ANIMATE FLOATING PILLS
-    // ===================================================
-    
-    function animatePills() {
-        const pills = document.querySelectorAll('.glass-pill');
-        
-        pills.forEach((pill, index) => {
-            gsap.to(pill, {
-                opacity: 0.8,
-                duration: 1,
-                delay: 0.3 + (index * 0.15),
-                ease: "power2.out"
-            });
-            
-            gsap.to(pill, {
-                y: `random(-15, 15)`,
-                x: `random(-10, 10)`,
-                rotation: `+=${gsap.utils.random(-3, 3)}`,
-                duration: gsap.utils.random(4, 6),
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                delay: index * 0.3
-            });
-        });
-    }
-    
-    animatePills();
+  let currentLine = 0;
+  let progressValue = 0;
 
-    // ===================================================
-    // 6. LIQUID WASH REVEAL (7 seconds)
-    // ===================================================
+  // Start boot sequence
+  function startBootSequence() {
+    const tl = gsap.timeline();
     
-    function createLiquidDroplets() {
-        const dropletsContainer = document.getElementById('liquidDroplets');
-        if (!dropletsContainer) return;
-        
-        for (let i = 0; i < 30; i++) {
-            const droplet = document.createElement('div');
-            droplet.className = 'liquid-droplet';
-            droplet.style.left = `${Math.random() * 100}%`;
-            droplet.style.top = `${Math.random() * 30}%`;
-            droplet.style.width = `${10 + Math.random() * 20}px`;
-            droplet.style.height = `${15 + Math.random() * 25}px`;
-            droplet.style.animationDelay = `${Math.random() * 2}s`;
-            dropletsContainer.appendChild(droplet);
-        }
-    }
-    
-    function triggerLiquidWash() {
-        return new Promise((resolve) => {
-            if (!liquidWashContainer) {
-                resolve();
-                return;
-            }
-            
-            createLiquidDroplets();
-            liquidWashContainer.classList.add('active');
-            
-            const layers = liquidWashContainer.querySelectorAll('.liquid-layer');
-            const droplets = liquidWashContainer.querySelectorAll('.liquid-droplet');
-            const foam = liquidWashContainer.querySelector('.liquid-foam');
-            
-            const tl = gsap.timeline({
-                onComplete: () => {
-                    gsap.to(liquidWashContainer, {
-                        opacity: 0,
-                        duration: 0.5,
-                        onComplete: () => {
-                            liquidWashContainer.classList.remove('active');
-                            liquidWashContainer.remove();
-                            resolve();
-                        }
-                    });
-                }
-            });
-            
-            // Animate liquid layers washing down
-            tl.to(layers, {
-                y: '220%',
-                duration: 5,
-                stagger: 0.3,
-                ease: "power1.inOut"
-            }, 0);
-            
-            // Droplets fall
-            tl.to(droplets, {
-                opacity: 1,
-                y: '100vh',
-                duration: 3,
-                stagger: {
-                    each: 0.05,
-                    from: "random"
-                },
-                ease: "power2.in"
-            }, 0.5);
-            
-            // Foam effect
-            if (foam) {
-                tl.to(foam, {
-                    opacity: 0.6,
-                    y: '-100vh',
-                    duration: 4,
-                    ease: "power1.out"
-                }, 1);
-            }
-            
-            // Turbulence animation for liquid effect
-            const liquidTurbulence = document.getElementById('liquidTurbulence');
-            if (liquidTurbulence) {
-                gsap.to({}, {
-                    duration: 5,
-                    onUpdate: function() {
-                        const progress = this.progress();
-                        const freq = 0.01 + progress * 0.02;
-                        liquidTurbulence.setAttribute('baseFrequency', freq);
-                    }
-                });
-            }
-        });
-    }
-
-    // ===================================================
-    // 2. FLUID MORPH TRANSITION
-    // Card morphs into music modal instead of hard cut
-    // ===================================================
-    
-    function morphToMusicModal() {
-        return new Promise((resolve) => {
-            if (!musicModal || !glassLoaderCard) {
-                resolve();
-                return;
-            }
-            
-            const loaderRect = glassLoaderCard.getBoundingClientRect();
-            const targetWidth = Math.min(420, window.innerWidth * 0.9);
-            const targetHeight = 500;
-            
-            // Get center positions
-            const loaderCenterX = loaderRect.left + loaderRect.width / 2;
-            const loaderCenterY = loaderRect.top + loaderRect.height / 2;
-            const targetCenterX = window.innerWidth / 2;
-            const targetCenterY = window.innerHeight / 2;
-            
-            const morphTL = gsap.timeline({
-                onComplete: resolve
-            });
-            
-            // Phase 1: Fade out counter content
-            morphTL.to([loaderCounter, loaderLabel], {
-                opacity: 0,
-                scale: 0.8,
-                duration: 0.4,
-                ease: "power2.in"
-            });
-            
-            // Fade out progress ring
-            morphTL.to(".progress-ring-wrapper", {
-                opacity: 0,
-                scale: 0.9,
-                duration: 0.4,
-                ease: "power2.in"
-            }, "-=0.3");
-            
-            // Fade out pills
-            morphTL.to(".glass-pill", {
-                opacity: 0,
-                scale: 0.8,
-                duration: 0.3,
-                stagger: 0.05,
-                ease: "power2.in"
-            }, "-=0.2");
-            
-            // Fade out brand
-            morphTL.to(".loader-brand", {
-                opacity: 0,
-                y: -20,
-                duration: 0.3,
-                ease: "power2.in"
-            }, "-=0.2");
-            
-            // Phase 2: Morph the card
-            morphTL.to(glassLoaderCard, {
-                width: targetWidth,
-                height: targetHeight,
-                borderRadius: 32,
-                duration: 0.8,
-                ease: "power3.inOut"
-            });
-            
-            // Move container to center
-            morphTL.to(glassLoaderContainer, {
-                x: targetCenterX - loaderCenterX,
-                y: targetCenterY - loaderCenterY,
-                duration: 0.8,
-                ease: "power3.inOut"
-            }, "-=0.8");
-            
-            // Change background color
-            morphTL.to(glassLoaderCard.querySelector('.glass-overlay'), {
-                background: 'rgba(255, 255, 255, 0.12)',
-                duration: 0.5
-            }, "-=0.4");
-            
-            // Phase 3: Transition to music modal
-            morphTL.call(() => {
-                // Hide loader elements
-                loaderWrapper.style.pointerEvents = 'none';
-                
-                // Show music modal
-                musicModal.classList.add('active');
-                musicModal.style.visibility = 'visible';
-            });
-            
-            // Fade in modal background
-            morphTL.fromTo(musicModal, 
-                { opacity: 0 },
-                { opacity: 1, duration: 0.4 }
-            );
-            
-            // Fade out loader card as modal card appears
-            morphTL.to(glassLoaderCard, {
-                opacity: 0,
-                duration: 0.3
-            }, "-=0.2");
-            
-            // Background blobs
-            morphTL.fromTo(["#musicBlob1", "#musicBlob2"],
-                { scale: 0.5, opacity: 0 },
-                { scale: 1, opacity: 0.4, duration: 0.8, stagger: 0.1 },
-                "-=0.3"
-            );
-            
-            // 4. STAGGERED ENTRANCE
-            // Music modal card appears
-            morphTL.fromTo(".music-glass-card",
-                { opacity: 0, y: 50, scale: 0.9 },
-                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" },
-                "-=0.4"
-            );
-            
-            // Stagger 1: Icon drops in
-            morphTL.fromTo("#musicIconContainer",
-                { opacity: 0, scale: 0, y: -30 },
-                { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.7)" },
-                "-=0.2"
-            );
-            
-            // Add animation to icon
-            morphTL.call(() => {
-                document.getElementById('musicIconContainer')?.classList.add('animate');
-            });
-            
-            // Stagger 2: Text fades in
-            morphTL.fromTo("#musicTitle",
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-                "-=0.2"
-            );
-            
-            morphTL.fromTo("#musicSubtitle",
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-                "-=0.2"
-            );
-            
-            // Stagger 3: Buttons fade in last
-            morphTL.fromTo("#musicButtons",
-                { opacity: 0, y: 20 },
-                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-                "-=0.1"
-            );
-            
-            morphTL.fromTo("#musicHint",
-                { opacity: 0 },
-                { opacity: 1, duration: 0.3 },
-                "-=0.1"
-            );
-            
-            // Setup specular effect for music card
-            const musicCard = document.getElementById('musicGlassCard');
-            const musicSpecular = document.getElementById('musicSpecular');
-            setupSpecularEffect(musicCard, musicSpecular);
-        });
-    }
-
-    // ===================================================
-    // PROCEED TO SITE WITH LIQUID WASH
-    // ===================================================
-
-    async function proceedToSite() {
-        const tl = gsap.timeline();
-        
-        // Fade out modal quickly
-        tl.to(musicModal, {
-            opacity: 0,
-            scale: 0.98,
-            duration: 0.3,
-            ease: "power2.in"
-        });
-        
-        tl.call(() => {
-            musicModal.style.visibility = 'hidden';
-            musicModal.style.display = 'none';
-            loaderWrapper?.remove();
-        });
-        
-        // Trigger liquid wash reveal
-        await triggerLiquidWash();
-        
-        // Now reveal the site content
-        document.body.classList.add('gsap-loaded');
-        
-        const revealTL = gsap.timeline();
-        
-        // Hero elements
-        revealTL.fromTo(".hero-image-wrapper", 
-            { opacity: 0, y: 60, scale: 0.95 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }
-        );
-        
-        revealTL.fromTo(".hero-title",
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-            "-=0.5"
-        );
-        
-        revealTL.fromTo(".hero-description",
-            { opacity: 0, y: 30 },
-            { opacity: 0.7, y: 0, duration: 0.6, ease: "power2.out" },
-            "-=0.4"
-        );
-        
-        revealTL.fromTo(".search-wrapper",
-            { opacity: 0, y: 25 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-            "-=0.3"
-        );
-        
-        revealTL.fromTo(".continue-section",
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-            "-=0.2"
-        );
-        
-        revealTL.fromTo(".cast-section",
-            { opacity: 0, y: 35 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-            "-=0.3"
-        );
-        
-        revealTL.fromTo(".floating-dock",
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" },
-            "-=0.3"
-        );
-        
-        // Show theme toggle and music toggle
-        revealTL.call(() => {
-            if (themeToggle) {
-                themeToggle.classList.add('visible');
-                gsap.fromTo(themeToggle, 
-                    { scale: 0, opacity: 0 },
-                    { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
-                );
-            }
-            
-            if (musicToggle) {
-                musicToggle.classList.add('visible');
-                gsap.fromTo(musicToggle, 
-                    { scale: 0, opacity: 0 },
-                    { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)", delay: 0.1 }
-                );
-            }
-            
-            // Chapter cards
-            const cards = document.querySelectorAll('.chapter-card');
-            if (cards.length > 0) {
-                gsap.fromTo(cards,
-                    { opacity: 0, y: 30 },
-                    { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "power2.out" }
-                );
-            }
-            
-            // Initialize theme toggle functionality
-            initThemeToggle();
-        });
-    }
-
-    // ===================================================
-    // MAIN TIMELINE
-    // ===================================================
-    
-    const mainTL = gsap.timeline();
-
-    // Wait for counter to complete, then morph
-    mainTL.call(() => {
-        // Counter animation is running separately
+    // Fade in ASCII logo first
+    tl.to(asciiLogo, {
+      opacity: 1,
+      duration: 0.5,
+      ease: "power2.out"
     });
     
-    // After 4 seconds (counter complete + buffer), start morph
-    mainTL.call(async () => {
-        await morphToMusicModal();
-    }, null, 4);
+    // Then show progress bar
+    tl.to(terminalProgress, {
+      opacity: 1,
+      duration: 0.3
+    }, "+=0.3");
+    
+    // Start progress animation
+    tl.call(() => {
+      animateProgress();
+    });
+    
+    // Start typing boot messages
+    tl.call(() => {
+      typeBootMessages();
+    }, null, "+=0.5");
+    
+    // Show cursor line
+    tl.to('.terminal-cursor-line', {
+      opacity: 1,
+      duration: 0.3
+    }, "+=0.3");
+  }
 
-    // ===================================================
-    // MUSIC BUTTONS
-    // ===================================================
+  function typeBootMessages() {
+    if (currentLine >= bootMessages.length) return;
+    
+    const msg = bootMessages[currentLine];
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    line.innerHTML = `
+      <span class="prompt">$</span>
+      <span class="text ${msg.class}"></span>
+    `;
+    
+    terminalLines.appendChild(line);
+    
+    // Animate line appearing
+    gsap.to(line, {
+      opacity: 1,
+      duration: 0.1
+    });
+    
+    // Type text
+    const textSpan = line.querySelector('.text');
+    typeText(textSpan, msg.text, () => {
+      currentLine++;
+      setTimeout(typeBootMessages, msg.delay);
+    });
+  }
 
-    document.getElementById('musicYes')?.addEventListener('click', function() {
-        musicEnabled = true;
+  function typeText(element, text, callback) {
+    let i = 0;
+    const speed = 20;
+    
+    function type() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, speed);
+      } else if (callback) {
+        callback();
+      }
+    }
+    
+    type();
+  }
+
+  // ===================================================
+  // PROGRESS ANIMATION
+  // ===================================================
+  
+  function animateProgress() {
+    gsap.to({ value: 0 }, {
+      value: 100,
+      duration: 4,
+      ease: "power1.inOut",
+      onUpdate: function() {
+        progressValue = Math.round(this.targets()[0].value);
         
-        if (themeAudio) {
-            themeAudio.volume = 0.5;
-            themeAudio.loop = true;
-            themeAudio.play().catch(e => console.log("Audio blocked:", e));
+        if (progressPercent) {
+          progressPercent.textContent = `${progressValue}%`;
         }
         
-        musicToggle?.classList.add('playing');
-        musicToggleIcon?.classList.remove('fa-volume-xmark');
-        musicToggleIcon?.classList.add('fa-volume-high');
+        if (progressBarFill) {
+          progressBarFill.style.width = `${progressValue}%`;
+        }
+      },
+      onComplete: () => {
+        // Add completion message
+        const completeLine = document.createElement('div');
+        completeLine.className = 'terminal-line';
+        completeLine.innerHTML = `
+          <span class="prompt">$</span>
+          <span class="text success">[COMPLETE] System ready. Launching...</span>
+        `;
+        terminalLines.appendChild(completeLine);
+        gsap.to(completeLine, { opacity: 1, duration: 0.2 });
         
-        localStorage.setItem('musicEnabled', 'true');
-        proceedToSite();
+        // Transition after short delay
+        setTimeout(transitionToMusicModal, 800);
+      }
     });
+  }
 
-    document.getElementById('musicNo')?.addEventListener('click', function() {
-        musicEnabled = false;
-        themeAudio?.pause();
-        localStorage.setItem('musicEnabled', 'false');
-        proceedToSite();
+  // Start the sequence
+  setTimeout(startBootSequence, 500);
+
+  // ===================================================
+  // TRANSITION: LOADER → MUSIC MODAL
+  // ===================================================
+  
+  function transitionToMusicModal() {
+    const tl = gsap.timeline();
+    
+    // Glitch effect on terminal
+    tl.to(loaderTerminal, {
+      x: "random(-5, 5)",
+      duration: 0.05,
+      repeat: 5,
+      yoyo: true
     });
+    
+    // Fade out loader terminal
+    tl.to(loaderTerminal, {
+      opacity: 0,
+      scale: 0.95,
+      y: -30,
+      duration: 0.5,
+      ease: "power2.in"
+    });
+    
+    // Fade out background
+    tl.to('.loader-bg', {
+      opacity: 0,
+      duration: 0.4
+    }, "-=0.3");
+    
+    // Hide loader
+    tl.set(tgraLoader, { display: 'none' });
+    
+    // Show music modal
+    tl.call(() => {
+      terminalModal.classList.add('active');
+    });
+    
+    tl.to(terminalModal, {
+      opacity: 1,
+      duration: 0.4
+    });
+    
+    // Logo animates in
+    tl.to(tgraLogo, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: "back.out(1.7)"
+    });
+    
+    // Logo parts split in
+    tl.fromTo('.logo-left', 
+      { x: -60, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+      "-=0.3"
+    );
+    
+    tl.fromTo('.logo-right',
+      { x: 60, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+      "-=0.5"
+    );
+    
+    tl.fromTo('.logo-divider',
+      { scaleY: 0, opacity: 0 },
+      { scaleY: 1, opacity: 1, duration: 0.3, ease: "power2.out" },
+      "-=0.3"
+    );
+    
+    // Music terminal appears
+    tl.to(musicTerminal, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.5,
+      ease: "back.out(1.5)"
+    });
+    
+    // Type terminal lines
+    tl.to(musicLine1, { opacity: 1, duration: 0.1 });
+    tl.call(() => {
+      typeText(musicLine1.querySelector('.text'), "Audio subsystem initialized.");
+    });
+    
+    tl.to(musicLine2, { opacity: 1, duration: 0.1 }, "+=0.6");
+    tl.call(() => {
+      typeText(musicLine2.querySelector('.text'), "Background music available.");
+    });
+    
+    tl.to(musicLine3, { opacity: 1, duration: 0.1 }, "+=0.6");
+    tl.call(() => {
+      typeText(musicLine3.querySelector('.text'), "Enhance your experience?", () => {
+        // Show input line after typing
+        gsap.to(musicInputLine, { opacity: 1, duration: 0.3, delay: 0.3 });
+      });
+    });
+  }
 
-    // ===================================================
-    // MUSIC TOGGLE (Futuristic with Sound Wave)
-    // ===================================================
+  // ===================================================
+  // MUSIC CHOICE HANDLERS
+  // ===================================================
+  
+  function handleMusicChoice(enableMusic) {
+    musicEnabled = enableMusic;
+    localStorage.setItem('musicEnabled', enableMusic ? 'true' : 'false');
+    
+    // Hide input line
+    gsap.to(musicInputLine, { opacity: 0, duration: 0.2 });
+    
+    // Add response line
+    const response = document.createElement('div');
+    response.className = 'terminal-line';
+    response.style.opacity = '0';
+    response.innerHTML = `
+      <span class="prompt">></span>
+      <span class="text ${enableMusic ? 'success' : ''}" style="color: ${enableMusic ? 'var(--terminal-green)' : 'var(--terminal-red)'}">
+        ${enableMusic ? '[Y] Audio enabled. Enjoy the experience! ♪' : '[N] Continuing in silent mode.'}
+      </span>
+    `;
+    
+    musicTerminal.querySelector('.terminal-body').appendChild(response);
+    gsap.to(response, { opacity: 1, duration: 0.3, delay: 0.2 });
+    
+    // Start audio if enabled
+    if (enableMusic && themeAudio) {
+      themeAudio.volume = 0.5;
+      themeAudio.play().catch(e => console.log("Audio blocked:", e));
+      musicToggle?.classList.add('playing');
+      musicIcon?.classList.remove('fa-volume-xmark');
+      musicIcon?.classList.add('fa-volume-high');
+    }
+    
+    // Trigger sun reveal
+    setTimeout(triggerSunReveal, 1200);
+  }
+  
+  terminalYes?.addEventListener('click', () => handleMusicChoice(true));
+  terminalNo?.addEventListener('click', () => handleMusicChoice(false));
 
-    musicToggle?.addEventListener('click', function() {
+  // ===================================================
+  // SUN RAY REVEAL (Green/Terminal themed)
+  // ===================================================
+  
+  function triggerSunReveal() {
+    const tl = gsap.timeline();
+    
+    // Fade out modal
+    tl.to(terminalModal, {
+      opacity: 0,
+      duration: 0.4
+    });
+    
+    tl.set(terminalModal, { display: 'none' });
+    
+    // Show sun reveal
+    tl.call(() => {
+      sunReveal.classList.add('active');
+    });
+    
+    tl.to(sunReveal, { opacity: 1, duration: 0.1 });
+    
+    // Sun core expands
+    tl.to(sunCore, {
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out"
+    });
+    
+    // Rays shoot out
+    tl.to('.ray', {
+      opacity: 1,
+      duration: 0.05,
+      stagger: {
+        each: 0.02,
+        from: "random"
+      }
+    });
+    
+    tl.to('.ray', {
+      scaleX: 1.5,
+      duration: 0.4,
+      ease: "power2.out"
+    }, "-=0.1");
+    
+    // Flash
+    tl.to(sunFlash, {
+      opacity: 1,
+      duration: 0.2,
+      ease: "power2.in"
+    });
+    
+    // Core expands massively
+    tl.to(sunCore, {
+      scale: 60,
+      duration: 0.6,
+      ease: "power2.in"
+    }, "-=0.1");
+    
+    // Fade out
+    tl.to(sunReveal, {
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    });
+    
+    // Cleanup and reveal site
+    tl.call(() => {
+      sunReveal.remove();
+      document.body.classList.add('gsap-loaded');
+      revealMainSite();
+    });
+  }
+
+  // ===================================================
+  // REVEAL MAIN SITE
+  // ===================================================
+  
+  function revealMainSite() {
+    const tl = gsap.timeline();
+    
+    tl.fromTo(".hero-image-wrapper", 
+      { opacity: 0, y: 50, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }
+    );
+    
+    tl.fromTo(".hero-title",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.5"
+    );
+    
+    tl.fromTo(".hero-description",
+      { opacity: 0, y: 20 },
+      { opacity: 0.7, y: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.4"
+    );
+    
+    tl.fromTo(".search-wrapper",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      "-=0.3"
+    );
+    
+    tl.fromTo(".cast-section",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+      "-=0.2"
+    );
+    
+    tl.fromTo(".floating-dock",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" },
+      "-=0.2"
+    );
+    
+    // Show music toggle
+    tl.call(() => {
+      if (musicToggle) {
+        musicToggle.classList.add('visible');
         if (musicEnabled) {
-            themeAudio?.pause();
-            musicEnabled = false;
-            musicToggle.classList.remove('playing');
-            musicToggleIcon?.classList.remove('fa-volume-high');
-            musicToggleIcon?.classList.add('fa-volume-xmark');
-            localStorage.setItem('musicEnabled', 'false');
-        } else {
-            themeAudio?.play().catch(e => console.log("Audio blocked:", e));
-            musicEnabled = true;
-            musicToggle.classList.add('playing');
-            musicToggleIcon?.classList.remove('fa-volume-xmark');
-            musicToggleIcon?.classList.add('fa-volume-high');
-            localStorage.setItem('musicEnabled', 'true');
+          musicToggle.classList.add('playing');
         }
+      }
     });
-
-    // Keyboard shortcut
-    document.addEventListener('keydown', function(e) {
-        if (e.key.toLowerCase() === 'm' && musicToggle?.classList.contains('visible')) {
-            musicToggle.click();
-        }
-        if (e.key.toLowerCase() === 'd' && themeToggle?.classList.contains('visible')) {
-            themeToggle.click();
-        }
-    });
-
-    // ===================================================
-    // DARK MODE TOGGLE (Restored!)
-    // ===================================================
     
-    function initThemeToggle() {
-        const themeToggle = document.getElementById('themeToggle');
-        if (!themeToggle) return;
-        
-        // Check for saved preference
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.body.classList.add('dark-mode');
-        }
-        
-        themeToggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            // Animate the toggle
-            gsap.to(themeToggle, {
-                scale: 0.9,
-                duration: 0.1,
-                yoyo: true,
-                repeat: 1,
-                ease: "power2.inOut"
-            });
-        });
+    // Stagger chapter cards
+    tl.fromTo(".chapter-card",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "power2.out" },
+      "-=0.3"
+    );
+  }
+
+  // ===================================================
+  // MUSIC TOGGLE
+  // ===================================================
+  
+  musicToggle?.addEventListener('click', function() {
+    if (musicEnabled) {
+      themeAudio?.pause();
+      musicEnabled = false;
+      this.classList.remove('playing');
+      musicIcon?.classList.remove('fa-volume-high');
+      musicIcon?.classList.add('fa-volume-xmark');
+    } else {
+      themeAudio?.play().catch(e => console.log("Audio blocked:", e));
+      musicEnabled = true;
+      this.classList.add('playing');
+      musicIcon?.classList.remove('fa-volume-xmark');
+      musicIcon?.classList.add('fa-volume-high');
     }
+    localStorage.setItem('musicEnabled', musicEnabled ? 'true' : 'false');
+  });
+  
+  // Keyboard shortcut
+  document.addEventListener('keydown', function(e) {
+    if (e.key.toLowerCase() === 'm' && musicToggle?.classList.contains('visible')) {
+      musicToggle.click();
+    }
+  });
 
 });
