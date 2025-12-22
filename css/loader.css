@@ -491,7 +491,7 @@
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 0 0 10px var(--glow-green);
 }
 
@@ -500,6 +500,7 @@
   color: var(--terminal-bg);
   box-shadow: 0 0 30px var(--glow-green);
   text-shadow: none;
+  transform: scale(1.05);
 }
 
 .yes-btn:hover {
@@ -517,22 +518,89 @@
 }
 
 /* ===================================================
-   MUSIC TOGGLE BUTTON
+   DARK MODE TOGGLE
    =================================================== */
-.music-toggle-btn {
+.theme-toggle {
   position: fixed;
   top: 20px;
   right: 20px;
   width: 50px;
   height: 50px;
   border: 1px solid var(--terminal-border);
-  border-radius: 10px;
+  border-radius: 50%;
   background: var(--terminal-bg);
   cursor: pointer;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.theme-toggle.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+  border-color: var(--terminal-yellow);
+  box-shadow: 
+    0 6px 30px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(255, 217, 61, 0.3);
+}
+
+.theme-toggle i {
+  font-size: 20px;
+  color: var(--terminal-yellow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover i {
+  transform: rotate(-15deg);
+}
+
+/* Light mode styles */
+body.light-mode {
+  --loader-bg: #f5f5f7;
+  --terminal-bg: #ffffff;
+  --terminal-border: #e0e0e0;
+  --terminal-text: #1d1d1f;
+  --terminal-dim: #86868b;
+}
+
+body.light-mode .theme-toggle {
+  background: #ffffff;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .theme-toggle i {
+  color: #ff9500;
+}
+
+/* ===================================================
+   MUSIC TOGGLE BUTTON
+   =================================================== */
+.music-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--terminal-border);
+  border-radius: 50%;
+  background: var(--terminal-bg);
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -547,7 +615,7 @@
 }
 
 .music-toggle-btn:hover {
-  transform: scale(1.08);
+  transform: scale(1.1);
   border-color: var(--terminal-green);
   box-shadow: 
     0 6px 30px rgba(0, 0, 0, 0.4),
@@ -557,7 +625,14 @@
 .music-toggle-btn i {
   font-size: 18px;
   color: var(--terminal-dim);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.music-toggle-btn.playing {
+  border-color: var(--terminal-green);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 25px var(--glow-green);
 }
 
 .music-toggle-btn.playing i {
@@ -567,13 +642,13 @@
 
 .sound-waves {
   position: absolute;
-  bottom: -10px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 3px;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
 }
 
 .music-toggle-btn.playing .sound-waves {
@@ -587,14 +662,33 @@
   box-shadow: 0 0 10px var(--glow-green);
 }
 
-.sound-waves span:nth-child(1) { height: 6px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0s; }
-.sound-waves span:nth-child(2) { height: 10px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.1s; }
-.sound-waves span:nth-child(3) { height: 8px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.2s; }
-.sound-waves span:nth-child(4) { height: 12px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.3s; }
+.sound-waves span:nth-child(1) { height: 8px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0s; }
+.sound-waves span:nth-child(2) { height: 12px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.1s; }
+.sound-waves span:nth-child(3) { height: 10px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.2s; }
+.sound-waves span:nth-child(4) { height: 14px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.3s; }
 
 @keyframes wave {
-  0%, 100% { transform: scaleY(0.5); }
+  0%, 100% { transform: scaleY(0.4); }
   50% { transform: scaleY(1); }
+}
+
+/* Light mode adjustments */
+body.light-mode .music-toggle-btn {
+  background: #ffffff;
+  border-color: #e0e0e0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .music-toggle-btn i {
+  color: #86868b;
+}
+
+body.light-mode .music-toggle-btn.playing {
+  border-color: #28c840;
+}
+
+body.light-mode .music-toggle-btn.playing i {
+  color: #28c840;
 }
 
 /* ===================================================
@@ -625,6 +719,20 @@
   
   .music-terminal {
     width: 95%;
+  }
+  
+  .theme-toggle {
+    top: 15px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
+  
+  .music-toggle-btn {
+    top: 15px;
+    right: 70px;
+    width: 44px;
+    height: 44px;
   }
 }
 
@@ -660,10 +768,22 @@
     font-size: 12px;
   }
   
-  .music-toggle-btn {
-    width: 44px;
-    height: 44px;
-    top: 15px;
-    right: 15px;
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
   }
-   }
+  
+  .theme-toggle i {
+    font-size: 16px;
+  }
+  
+  .music-toggle-btn {
+    right: 65px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .music-toggle-btn i {
+    font-size: 14px;
+  }
+}
