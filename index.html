@@ -19,12 +19,12 @@
   
 <body class="homepage">
 
-  <!-- AUDIO -->
+<!-- AUDIO -->
 <audio id="themeAudio" loop preload="auto">
   <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SVG FILTERS FOR GLASS DISTORTION -->
+<!-- SVG FILTERS FOR GLASS DISTORTION & LIQUID EFFECT -->
 <svg style="display: none">
   <defs>
     <!-- Glass Distortion Filter -->
@@ -44,14 +44,51 @@
       />
     </filter>
     
+    <!-- Liquid Wash Filter -->
+    <filter id="liquid-filter">
+      <feTurbulence 
+        id="liquidTurbulence"
+        type="fractalNoise" 
+        baseFrequency="0.01" 
+        numOctaves="3" 
+        result="noise"
+        seed="1"
+      />
+      <feDisplacementMap 
+        id="liquidDisplacement"
+        in="SourceGraphic" 
+        in2="noise" 
+        scale="30"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+    
     <!-- Progress Ring Gradient -->
     <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#667eea"/>
       <stop offset="50%" style="stop-color:#764ba2"/>
       <stop offset="100%" style="stop-color:#f093fb"/>
     </linearGradient>
+    
+    <!-- Energy Pulse Gradient -->
+    <radialGradient id="energyGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#667eea;stop-opacity:0"/>
+    </radialGradient>
   </defs>
 </svg>
+
+<!-- ===================================================
+     LIQUID WASH OVERLAY (7-second reveal)
+     =================================================== -->
+<div class="liquid-wash-container" id="liquidWashContainer">
+  <div class="liquid-layer liquid-layer-1"></div>
+  <div class="liquid-layer liquid-layer-2"></div>
+  <div class="liquid-layer liquid-layer-3"></div>
+  <div class="liquid-droplets" id="liquidDroplets"></div>
+  <div class="liquid-foam"></div>
+</div>
 
 <!-- ===================================================
      APPLE LIQUID GLASS LOADER
@@ -64,6 +101,16 @@
     <div class="color-blob blob-2" id="blob2"></div>
     <div class="color-blob blob-3" id="blob3"></div>
     <div class="color-blob blob-4" id="blob4"></div>
+    
+    <!-- Energy Ripples (React to counter) -->
+    <div class="energy-ripples" id="energyRipples">
+      <div class="energy-ring" id="energyRing1"></div>
+      <div class="energy-ring" id="energyRing2"></div>
+      <div class="energy-ring" id="energyRing3"></div>
+    </div>
+    
+    <!-- Color Shift Overlay -->
+    <div class="color-shift-overlay" id="colorShiftOverlay"></div>
   </div>
   
   <!-- Floating Glass Pills (Decorative) -->
@@ -98,15 +145,15 @@
     </svg>
   </div>
   
-  <!-- Main Glass Loader Card -->
-  <div class="glass-loader-container">
+  <!-- Main Glass Loader Card (Will morph into music modal) -->
+  <div class="glass-loader-container" id="glassLoaderContainer">
     <div class="glass-loader-card" id="glassLoaderCard">
       <div class="glass-filter"></div>
       <div class="glass-overlay"></div>
       <div class="glass-specular" id="mainSpecular"></div>
       <div class="glass-content">
         <h1 class="loader-counter" id="loaderCounter">0</h1>
-        <p class="loader-label">Loading</p>
+        <p class="loader-label" id="loaderLabel">Loading</p>
       </div>
     </div>
   </div>
@@ -125,28 +172,7 @@
 </div>
 
 <!-- ===================================================
-     LOGO REVEAL
-     =================================================== -->
-<div class="loader-logo-reveal" id="logoReveal">
-  <div class="logo-background">
-    <div class="logo-blob logo-blob-1" id="logoBlob1"></div>
-    <div class="logo-blob logo-blob-2" id="logoBlob2"></div>
-  </div>
-  <div class="logo-glass-container">
-    <div class="logo-glass-card" id="logoGlassCard">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular" id="logoSpecular"></div>
-      <div class="glass-content">
-        <h1 class="logo-text" id="logoText">TGRA</h1>
-        <p class="logo-subtitle" id="logoSubtitle">The Gods Rank Awakening</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===================================================
-     MUSIC MODAL
+     MUSIC MODAL (Morphed from loader card)
      =================================================== -->
 <div class="music-modal" id="musicModal">
   <div class="music-modal-bg">
@@ -160,41 +186,75 @@
     <div class="glass-specular" id="musicSpecular"></div>
     <div class="glass-content">
       
-      <div class="music-icon-container">
+      <!-- Stagger 1: Icon drops in -->
+      <div class="music-icon-container" id="musicIconContainer">
         <div class="glass-filter"></div>
         <div class="glass-overlay"></div>
         <div class="glass-specular"></div>
-        <div class="glass-content">🎵</div>
+        <div class="glass-content">
+          <i class="fa-solid fa-music"></i>
+        </div>
+        <!-- Animated sound waves -->
+        <div class="sound-wave-ring ring-1"></div>
+        <div class="sound-wave-ring ring-2"></div>
+        <div class="sound-wave-ring ring-3"></div>
       </div>
       
-      <h2 class="music-title">Enable Audio?</h2>
-      <p class="music-subtitle">Enhance your experience with immersive background music</p>
+      <!-- Stagger 2: Text -->
+      <h2 class="music-title" id="musicTitle">Enable Audio?</h2>
+      <p class="music-subtitle" id="musicSubtitle">Enhance your experience with immersive background music</p>
       
-      <div class="music-buttons">
+      <!-- Stagger 3: Buttons fade in last -->
+      <div class="music-buttons" id="musicButtons">
         <button class="music-btn music-yes" id="musicYes">
+          <span class="btn-glow"></span>
           <i class="fa-solid fa-play"></i>
-          Enable Audio
+          <span>Enable Audio</span>
+          <div class="btn-shine"></div>
         </button>
         <button class="music-btn music-no" id="musicNo">
-          Continue Without Audio
+          <span>Continue Without Audio</span>
         </button>
       </div>
       
-      <small class="music-hint">You can change this anytime</small>
+      <small class="music-hint" id="musicHint">You can change this anytime</small>
     </div>
   </div>
 </div>
 
 <!-- ===================================================
-     MUSIC TOGGLE BUTTON
+     FUTURISTIC MUSIC TOGGLE BUTTON
      =================================================== -->
-<button class="music-toggle" id="musicToggle" title="Toggle Music [M]">
+<button class="music-toggle futuristic" id="musicToggle" title="Toggle Music [M]">
+  <div class="music-toggle-bg"></div>
+  <div class="music-toggle-glow"></div>
   <div class="glass-filter"></div>
   <div class="glass-overlay"></div>
   <div class="glass-specular"></div>
   <div class="glass-content">
     <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
   </div>
+  <!-- Active Sound Wave Indicator -->
+  <div class="sound-wave-indicator" id="soundWaveIndicator">
+    <span class="wave-bar bar-1"></span>
+    <span class="wave-bar bar-2"></span>
+    <span class="wave-bar bar-3"></span>
+    <span class="wave-bar bar-4"></span>
+    <span class="wave-bar bar-5"></span>
+  </div>
+</button>
+
+<!-- ===================================================
+     DARK MODE TOGGLE (Restored!)
+     =================================================== -->
+<button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+  <div class="theme-toggle-track">
+    <div class="theme-toggle-thumb">
+      <i class="fa-solid fa-sun theme-icon sun-icon"></i>
+      <i class="fa-solid fa-moon theme-icon moon-icon"></i>
+    </div>
+  </div>
+  <div class="theme-toggle-glow"></div>
 </button>
 
   <section class="hero-container">
@@ -259,12 +319,11 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CustomEase.min.js"></script>
   
   <script src="scripts/animations.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/loader.js"></script>
 
 </body>
-</html>
-
-
+        </html>
