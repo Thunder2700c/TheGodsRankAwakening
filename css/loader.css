@@ -1,6 +1,7 @@
 /* ===================================================
-   APPLE LIQUID GLASS LOADER
-   Authentic iOS 26 Style
+   APPLE LIQUID GLASS LOADER - ENHANCED
+   With Smooth Counter, Fluid Transitions, 
+   Reactive Background & Liquid Wash Reveal
    =================================================== */
 
 /* ===================================================
@@ -14,6 +15,142 @@
     --glass-highlight-dark: rgba(255, 255, 255, 0.15);
     --glass-text: #ffffff;
     --glass-border: rgba(255, 255, 255, 0.2);
+    
+    /* Energy Colors */
+    --energy-primary: #667eea;
+    --energy-secondary: #764ba2;
+    --energy-tertiary: #f093fb;
+    --energy-accent: #00f2fe;
+}
+
+/* ===================================================
+   LIQUID WASH CONTAINER (7-Second Reveal)
+   =================================================== */
+
+.liquid-wash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100010;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.liquid-wash-container.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.liquid-layer {
+    position: absolute;
+    top: -120%;
+    left: -10%;
+    width: 120%;
+    height: 140%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(102, 126, 234, 0.3) 20%,
+        rgba(102, 126, 234, 0.8) 40%,
+        rgba(118, 75, 162, 0.9) 60%,
+        rgba(240, 147, 251, 0.8) 80%,
+        transparent 100%
+    );
+    filter: url(#liquid-filter);
+    transform: translateY(0) rotate(-2deg);
+    will-change: transform;
+}
+
+.liquid-layer-1 {
+    animation-delay: 0s;
+    opacity: 0.9;
+}
+
+.liquid-layer-2 {
+    animation-delay: 0.3s;
+    opacity: 0.7;
+    left: -5%;
+    transform: rotate(1deg);
+}
+
+.liquid-layer-3 {
+    animation-delay: 0.6s;
+    opacity: 0.5;
+    left: -15%;
+    transform: rotate(-3deg);
+}
+
+.liquid-droplets {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.liquid-droplet {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    background: radial-gradient(ellipse at 30% 30%, 
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(102, 126, 234, 0.6) 50%,
+        rgba(118, 75, 162, 0.4) 100%
+    );
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    filter: blur(1px);
+    opacity: 0;
+}
+
+.liquid-foam {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(
+        to top,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.6) 100%
+    );
+    filter: blur(10px);
+    opacity: 0;
+}
+
+/* Liquid Wash Animation Keyframes */
+@keyframes liquidWash {
+    0% {
+        transform: translateY(0) rotate(-2deg) scaleY(1);
+    }
+    30% {
+        transform: translateY(40%) rotate(-1deg) scaleY(1.1);
+    }
+    60% {
+        transform: translateY(80%) rotate(0deg) scaleY(1);
+    }
+    100% {
+        transform: translateY(120%) rotate(1deg) scaleY(0.9);
+    }
+}
+
+@keyframes foamRise {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    20% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
 }
 
 /* ===================================================
@@ -49,7 +186,8 @@
     border-radius: 50%;
     filter: blur(80px);
     opacity: 0.7;
-    will-change: transform;
+    will-change: transform, opacity, filter;
+    transition: filter 0.5s ease, opacity 0.5s ease;
 }
 
 .blob-1 {
@@ -112,6 +250,81 @@
 }
 
 /* ===================================================
+   ENERGY RIPPLES (React to Counter)
+   =================================================== */
+
+.energy-ripples {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.energy-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid transparent;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.energy-ring.pulse {
+    animation: energyPulse 1.5s ease-out forwards;
+}
+
+@keyframes energyPulse {
+    0% {
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+        border-color: var(--energy-primary);
+        box-shadow: 
+            0 0 20px var(--energy-primary),
+            0 0 40px var(--energy-secondary),
+            inset 0 0 20px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        opacity: 0.5;
+        border-color: var(--energy-secondary);
+    }
+    100% {
+        width: 800px;
+        height: 800px;
+        opacity: 0;
+        border-color: var(--energy-tertiary);
+        box-shadow: 
+            0 0 60px transparent,
+            0 0 80px transparent;
+    }
+}
+
+/* Color Shift Overlay */
+.color-shift-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: overlay;
+    transition: opacity 0.5s ease;
+}
+
+/* ===================================================
    MAIN GLASS CARD - CENTER
    =================================================== */
 
@@ -132,6 +345,12 @@
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1);
+    will-change: transform, width, height, border-radius;
+}
+
+/* Morph State Classes */
+.glass-loader-card.morphing {
+    transition: none;
 }
 
 /* Glass Layers */
@@ -155,6 +374,7 @@
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: inherit;
+    transition: background 0.5s ease;
 }
 
 .glass-specular {
@@ -165,7 +385,7 @@
 }
 
 /* ===================================================
-   GLASS CONTENT - COUNTER
+   GLASS CONTENT - COUNTER (Smooth Animation)
    =================================================== */
 
 .glass-content {
@@ -190,6 +410,24 @@
     margin: 0;
     color: white;
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    font-variant-numeric: tabular-nums;
+    /* Smooth number transitions */
+    transition: transform 0.1s ease-out;
+}
+
+/* Counter glow effect on milestones */
+.loader-counter.milestone {
+    text-shadow: 
+        0 2px 20px rgba(0, 0, 0, 0.2),
+        0 0 40px var(--energy-primary),
+        0 0 80px var(--energy-secondary);
+    animation: counterPulse 0.5s ease-out;
+}
+
+@keyframes counterPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .loader-label {
@@ -200,6 +438,7 @@
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 12px;
+    transition: opacity 0.3s ease;
 }
 
 /* ===================================================
@@ -234,7 +473,6 @@
     stroke-linecap: round;
     stroke-dasharray: 1068;
     stroke-dashoffset: 1068;
-    transition: stroke-dashoffset 0.3s ease-out;
     filter: drop-shadow(0 0 6px rgba(102, 126, 234, 0.6));
 }
 
@@ -342,105 +580,7 @@
 }
 
 /* ===================================================
-   LOGO REVEAL
-   =================================================== */
-
-.loader-logo-reveal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100002;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000000;
-    opacity: 0;
-    visibility: hidden;
-}
-
-.logo-glass-container {
-    position: relative;
-}
-
-.logo-glass-card {
-    position: relative;
-    padding: 50px 80px;
-    border-radius: 40px;
-    overflow: hidden;
-}
-
-.logo-glass-card .glass-filter {
-    backdrop-filter: blur(60px) saturate(200%);
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    filter: url(#glass-distortion) brightness(1.1);
-}
-
-.logo-glass-card .glass-overlay {
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.logo-text {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-    font-size: clamp(48px, 12vw, 100px);
-    font-weight: 700;
-    color: white;
-    letter-spacing: -0.03em;
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.logo-subtitle {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-align: center;
-    margin-top: 16px;
-    opacity: 0;
-}
-
-/* Background blobs for logo */
-.logo-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-.logo-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.6;
-}
-
-.logo-blob-1 {
-    width: 400px;
-    height: 400px;
-    background: #667eea;
-    top: 50%;
-    left: 30%;
-    transform: translate(-50%, -50%);
-}
-
-.logo-blob-2 {
-    width: 350px;
-    height: 350px;
-    background: #f093fb;
-    top: 50%;
-    left: 70%;
-    transform: translate(-50%, -50%);
-}
-
-/* ===================================================
-   MUSIC MODAL
+   MUSIC MODAL (Morphs from Loader Card)
    =================================================== */
 
 .music-modal {
@@ -479,7 +619,7 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
-    opacity: 0.4;
+    opacity: 0;
 }
 
 .music-blob-1 {
@@ -509,6 +649,8 @@
     box-shadow: 
         0 24px 80px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
 }
 
 .music-glass-card .glass-filter {
@@ -533,17 +675,22 @@
     height: auto;
 }
 
-/* Music Icon */
+/* ===================================================
+   MUSIC ICON WITH SOUND WAVES
+   =================================================== */
+
 .music-icon-container {
     width: 88px;
     height: 88px;
     margin: 0 auto 28px;
     border-radius: 24px;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     box-shadow: 
         0 12px 40px rgba(102, 126, 234, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: scale(0) translateY(-20px);
 }
 
 .music-icon-container .glass-overlay {
@@ -551,8 +698,42 @@
 }
 
 .music-icon-container .glass-content {
-    font-size: 40px;
+    font-size: 36px;
     padding: 0;
+    color: white;
+}
+
+/* Sound Wave Rings (animate when visible) */
+.sound-wave-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.music-icon-container.animate .sound-wave-ring {
+    animation: soundWave 2s ease-out infinite;
+}
+
+.ring-1 { animation-delay: 0s; }
+.ring-2 { animation-delay: 0.4s; }
+.ring-3 { animation-delay: 0.8s; }
+
+@keyframes soundWave {
+    0% {
+        width: 88px;
+        height: 88px;
+        opacity: 0.6;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
 }
 
 /* Music Text */
@@ -563,6 +744,8 @@
     color: white;
     margin: 0 0 10px 0;
     letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .music-subtitle {
@@ -571,16 +754,20 @@
     color: rgba(255, 255, 255, 0.5);
     margin: 0 0 36px 0;
     line-height: 1.5;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 /* ===================================================
-   MUSIC BUTTONS
+   MUSIC BUTTONS (Enhanced with glow effects)
    =================================================== */
 
 .music-buttons {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .music-btn {
@@ -609,13 +796,49 @@
     transform: scale(0.98);
 }
 
-/* Yes Button */
+/* Yes Button with animated glow */
 .music-yes {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     box-shadow: 
         0 8px 32px rgba(102, 126, 234, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.music-yes .btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    animation: btnGlow 3s ease-in-out infinite;
+}
+
+@keyframes btnGlow {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+.music-yes .btn-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 100%
+    );
+    border-radius: 16px 16px 0 0;
+    pointer-events: none;
 }
 
 .music-yes:hover {
@@ -645,30 +868,32 @@
     font-size: 12px;
     color: rgba(255, 255, 255, 0.3);
     text-align: center;
+    opacity: 0;
 }
 
 /* ===================================================
-   FLOATING MUSIC TOGGLE
+   FUTURISTIC MUSIC TOGGLE WITH SOUND WAVE INDICATOR
    =================================================== */
 
-.music-toggle {
+.music-toggle.futuristic {
     position: fixed;
     top: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
+    right: 80px;
+    width: 52px;
+    height: 52px;
     padding: 0;
-    border-radius: 50%;
-    overflow: hidden;
+    border-radius: 16px;
+    overflow: visible;
     border: none;
     cursor: pointer;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.2s ease, opacity 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 4px 24px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 .music-toggle.visible {
@@ -680,26 +905,205 @@
     transform: scale(1.08);
 }
 
+.music-toggle .music-toggle-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(20, 20, 30, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.music-toggle .music-toggle-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    filter: blur(8px);
+}
+
+.music-toggle.playing .music-toggle-glow {
+    opacity: 0.6;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+}
+
 .music-toggle .glass-filter {
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
 }
 
 .music-toggle .glass-overlay {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.music-toggle .glass-content {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .music-toggle.playing .glass-overlay {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, 
+        rgba(102, 126, 234, 0.4) 0%, 
+        rgba(118, 75, 162, 0.4) 100%
+    );
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.music-toggle .glass-content {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
 }
 
 .music-toggle.playing .glass-content {
     color: white;
+}
+
+/* Sound Wave Indicator (Only visible when playing) */
+.sound-wave-indicator {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.music-toggle.playing .sound-wave-indicator {
+    opacity: 1;
+}
+
+.wave-bar {
+    width: 3px;
+    height: 12px;
+    background: linear-gradient(to top, #667eea, #f093fb);
+    border-radius: 2px;
+    transform-origin: bottom;
+}
+
+.music-toggle.playing .wave-bar {
+    animation: waveBar 0.8s ease-in-out infinite;
+}
+
+.bar-1 { animation-delay: 0s; }
+.bar-2 { animation-delay: 0.1s; }
+.bar-3 { animation-delay: 0.2s; }
+.bar-4 { animation-delay: 0.3s; }
+.bar-5 { animation-delay: 0.4s; }
+
+@keyframes waveBar {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+}
+
+/* ===================================================
+   DARK MODE TOGGLE (Restored!)
+   =================================================== */
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(20, 20, 30, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.theme-toggle.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.08);
+}
+
+.theme-toggle-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-thumb {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-icon {
+    position: absolute;
+    font-size: 20px;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.sun-icon {
+    color: #ffd93d;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0);
+}
+
+.moon-icon {
+    color: #a0a0ff;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+/* Dark mode active state */
+body.dark-mode .sun-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+body.dark-mode .moon-icon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0);
+}
+
+.theme-toggle-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ffd93d 0%, #ff6b6b 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    filter: blur(8px);
+}
+
+body:not(.dark-mode) .theme-toggle-glow {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    opacity: 0.3;
+}
+
+body.dark-mode .theme-toggle-glow {
+    opacity: 0.5;
 }
 
 /* ===================================================
@@ -742,6 +1146,17 @@
     .music-title {
         font-size: 22px;
     }
+    
+    .music-toggle.futuristic {
+        right: 70px;
+        width: 46px;
+        height: 46px;
+    }
+    
+    .theme-toggle {
+        width: 46px;
+        height: 46px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -760,99 +1175,34 @@
         height: 240px;
     }
     
-    .music-toggle {
+    .music-toggle.futuristic {
+        top: 16px;
+        right: 64px;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+    
+    .theme-toggle {
         top: 16px;
         right: 16px;
         width: 42px;
         height: 42px;
-    }
-   }
-
-/* ===================================================
-   DARK MODE ADJUSTMENTS
-   =================================================== */
-
-body.dark-mode .music-toggle:not(.playing) {
-    background: rgba(30, 30, 50, 0.9);
-    color: #aaa;
-}
-
-body:not(.dark-mode) .music-toggle:not(.playing) {
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-body:not(.dark-mode) .music-toggle:not(.playing):hover {
-    color: #ff6b6b;
-}
-
-/* ===================================================
-   RESPONSIVE DESIGN
-   =================================================== */
-
-@media (max-width: 768px) {
-    .loader-counter {
-        font-size: 18vw;
-        padding: 0.5rem 1rem;
+        border-radius: 12px;
     }
     
-    .logo-half span {
-        font-size: 22vw;
+    .sound-wave-indicator {
+        bottom: -10px;
     }
     
-    .logo-left {
-        padding-right: 2vw;
-    }
-    
-    .logo-right {
-        padding-left: 2vw;
-    }
-}
-
-@media (max-width: 480px) {
-    .music-modal-content {
-        padding: 2rem 1.5rem;
-        margin: 1rem;
-        max-width: 340px;
-    }
-    
-    .music-title {
-        font-size: 1.3rem;
-    }
-    
-    .music-subtitle {
-        font-size: 0.85rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .music-icon {
-        font-size: 3rem;
-    }
-    
-    /* Stack buttons on very small screens */
-    .music-buttons {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .music-btn {
-        width: 100%;
-        min-width: unset;
-        padding: 12px 20px;
-    }
-    
-    .music-toggle {
-        top: 15px;
-        right: 65px;
-        width: 42px;
-        height: 42px;
-        font-size: 1rem;
+    .wave-bar {
+        width: 2px;
+        height: 10px;
     }
 }
 
 /* ===================================================
-   LOADING TEXT ANIMATION (Optional Enhancement)
+   LOADING TEXT ANIMATION
    =================================================== */
 
 .loader-text {
@@ -872,4 +1222,4 @@ body:not(.dark-mode) .music-toggle:not(.playing):hover {
 @keyframes textPulse {
     0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
-}
+   }
