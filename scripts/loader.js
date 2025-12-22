@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // === ELEMENTS ===
   const tgraLoader = document.getElementById('tgraLoader');
   const loaderTerminal = document.getElementById('loaderTerminal');
-  const terminalBody = document.getElementById('terminalBody');
   const terminalLines = document.getElementById('terminalLines');
   const asciiLogo = document.getElementById('asciiLogo');
   const terminalProgress = document.getElementById('terminalProgress');
@@ -25,10 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const musicInputLine = document.getElementById('musicInputLine');
   const terminalYes = document.getElementById('terminalYes');
   const terminalNo = document.getElementById('terminalNo');
-  
-  const sunReveal = document.getElementById('sunReveal');
-  const sunCore = document.getElementById('sunCore');
-  const sunFlash = document.getElementById('sunFlash');
   
   const themeAudio = document.getElementById('themeAudio');
   const musicToggle = document.getElementById('musicToggle');
@@ -82,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   let currentLine = 0;
-  let progressValue = 0;
 
   // Start boot sequence
   function startBootSequence() {
@@ -131,13 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     terminalLines.appendChild(line);
     
-    // Animate line appearing
     gsap.to(line, {
       opacity: 1,
       duration: 0.1
     });
     
-    // Type text
     const textSpan = line.querySelector('.text');
     typeText(textSpan, msg.text, () => {
       currentLine++;
@@ -172,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       duration: 4,
       ease: "power1.inOut",
       onUpdate: function() {
-        progressValue = Math.round(this.targets()[0].value);
+        const progressValue = Math.round(this.targets()[0].value);
         
         if (progressPercent) {
           progressPercent.textContent = `${progressValue}%`;
@@ -193,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
         terminalLines.appendChild(completeLine);
         gsap.to(completeLine, { opacity: 1, duration: 0.2 });
         
-        // Transition after short delay
         setTimeout(transitionToMusicModal, 800);
       }
     });
@@ -209,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function transitionToMusicModal() {
     const tl = gsap.timeline();
     
-    // Glitch effect on terminal
+    // Glitch effect
     tl.to(loaderTerminal, {
       x: "random(-5, 5)",
       duration: 0.05,
@@ -217,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       yoyo: true
     });
     
-    // Fade out loader terminal
+    // Fade out loader
     tl.to(loaderTerminal, {
       opacity: 0,
       scale: 0.95,
@@ -226,13 +217,11 @@ document.addEventListener("DOMContentLoaded", () => {
       ease: "power2.in"
     });
     
-    // Fade out background
     tl.to('.loader-bg', {
       opacity: 0,
       duration: 0.4
     }, "-=0.3");
     
-    // Hide loader
     tl.set(tgraLoader, { display: 'none' });
     
     // Show music modal
@@ -245,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       duration: 0.4
     });
     
-    // Logo animates in
+    // Logo animation
     tl.to(tgraLogo, {
       opacity: 1,
       y: 0,
@@ -253,7 +242,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ease: "back.out(1.7)"
     });
     
-    // Logo parts split in
     tl.fromTo('.logo-left', 
       { x: -60, opacity: 0 },
       { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
@@ -295,7 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.to(musicLine3, { opacity: 1, duration: 0.1 }, "+=0.6");
     tl.call(() => {
       typeText(musicLine3.querySelector('.text'), "Enhance your experience?", () => {
-        // Show input line after typing
         gsap.to(musicInputLine, { opacity: 1, duration: 0.3, delay: 0.3 });
       });
     });
@@ -318,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
     response.style.opacity = '0';
     response.innerHTML = `
       <span class="prompt">></span>
-      <span class="text ${enableMusic ? 'success' : ''}" style="color: ${enableMusic ? 'var(--terminal-green)' : 'var(--terminal-red)'}">
+      <span class="text" style="color: ${enableMusic ? 'var(--terminal-green)' : 'var(--terminal-red)'}">
         ${enableMusic ? '[Y] Audio enabled. Enjoy the experience! ♪' : '[N] Continuing in silent mode.'}
       </span>
     `;
@@ -335,94 +322,33 @@ document.addEventListener("DOMContentLoaded", () => {
       musicIcon?.classList.add('fa-volume-high');
     }
     
-    // Trigger sun reveal
-    setTimeout(triggerSunReveal, 1200);
+    // Simple fade out and reveal site
+    setTimeout(revealSite, 1000);
   }
   
   terminalYes?.addEventListener('click', () => handleMusicChoice(true));
   terminalNo?.addEventListener('click', () => handleMusicChoice(false));
 
   // ===================================================
-  // SUN RAY REVEAL (Green/Terminal themed)
+  // REVEAL MAIN SITE (Simple fade)
   // ===================================================
   
-  function triggerSunReveal() {
+  function revealSite() {
     const tl = gsap.timeline();
     
     // Fade out modal
     tl.to(terminalModal, {
       opacity: 0,
-      duration: 0.4
+      duration: 0.5,
+      ease: "power2.inOut"
     });
     
-    tl.set(terminalModal, { display: 'none' });
-    
-    // Show sun reveal
     tl.call(() => {
-      sunReveal.classList.add('active');
-    });
-    
-    tl.to(sunReveal, { opacity: 1, duration: 0.1 });
-    
-    // Sun core expands
-    tl.to(sunCore, {
-      scale: 1,
-      duration: 0.3,
-      ease: "power2.out"
-    });
-    
-    // Rays shoot out
-    tl.to('.ray', {
-      opacity: 1,
-      duration: 0.05,
-      stagger: {
-        each: 0.02,
-        from: "random"
-      }
-    });
-    
-    tl.to('.ray', {
-      scaleX: 1.5,
-      duration: 0.4,
-      ease: "power2.out"
-    }, "-=0.1");
-    
-    // Flash
-    tl.to(sunFlash, {
-      opacity: 1,
-      duration: 0.2,
-      ease: "power2.in"
-    });
-    
-    // Core expands massively
-    tl.to(sunCore, {
-      scale: 60,
-      duration: 0.6,
-      ease: "power2.in"
-    }, "-=0.1");
-    
-    // Fade out
-    tl.to(sunReveal, {
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out"
-    });
-    
-    // Cleanup and reveal site
-    tl.call(() => {
-      sunReveal.remove();
+      terminalModal.style.display = 'none';
       document.body.classList.add('gsap-loaded');
-      revealMainSite();
     });
-  }
-
-  // ===================================================
-  // REVEAL MAIN SITE
-  // ===================================================
-  
-  function revealMainSite() {
-    const tl = gsap.timeline();
     
+    // Reveal main site content
     tl.fromTo(".hero-image-wrapper", 
       { opacity: 0, y: 50, scale: 0.95 },
       { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }
@@ -468,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
     
-    // Stagger chapter cards
+    // Chapter cards
     tl.fromTo(".chapter-card",
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "power2.out" },
