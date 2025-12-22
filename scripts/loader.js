@@ -28,10 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeAudio = document.getElementById('themeAudio');
   const musicToggle = document.getElementById('musicToggle');
   const musicIcon = document.getElementById('musicIcon');
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
   
   // Exit if no loader
   if (!tgraLoader) {
     document.body.classList.add('gsap-loaded');
+    showToggles();
+    initThemeToggle();
     return;
   }
 
@@ -80,20 +84,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Start boot sequence
   function startBootSequence() {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      defaults: { ease: "power2.out" }
+    });
     
     // Fade in ASCII logo first
     tl.to(asciiLogo, {
       opacity: 1,
-      duration: 0.5,
-      ease: "power2.out"
+      duration: 0.8,
     });
     
     // Then show progress bar
     tl.to(terminalProgress, {
       opacity: 1,
-      duration: 0.3
-    }, "+=0.3");
+      duration: 0.5
+    }, "-=0.3");
     
     // Start progress animation
     tl.call(() => {
@@ -103,13 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start typing boot messages
     tl.call(() => {
       typeBootMessages();
-    }, null, "+=0.5");
+    }, null, "+=0.3");
     
     // Show cursor line
     tl.to('.terminal-cursor-line', {
       opacity: 1,
       duration: 0.3
-    }, "+=0.3");
+    }, "+=0.2");
   }
 
   function typeBootMessages() {
@@ -127,7 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     gsap.to(line, {
       opacity: 1,
-      duration: 0.1
+      duration: 0.15,
+      ease: "power1.out"
     });
     
     const textSpan = line.querySelector('.text');
@@ -139,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function typeText(element, text, callback) {
     let i = 0;
-    const speed = 20;
+    const speed = 25; // Slightly slower for smoother feel
     
     function type() {
       if (i < text.length) {
@@ -155,14 +161,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===================================================
-  // PROGRESS ANIMATION
+  // PROGRESS ANIMATION (Smoother)
   // ===================================================
   
   function animateProgress() {
     gsap.to({ value: 0 }, {
       value: 100,
-      duration: 4,
-      ease: "power1.inOut",
+      duration: 4.5,
+      ease: "power1.inOut", // Smoother easing
       onUpdate: function() {
         const progressValue = Math.round(this.targets()[0].value);
         
@@ -171,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         if (progressBarFill) {
-          progressBarFill.style.width = `${progressValue}%`;
+          progressBarFill.style.width = `${this.targets()[0].value}%`;
         }
       },
       onComplete: () => {
@@ -183,44 +189,51 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="text success">[COMPLETE] System ready. Launching...</span>
         `;
         terminalLines.appendChild(completeLine);
-        gsap.to(completeLine, { opacity: 1, duration: 0.2 });
+        gsap.to(completeLine, { 
+          opacity: 1, 
+          duration: 0.3,
+          ease: "power2.out"
+        });
         
-        setTimeout(transitionToMusicModal, 800);
+        setTimeout(transitionToMusicModal, 1000);
       }
     });
   }
 
   // Start the sequence
-  setTimeout(startBootSequence, 500);
+  setTimeout(startBootSequence, 600);
 
   // ===================================================
-  // TRANSITION: LOADER → MUSIC MODAL
+  // TRANSITION: LOADER → MUSIC MODAL (Smoother)
   // ===================================================
   
   function transitionToMusicModal() {
-    const tl = gsap.timeline();
-    
-    // Glitch effect
-    tl.to(loaderTerminal, {
-      x: "random(-5, 5)",
-      duration: 0.05,
-      repeat: 5,
-      yoyo: true
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.inOut" }
     });
     
-    // Fade out loader
+    // Subtle glitch effect
+    tl.to(loaderTerminal, {
+      x: "random(-3, 3)",
+      duration: 0.03,
+      repeat: 6,
+      yoyo: true,
+      ease: "none"
+    });
+    
+    // Fade out loader terminal smoothly
     tl.to(loaderTerminal, {
       opacity: 0,
-      scale: 0.95,
-      y: -30,
-      duration: 0.5,
-      ease: "power2.in"
+      scale: 0.97,
+      y: -20,
+      duration: 0.7,
+      ease: "power2.inOut"
     });
     
     tl.to('.loader-bg', {
       opacity: 0,
-      duration: 0.4
-    }, "-=0.3");
+      duration: 0.5
+    }, "-=0.4");
     
     tl.set(tgraLoader, { display: 'none' });
     
@@ -231,33 +244,34 @@ document.addEventListener("DOMContentLoaded", () => {
     
     tl.to(terminalModal, {
       opacity: 1,
-      duration: 0.4
+      duration: 0.5,
+      ease: "power2.out"
     });
     
-    // Logo animation
+    // Logo animation - smoother
     tl.to(tgraLogo, {
       opacity: 1,
       y: 0,
-      duration: 0.6,
-      ease: "back.out(1.7)"
+      duration: 0.8,
+      ease: "back.out(1.4)"
     });
     
     tl.fromTo('.logo-left', 
-      { x: -60, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-      "-=0.3"
+      { x: -40, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+      "-=0.5"
     );
     
     tl.fromTo('.logo-right',
-      { x: 60, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-      "-=0.5"
+      { x: 40, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+      "-=0.6"
     );
     
     tl.fromTo('.logo-divider',
       { scaleY: 0, opacity: 0 },
-      { scaleY: 1, opacity: 1, duration: 0.3, ease: "power2.out" },
-      "-=0.3"
+      { scaleY: 1, opacity: 1, duration: 0.4, ease: "power2.out" },
+      "-=0.4"
     );
     
     // Music terminal appears
@@ -265,25 +279,30 @@ document.addEventListener("DOMContentLoaded", () => {
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.5,
-      ease: "back.out(1.5)"
+      duration: 0.6,
+      ease: "back.out(1.2)"
     });
     
-    // Type terminal lines
-    tl.to(musicLine1, { opacity: 1, duration: 0.1 });
+    // Type terminal lines with delays
+    tl.to(musicLine1, { opacity: 1, duration: 0.15 });
     tl.call(() => {
       typeText(musicLine1.querySelector('.text'), "Audio subsystem initialized.");
     });
     
-    tl.to(musicLine2, { opacity: 1, duration: 0.1 }, "+=0.6");
+    tl.to(musicLine2, { opacity: 1, duration: 0.15 }, "+=0.7");
     tl.call(() => {
       typeText(musicLine2.querySelector('.text'), "Background music available.");
     });
     
-    tl.to(musicLine3, { opacity: 1, duration: 0.1 }, "+=0.6");
+    tl.to(musicLine3, { opacity: 1, duration: 0.15 }, "+=0.7");
     tl.call(() => {
       typeText(musicLine3.querySelector('.text'), "Enhance your experience?", () => {
-        gsap.to(musicInputLine, { opacity: 1, duration: 0.3, delay: 0.3 });
+        gsap.to(musicInputLine, { 
+          opacity: 1, 
+          duration: 0.4, 
+          delay: 0.4,
+          ease: "power2.out"
+        });
       });
     });
   }
@@ -296,8 +315,12 @@ document.addEventListener("DOMContentLoaded", () => {
     musicEnabled = enableMusic;
     localStorage.setItem('musicEnabled', enableMusic ? 'true' : 'false');
     
-    // Hide input line
-    gsap.to(musicInputLine, { opacity: 0, duration: 0.2 });
+    // Hide input line smoothly
+    gsap.to(musicInputLine, { 
+      opacity: 0, 
+      duration: 0.3,
+      ease: "power2.out"
+    });
     
     // Add response line
     const response = document.createElement('div');
@@ -311,35 +334,39 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     
     musicTerminal.querySelector('.terminal-body').appendChild(response);
-    gsap.to(response, { opacity: 1, duration: 0.3, delay: 0.2 });
+    gsap.to(response, { 
+      opacity: 1, 
+      duration: 0.4, 
+      delay: 0.2,
+      ease: "power2.out"
+    });
     
     // Start audio if enabled
     if (enableMusic && themeAudio) {
       themeAudio.volume = 0.5;
-      themeAudio.play().catch(e => console.log("Audio blocked:", e));
-      musicToggle?.classList.add('playing');
-      musicIcon?.classList.remove('fa-volume-xmark');
-      musicIcon?.classList.add('fa-volume-high');
+      themeAudio.play().catch(e => console.log("Audio play prevented:", e));
     }
     
-    // Simple fade out and reveal site
-    setTimeout(revealSite, 1000);
+    // Reveal site after delay
+    setTimeout(revealSite, 1200);
   }
   
   terminalYes?.addEventListener('click', () => handleMusicChoice(true));
   terminalNo?.addEventListener('click', () => handleMusicChoice(false));
 
   // ===================================================
-  // REVEAL MAIN SITE (Simple fade)
+  // REVEAL MAIN SITE (Smoother transitions)
   // ===================================================
   
   function revealSite() {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out" }
+    });
     
-    // Fade out modal
+    // Fade out modal smoothly
     tl.to(terminalModal, {
       opacity: 0,
-      duration: 0.5,
+      duration: 0.6,
       ease: "power2.inOut"
     });
     
@@ -348,58 +375,143 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add('gsap-loaded');
     });
     
-    // Reveal main site content
+    // Reveal main site content with stagger
     tl.fromTo(".hero-image-wrapper", 
-      { opacity: 0, y: 50, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }
+      { opacity: 0, y: 40, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 1 }
     );
     
     tl.fromTo(".hero-title",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
-      "-=0.5"
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 0.8 },
+      "-=0.7"
     );
     
     tl.fromTo(".hero-description",
       { opacity: 0, y: 20 },
-      { opacity: 0.7, y: 0, duration: 0.6, ease: "power2.out" },
-      "-=0.4"
+      { opacity: 0.7, y: 0, duration: 0.7 },
+      "-=0.5"
     );
     
     tl.fromTo(".search-wrapper",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-      "-=0.3"
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.6 },
+      "-=0.4"
     );
     
     tl.fromTo(".cast-section",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-      "-=0.2"
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 0.7 },
+      "-=0.3"
     );
     
     tl.fromTo(".floating-dock",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" },
-      "-=0.2"
-    );
-    
-    // Show music toggle
-    tl.call(() => {
-      if (musicToggle) {
-        musicToggle.classList.add('visible');
-        if (musicEnabled) {
-          musicToggle.classList.add('playing');
-        }
-      }
-    });
-    
-    // Chapter cards
-    tl.fromTo(".chapter-card",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "power2.out" },
+      { opacity: 0, y: 25 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.4)" },
       "-=0.3"
     );
+    
+    // Show toggles with bounce effect
+    tl.call(() => {
+      showToggles();
+      initThemeToggle();
+    });
+    
+    // Chapter cards with stagger
+    tl.fromTo(".chapter-card",
+      { opacity: 0, y: 25 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        stagger: 0.1, 
+        ease: "power2.out" 
+      },
+      "-=0.4"
+    );
+  }
+
+  // ===================================================
+  // SHOW TOGGLES (Music & Theme)
+  // ===================================================
+  
+  function showToggles() {
+    // Show music toggle
+    if (musicToggle) {
+      musicToggle.classList.add('visible');
+      
+      gsap.fromTo(musicToggle,
+        { scale: 0, opacity: 0 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 0.5, 
+          ease: "back.out(1.7)"
+        }
+      );
+      
+      // Set initial state based on music
+      if (musicEnabled) {
+        musicToggle.classList.add('playing');
+        musicIcon?.classList.remove('fa-volume-xmark');
+        musicIcon?.classList.add('fa-volume-high');
+      }
+    }
+    
+    // Show theme toggle
+    if (themeToggle) {
+      themeToggle.classList.add('visible');
+      
+      gsap.fromTo(themeToggle,
+        { scale: 0, opacity: 0 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          duration: 0.5, 
+          delay: 0.1,
+          ease: "back.out(1.7)"
+        }
+      );
+    }
+  }
+
+  // ===================================================
+  // THEME TOGGLE (Dark/Light Mode)
+  // ===================================================
+  
+  function initThemeToggle() {
+    if (!themeToggle) return;
+    
+    // Check saved preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-mode');
+      updateThemeIcon(true);
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      const isLight = document.body.classList.toggle('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      updateThemeIcon(isLight);
+      
+      // Animate icon
+      gsap.fromTo(themeIcon,
+        { rotation: 0, scale: 0.5 },
+        { rotation: 360, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
+      );
+    });
+  }
+  
+  function updateThemeIcon(isLight) {
+    if (!themeIcon) return;
+    
+    if (isLight) {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    } else {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    }
   }
 
   // ===================================================
@@ -408,25 +520,53 @@ document.addEventListener("DOMContentLoaded", () => {
   
   musicToggle?.addEventListener('click', function() {
     if (musicEnabled) {
+      // Pause music
       themeAudio?.pause();
       musicEnabled = false;
       this.classList.remove('playing');
       musicIcon?.classList.remove('fa-volume-high');
       musicIcon?.classList.add('fa-volume-xmark');
+      
+      // Animate
+      gsap.to(this, {
+        scale: 0.9,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.inOut"
+      });
     } else {
-      themeAudio?.play().catch(e => console.log("Audio blocked:", e));
+      // Play music
+      if (themeAudio) {
+        themeAudio.volume = 0.5;
+        themeAudio.play().catch(e => console.log("Audio play prevented:", e));
+      }
       musicEnabled = true;
       this.classList.add('playing');
       musicIcon?.classList.remove('fa-volume-xmark');
       musicIcon?.classList.add('fa-volume-high');
+      
+      // Animate
+      gsap.to(this, {
+        scale: 1.1,
+        duration: 0.15,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.inOut"
+      });
     }
     localStorage.setItem('musicEnabled', musicEnabled ? 'true' : 'false');
   });
   
-  // Keyboard shortcut
+  // Keyboard shortcuts
   document.addEventListener('keydown', function(e) {
+    // M for music
     if (e.key.toLowerCase() === 'm' && musicToggle?.classList.contains('visible')) {
       musicToggle.click();
+    }
+    // D for dark mode
+    if (e.key.toLowerCase() === 'd' && themeToggle?.classList.contains('visible')) {
+      themeToggle.click();
     }
   });
 
