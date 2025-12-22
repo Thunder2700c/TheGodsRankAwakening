@@ -19,27 +19,10 @@
   
 <body class="homepage">
 
-<!-- ===================================================
-     AUDIO
-     =================================================== -->
+<!-- AUDIO -->
 <audio id="themeAudio" loop preload="auto">
   <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
 </audio>
-
-<!-- ===================================================
-     SVG FILTERS
-     =================================================== -->
-<svg style="display: none">
-  <defs>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-</svg>
 
 <!-- ===================================================
      TGRA TERMINAL LOADER
@@ -87,9 +70,7 @@
       </div>
       
       <!-- Command Lines -->
-      <div class="terminal-lines" id="terminalLines">
-        <!-- Lines will be added by JS -->
-      </div>
+      <div class="terminal-lines" id="terminalLines"></div>
       
       <!-- Progress Bar -->
       <div class="terminal-progress" id="terminalProgress">
@@ -172,6 +153,13 @@
 </div>
 
 <!-- ===================================================
+     DARK MODE TOGGLE
+     =================================================== -->
+<button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode [D]">
+  <i class="fa-solid fa-moon" id="themeIcon"></i>
+</button>
+
+<!-- ===================================================
      MUSIC TOGGLE BUTTON
      =================================================== -->
 <button class="music-toggle-btn" id="musicToggle" title="Toggle Music [M]">
@@ -244,9 +232,7 @@
   <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
 </nav>
 
-<!-- ===================================================
-     SCRIPTS
-     =================================================== -->
+<!-- SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -256,4 +242,3 @@
 
 </body>
 </html>
-
