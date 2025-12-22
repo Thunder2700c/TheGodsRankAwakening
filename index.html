@@ -19,311 +19,262 @@
   
 <body class="homepage">
 
-<!-- AUDIO -->
+<!-- ===================================================
+     AUDIO
+     =================================================== -->
 <audio id="themeAudio" loop preload="auto">
   <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- SVG FILTERS FOR GLASS DISTORTION & LIQUID EFFECT -->
+<!-- ===================================================
+     SVG FILTERS
+     =================================================== -->
 <svg style="display: none">
   <defs>
-    <!-- Glass Distortion Filter -->
-    <filter id="glass-distortion">
-      <feTurbulence 
-        id="turbulence"
-        type="turbulence" 
-        baseFrequency="0.015" 
-        numOctaves="3" 
-        result="noise"
-      />
-      <feDisplacementMap 
-        id="displacement"
-        in="SourceGraphic" 
-        in2="noise" 
-        scale="8"
-      />
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
-    
-    <!-- Liquid Wash Filter -->
-    <filter id="liquid-filter">
-      <feTurbulence 
-        id="liquidTurbulence"
-        type="fractalNoise" 
-        baseFrequency="0.01" 
-        numOctaves="3" 
-        result="noise"
-        seed="1"
-      />
-      <feDisplacementMap 
-        id="liquidDisplacement"
-        in="SourceGraphic" 
-        in2="noise" 
-        scale="30"
-        xChannelSelector="R"
-        yChannelSelector="G"
-      />
-    </filter>
-    
-    <!-- Progress Ring Gradient -->
-    <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea"/>
-      <stop offset="50%" style="stop-color:#764ba2"/>
-      <stop offset="100%" style="stop-color:#f093fb"/>
-    </linearGradient>
-    
-    <!-- Energy Pulse Gradient -->
-    <radialGradient id="energyGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.8"/>
-      <stop offset="100%" style="stop-color:#667eea;stop-opacity:0"/>
-    </radialGradient>
   </defs>
 </svg>
 
 <!-- ===================================================
-     LIQUID WASH OVERLAY (7-second reveal)
+     TGRA TERMINAL LOADER
      =================================================== -->
-<div class="liquid-wash-container" id="liquidWashContainer">
-  <div class="liquid-layer liquid-layer-1"></div>
-  <div class="liquid-layer liquid-layer-2"></div>
-  <div class="liquid-layer liquid-layer-3"></div>
-  <div class="liquid-droplets" id="liquidDroplets"></div>
-  <div class="liquid-foam"></div>
-</div>
-
-<!-- ===================================================
-     APPLE LIQUID GLASS LOADER
-     =================================================== -->
-<div class="loader-wrapper" id="loaderWrapper">
+<div class="tgra-loader" id="tgraLoader">
   
-  <!-- Animated Background Blobs -->
-  <div class="background-layer" id="backgroundLayer">
-    <div class="color-blob blob-1" id="blob1"></div>
-    <div class="color-blob blob-2" id="blob2"></div>
-    <div class="color-blob blob-3" id="blob3"></div>
-    <div class="color-blob blob-4" id="blob4"></div>
+  <!-- Animated Background -->
+  <div class="loader-bg">
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-scanline"></div>
+    <div class="bg-particles" id="bgParticles"></div>
+  </div>
+  
+  <!-- Terminal Window -->
+  <div class="loader-terminal" id="loaderTerminal">
     
-    <!-- Energy Ripples (React to counter) -->
-    <div class="energy-ripples" id="energyRipples">
-      <div class="energy-ring" id="energyRing1"></div>
-      <div class="energy-ring" id="energyRing2"></div>
-      <div class="energy-ring" id="energyRing3"></div>
-    </div>
-    
-    <!-- Color Shift Overlay -->
-    <div class="color-shift-overlay" id="colorShiftOverlay"></div>
-  </div>
-  
-  <!-- Floating Glass Pills (Decorative) -->
-  <div class="floating-pills" id="floatingPills">
-    <div class="glass-pill pill-1" id="pill1">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-    </div>
-    <div class="glass-pill pill-2" id="pill2">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-    </div>
-    <div class="glass-pill pill-3" id="pill3">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-    </div>
-    <div class="glass-pill pill-4" id="pill4">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-    </div>
-  </div>
-  
-  <!-- Progress Ring -->
-  <div class="progress-ring-wrapper">
-    <svg class="progress-ring" viewBox="0 0 340 340">
-      <circle class="progress-ring-bg" cx="170" cy="170" r="165"/>
-      <circle class="progress-ring-fill" id="progressRing" cx="170" cy="170" r="165"/>
-    </svg>
-  </div>
-  
-  <!-- Main Glass Loader Card (Will morph into music modal) -->
-  <div class="glass-loader-container" id="glassLoaderContainer">
-    <div class="glass-loader-card" id="glassLoaderCard">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular" id="mainSpecular"></div>
-      <div class="glass-content">
-        <h1 class="loader-counter" id="loaderCounter">0</h1>
-        <p class="loader-label" id="loaderLabel">Loading</p>
+    <!-- Terminal Header -->
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <span class="terminal-title">tgra_boot.sh</span>
+      <div class="terminal-status">
+        <span class="status-dot"></span>
+        <span class="status-text">running</span>
       </div>
     </div>
-  </div>
-  
-  <!-- Brand -->
-  <div class="loader-brand">
-    <div class="brand-glass">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-      <div class="glass-content">⚔️</div>
-    </div>
-    <span class="brand-text">TGRA</span>
-  </div>
-  
-</div>
-
-<!-- ===================================================
-     MUSIC MODAL (Morphed from loader card)
-     =================================================== -->
-<div class="music-modal" id="musicModal">
-  <div class="music-modal-bg">
-    <div class="music-blob music-blob-1" id="musicBlob1"></div>
-    <div class="music-blob music-blob-2" id="musicBlob2"></div>
-  </div>
-  
-  <div class="music-glass-card" id="musicGlassCard">
-    <div class="glass-filter"></div>
-    <div class="glass-overlay"></div>
-    <div class="glass-specular" id="musicSpecular"></div>
-    <div class="glass-content">
+    
+    <!-- Terminal Body -->
+    <div class="terminal-body" id="terminalBody">
       
-      <!-- Stagger 1: Icon drops in -->
-      <div class="music-icon-container" id="musicIconContainer">
-        <div class="glass-filter"></div>
-        <div class="glass-overlay"></div>
-        <div class="glass-specular"></div>
-        <div class="glass-content">
-          <i class="fa-solid fa-music"></i>
+      <!-- ASCII Art Logo -->
+      <div class="ascii-logo" id="asciiLogo">
+<pre>
+ ████████╗ ██████╗ ██████╗  █████╗ 
+ ╚══██╔══╝██╔════╝ ██╔══██╗██╔══██╗
+    ██║   ██║  ███╗██████╔╝███████║
+    ██║   ██║   ██║██╔══██╗██╔══██║
+    ██║   ╚██████╔╝██║  ██║██║  ██║
+    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+</pre>
+      </div>
+      
+      <!-- Command Lines -->
+      <div class="terminal-lines" id="terminalLines">
+        <!-- Lines will be added by JS -->
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="terminal-progress" id="terminalProgress">
+        <span class="progress-label">$ loading:</span>
+        <div class="progress-bar-wrapper">
+          <span class="progress-bracket">[</span>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+          </div>
+          <span class="progress-bracket">]</span>
         </div>
-        <!-- Animated sound waves -->
-        <div class="sound-wave-ring ring-1"></div>
-        <div class="sound-wave-ring ring-2"></div>
-        <div class="sound-wave-ring ring-3"></div>
+        <span class="progress-percent" id="progressPercent">0%</span>
       </div>
       
-      <!-- Stagger 2: Text -->
-      <h2 class="music-title" id="musicTitle">Enable Audio?</h2>
-      <p class="music-subtitle" id="musicSubtitle">Enhance your experience with immersive background music</p>
-      
-      <!-- Stagger 3: Buttons fade in last -->
-      <div class="music-buttons" id="musicButtons">
-        <button class="music-btn music-yes" id="musicYes">
-          <span class="btn-glow"></span>
-          <i class="fa-solid fa-play"></i>
-          <span>Enable Audio</span>
-          <div class="btn-shine"></div>
-        </button>
-        <button class="music-btn music-no" id="musicNo">
-          <span>Continue Without Audio</span>
-        </button>
+      <!-- Cursor Line -->
+      <div class="terminal-cursor-line">
+        <span class="prompt">$</span>
+        <span class="cursor">▋</span>
       </div>
       
-      <small class="music-hint" id="musicHint">You can change this anytime</small>
     </div>
+    
   </div>
+  
 </div>
 
 <!-- ===================================================
-     FUTURISTIC MUSIC TOGGLE BUTTON
+     TERMINAL MUSIC MODAL
      =================================================== -->
-<button class="music-toggle futuristic" id="musicToggle" title="Toggle Music [M]">
-  <div class="music-toggle-bg"></div>
-  <div class="music-toggle-glow"></div>
-  <div class="glass-filter"></div>
-  <div class="glass-overlay"></div>
-  <div class="glass-specular"></div>
-  <div class="glass-content">
-    <i class="fa-solid fa-volume-xmark" id="musicToggleIcon"></i>
+<div class="terminal-modal" id="terminalModal">
+  
+  <!-- Logo Split -->
+  <div class="tgra-logo" id="tgraLogo">
+    <span class="logo-left">TG</span>
+    <span class="logo-divider">|</span>
+    <span class="logo-right">RA</span>
   </div>
-  <!-- Active Sound Wave Indicator -->
-  <div class="sound-wave-indicator" id="soundWaveIndicator">
-    <span class="wave-bar bar-1"></span>
-    <span class="wave-bar bar-2"></span>
-    <span class="wave-bar bar-3"></span>
-    <span class="wave-bar bar-4"></span>
-    <span class="wave-bar bar-5"></span>
+  
+  <!-- Terminal Window -->
+  <div class="music-terminal" id="musicTerminal">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <span class="terminal-title">audio_config.sh</span>
+      <div class="terminal-status">
+        <span class="status-dot"></span>
+        <span class="status-text">awaiting input</span>
+      </div>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line" id="musicLine1">
+        <span class="prompt">$</span>
+        <span class="text"></span>
+      </div>
+      <div class="terminal-line" id="musicLine2">
+        <span class="prompt">$</span>
+        <span class="text"></span>
+      </div>
+      <div class="terminal-line" id="musicLine3">
+        <span class="prompt">$</span>
+        <span class="text"></span>
+      </div>
+      <div class="terminal-input-line" id="musicInputLine">
+        <span class="prompt">$</span>
+        <span class="input-wrapper">
+          <span class="input-text">enable_audio? [</span>
+          <button class="terminal-btn yes-btn" id="terminalYes">Y</button>
+          <span class="input-text">/</span>
+          <button class="terminal-btn no-btn" id="terminalNo">N</button>
+          <span class="input-text">]:</span>
+        </span>
+        <span class="cursor">▋</span>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- ===================================================
+     SUN RAYS REVEAL
+     =================================================== -->
+<div class="sun-reveal" id="sunReveal">
+  <div class="sun-core" id="sunCore"></div>
+  <div class="sun-rays" id="sunRays">
+    <div class="ray ray-1"></div>
+    <div class="ray ray-2"></div>
+    <div class="ray ray-3"></div>
+    <div class="ray ray-4"></div>
+    <div class="ray ray-5"></div>
+    <div class="ray ray-6"></div>
+    <div class="ray ray-7"></div>
+    <div class="ray ray-8"></div>
+    <div class="ray ray-9"></div>
+    <div class="ray ray-10"></div>
+    <div class="ray ray-11"></div>
+    <div class="ray ray-12"></div>
+  </div>
+  <div class="sun-flash" id="sunFlash"></div>
+</div>
+
+<!-- ===================================================
+     MUSIC TOGGLE BUTTON
+     =================================================== -->
+<button class="music-toggle-btn" id="musicToggle" title="Toggle Music [M]">
+  <i class="fa-solid fa-volume-xmark" id="musicIcon"></i>
+  <div class="sound-waves">
+    <span></span><span></span><span></span><span></span>
   </div>
 </button>
 
 <!-- ===================================================
-     DARK MODE TOGGLE (Restored!)
+     MAIN SITE CONTENT
      =================================================== -->
-<button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
-  <div class="theme-toggle-track">
-    <div class="theme-toggle-thumb">
-      <i class="fa-solid fa-sun theme-icon sun-icon"></i>
-      <i class="fa-solid fa-moon theme-icon moon-icon"></i>
+<section class="hero-container">
+  
+  <div class="hero-image-wrapper liquid-glass">
+      <img src="assets/images/jonathan.jpeg" alt="Jonathan Awakening Teaser – JoJo Vibes" class="hero-image">
+  </div>
+
+  <h1 class="hero-title">Gods Rank<br>Awakening</h1>
+  <p class="hero-description">
+    In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite. Dive into the multiverse war.
+  </p>
+
+  <div class="search-wrapper">
+    <div class="glass-search liquid-glass">
+      <i class="fa-solid fa-search" style="opacity: 0.5;"></i>
+      <input type="text" id="searchChapters" placeholder="Search chapters...">
     </div>
   </div>
-  <div class="theme-toggle-glow"></div>
-</button>
+</section>
 
-  <section class="hero-container">
-    
-    <div class="hero-image-wrapper liquid-glass">
-        <img src="assets/images/jonathan.jpeg" alt="Jonathan Awakening Teaser – JoJo Vibes" class="hero-image">
+<section class="continue-section" id="continueSection" style="display: none;">
+  <div class="continue-card liquid-glass">
+    <div class="continue-icon">📖</div>
+    <div class="continue-info">
+      <small>Continue Reading</small>
+      <h3 id="continueTitle">Chapter Title</h3>
     </div>
-
-    <h1 class="hero-title">Gods Rank<br>Awakening</h1>
-    <p class="hero-description">
-  In 2120 CE, hell portals rip open—Aditya defies Asura King Kanasura in crimson ruins. Ranks clash, destinies ignite. Dive into the multiverse war.
-    </p>
-
-    <div class="search-wrapper">
-      <div class="glass-search liquid-glass">
-        <i class="fa-solid fa-search" style="opacity: 0.5;"></i>
-        <input type="text" id="searchChapters" placeholder="Search chapters...">
-      </div>
-    </div>
-  </section>
-
-  <section class="continue-section" id="continueSection" style="display: none;">
-    <div class="continue-card liquid-glass">
-      <div class="continue-icon">📖</div>
-      <div class="continue-info">
-        <small>Continue Reading</small>
-        <h3 id="continueTitle">Chapter Title</h3>
-      </div>
-      <a href="#" id="continueLink" class="continue-btn">
-        Resume <i class="fa-solid fa-arrow-right"></i>
-      </a>
-    </div>
-  </section>
-
-  <section class="cast-section">
-    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cast-card liquid-glass">
-      <div class="cast-image-wrapper">
-        <img src="assets/images/aditya-cover.jpeg" alt="Main Cast - The Squad" class="cast-image">
-        <div class="cast-overlay"></div>
-      </div>
-      <div class="cast-info">
-        <small class="cast-tag">Explore</small>
-        <h2 class="cast-title">The Main Cast</h2>
-        <p class="cast-subtitle">9 warriors. One destiny.</p>
-        <span class="cast-cta">
-          Tap to meet them <i class="fa-solid fa-arrow-right"></i>
-        </span>
-      </div>
+    <a href="#" id="continueLink" class="continue-btn">
+      Resume <i class="fa-solid fa-arrow-right"></i>
     </a>
-  </section>
+  </div>
+</section>
 
-  <main class="chapters-grid" id="chaptersGrid">
-  </main>
+<section class="cast-section">
+  <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="cast-card liquid-glass">
+    <div class="cast-image-wrapper">
+      <img src="assets/images/aditya-cover.jpeg" alt="Main Cast - The Squad" class="cast-image">
+      <div class="cast-overlay"></div>
+    </div>
+    <div class="cast-info">
+      <small class="cast-tag">Explore</small>
+      <h2 class="cast-title">The Main Cast</h2>
+      <p class="cast-subtitle">9 warriors. One destiny.</p>
+      <span class="cast-cta">
+        Tap to meet them <i class="fa-solid fa-arrow-right"></i>
+      </span>
+    </div>
+  </a>
+</section>
 
-  <nav class="floating-dock" id="floatingDock">
-    <a href="index.html" class="dock-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
-    <a href="#" class="dock-icon" title="Latest" id="latest-link"><i class="fa-solid fa-bolt"></i></a>
-    <a href="#" class="dock-icon" title="Library" id="library-link"><i class="fa-solid fa-book-open"></i></a>
-    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
-    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
-  </nav>
+<main class="chapters-grid" id="chaptersGrid">
+</main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CustomEase.min.js"></script>
-  
-  <script src="scripts/animations.js"></script>
-  <script src="scripts/main.js"></script>
-  <script src="scripts/loader.js"></script>
+<nav class="floating-dock" id="floatingDock">
+  <a href="index.html" class="dock-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
+  <a href="#" class="dock-icon" title="Latest" id="latest-link"><i class="fa-solid fa-bolt"></i></a>
+  <a href="#" class="dock-icon" title="Library" id="library-link"><i class="fa-solid fa-book-open"></i></a>
+  <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+  <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
+</nav>
+
+<!-- ===================================================
+     SCRIPTS
+     =================================================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script src="scripts/animations.js"></script>
+<script src="scripts/main.js"></script>
+<script src="scripts/loader.js"></script>
 
 </body>
-        </html>
+</html>
