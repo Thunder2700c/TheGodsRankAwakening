@@ -272,3 +272,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+// ===================================================
+// SCROLL TO TOP BUTTON
+// ===================================================
+
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+if (scrollTopBtn) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+// ===================================================
+// SAVE & RESTORE READING POSITION
+// ===================================================
+
+const chapterPath = window.location.pathname;
+
+// Restore scroll position when page loads
+const savedScrollPos = localStorage.getItem(`scroll-${chapterPath}`);
+if (savedScrollPos) {
+  setTimeout(() => {
+    window.scrollTo({
+      top: parseInt(savedScrollPos),
+      behavior: 'smooth'
+    });
+  }, 500);
+}
+
+// Save scroll position as user reads
+let saveScrollTimeout;
+window.addEventListener('scroll', () => {
+  clearTimeout(saveScrollTimeout);
+  saveScrollTimeout = setTimeout(() => {
+    localStorage.setItem(`scroll-${chapterPath}`, window.scrollY);
+  }, 500);
+});
