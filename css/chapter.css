@@ -867,3 +867,50 @@ body.dark-mode .theme-toggle:hover {
     height: 42px;
   }
 }
+
+/* ===================================================
+   SCROLL TO TOP BUTTON
+   =================================================== */
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #ff6b6b, #5f27cd);
+  color: white;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.5);
+}
+
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    bottom: 90px;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+  }
+}
