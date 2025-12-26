@@ -915,9 +915,15 @@ body.dark-mode .theme-toggle:hover {
   }
 }
 
-.scene-divider {
-  width: 40%;          /* Scale based on screen width */
-  max-width: 200px;    /* Don't let it get too huge */
-  margin: 2rem auto;   /* Natural vertical spacing */
-  mix-blend-mode: multiply;
+/* Add a class to your image in the HTML: <img class="scene-break" ... > */
+.scene-break {
+  width: 180px;         /* Keeps it a nice size */
+  display: block;       /* Allows centering */
+  margin: 30px auto;    /* Centers it and adds space above/below */
+  
+  /* THIS REMOVES THE WHITE BOX */
+  mix-blend-mode: multiply; 
+  
+  /* This ensures it doesn't have a weird border */
+  border: none;
 }
