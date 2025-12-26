@@ -914,3 +914,10 @@ body.dark-mode .theme-toggle:hover {
     height: 44px;
   }
 }
+
+.scene-divider {
+  width: 40%;          /* Scale based on screen width */
+  max-width: 200px;    /* Don't let it get too huge */
+  margin: 2rem auto;   /* Natural vertical spacing */
+  mix-blend-mode: multiply;
+}
