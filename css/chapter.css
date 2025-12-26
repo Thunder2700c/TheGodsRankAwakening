@@ -915,15 +915,18 @@ body.dark-mode .theme-toggle:hover {
   }
 }
 
-/* Add a class to your image in the HTML: <img class="scene-break" ... > */
-.scene-break {
-  width: 180px;         /* Keeps it a nice size */
-  display: block;       /* Allows centering */
-  margin: 30px auto;    /* Centers it and adds space above/below */
-  
-  /* THIS REMOVES THE WHITE BOX */
+.scene-divider {
+  /* This forces the white box to disappear into the background */
   mix-blend-mode: multiply; 
   
-  /* This ensures it doesn't have a weird border */
-  border: none;
+  /* Proper sizing for your layout */
+  width: 150px; 
+  height: auto;
+  display: block;
+  margin: 30px auto;
+  
+  /* Reset any possible background or borders from other styles */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
