@@ -101,3 +101,47 @@ function updateGlobalAuthUI(user) {
 
 // Make function globally available
 window.updateGlobalAuthUI = updateGlobalAuthUI;
+
+// ===================================================
+// USER MENU FUNCTIONALITY
+// ===================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  const loginNavBtn = document.getElementById('loginNavBtn');
+  const userMenuContainer = document.getElementById('userMenuContainer');
+  const userMenuBtn = document.getElementById('userMenuBtn');
+  const userDropdown = document.getElementById('userDropdown');
+  const navLogoutBtn = document.getElementById('navLogoutBtn');
+  
+  // Show login button after page loads
+  setTimeout(() => {
+    if (loginNavBtn && !document.body.classList.contains('user-logged-in')) {
+      loginNavBtn.classList.add('visible');
+    }
+  }, 1000);
+  
+  // Toggle dropdown
+  userMenuBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userMenuContainer.classList.toggle('open');
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!userMenuContainer?.contains(e.target)) {
+      userMenuContainer?.classList.remove('open');
+    }
+  });
+  
+  // Logout
+  navLogoutBtn?.addEventListener('click', async () => {
+    try {
+      await window.auth.signOut();
+      window.location.reload();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  });
+  
+});
