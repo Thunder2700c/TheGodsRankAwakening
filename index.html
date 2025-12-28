@@ -159,15 +159,53 @@
   <i class="fa-solid fa-moon" id="themeIcon"></i>
 </button>
 
-<!-- ===================================================
-     MUSIC TOGGLE BUTTON
-     =================================================== -->
+<!-- Music Toggle Button -->
 <button class="music-toggle-btn" id="musicToggle" title="Toggle Music [M]">
   <i class="fa-solid fa-volume-xmark" id="musicIcon"></i>
   <div class="sound-waves">
     <span></span><span></span><span></span><span></span>
   </div>
 </button>
+
+<!-- ===================================================
+     USER AUTH BUTTON (Add this NEW section)
+     =================================================== -->
+
+<!-- Login Button (shows when NOT logged in) -->
+<a href="login.html" class="auth-nav-btn guest-only" id="loginNavBtn" title="Login">
+  <i class="fa-solid fa-user"></i>
+  <span>Login</span>
+</a>
+
+<!-- User Menu (shows when logged in) -->
+<div class="user-menu-container auth-required" id="userMenuContainer">
+  <button class="user-menu-btn" id="userMenuBtn">
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="User" class="user-avatar" id="navUserAvatar">
+    <span class="user-name" id="navUserName">User</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  
+  <div class="user-dropdown" id="userDropdown">
+    <div class="dropdown-header">
+      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="User" class="dropdown-avatar user-avatar">
+      <div class="dropdown-user-info">
+        <span class="dropdown-name user-name">User</span>
+        <span class="dropdown-email user-email">user@email.com</span>
+      </div>
+    </div>
+    <div class="dropdown-divider"></div>
+    <a href="profile.html" class="dropdown-item">
+      <i class="fa-solid fa-user"></i> My Profile
+    </a>
+    <a href="toc.html" class="dropdown-item">
+      <i class="fa-solid fa-bookmark"></i> My Bookmarks
+    </a>
+    <div class="dropdown-divider"></div>
+    <button class="dropdown-item logout" id="navLogoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </button>
+  </div>
+</div>
 
 <!-- ===================================================
      MAIN SITE CONTENT
