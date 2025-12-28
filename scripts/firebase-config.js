@@ -27,23 +27,48 @@ window.firebase = firebase;
 console.log("🔥 Firebase initialized successfully!");
 
 // ===================================================
-// AUTH STATE LISTENER (Global)
+// AUTH STATE LISTENER
 // ===================================================
 
 auth.onAuthStateChanged((user) => {
+  const loginNavBtn = document.getElementById('loginNavBtn');
+  const userMenuContainer = document.getElementById('userMenuContainer');
+  
   if (user) {
+    // User logged in
     console.log("✅ User logged in:", user.displayName || user.email);
     document.body.classList.add('user-logged-in');
     document.body.classList.remove('user-logged-out');
     
-    // Update UI elements
-    updateGlobalAuthUI(user);
+    // Hide login, show user menu
+    loginNavBtn?.classList.remove('visible');
+    userMenuContainer?.classList.add('visible');
+    
+    // Update user info in menu
+    const avatarUrl = user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`;
+    const userName = user.displayName || user.email.split('@')[0];
+    
+    document.querySelectorAll('.user-avatar').forEach(el => {
+      el.src = avatarUrl;
+    });
+    
+    document.querySelectorAll('.user-name').forEach(el => {
+      el.textContent = userName;
+    });
+    
+    document.querySelectorAll('.user-email').forEach(el => {
+      el.textContent = user.email;
+    });
+    
   } else {
+    // User not logged in
     console.log("👤 User not logged in");
     document.body.classList.add('user-logged-out');
     document.body.classList.remove('user-logged-in');
     
-    updateGlobalAuthUI(null);
+    // Show login, hide user menu
+    loginNavBtn?.classList.add('visible');
+    userMenuContainer?.classList.remove('visible');
   }
 });
 
