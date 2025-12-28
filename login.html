@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body class="auth-page">
+  
+  <div class="auth-container">
+    
+    <!-- Back to Home -->
+    <a href="index.html" class="back-home">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+    
+    <!-- Logo -->
+    <div class="auth-logo">
+      <span class="logo-text">TG<span class="divider">|</span>RA</span>
+      <p class="logo-subtitle">The Gods Rank Awakening</p>
+    </div>
+    
+    <!-- Login Form -->
+    <div class="auth-form active" id="loginFormContainer">
+      <h2>Welcome Back</h2>
+      <p class="auth-subtitle">Login to continue your journey</p>
+      
+      <form id="loginForm">
+        <div class="input-group">
+          <i class="fa-solid fa-envelope"></i>
+          <input 
+            type="email" 
+            id="loginEmail" 
+            placeholder="Email address" 
+            required
+          >
+        </div>
+        
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input 
+            type="password" 
+            id="loginPassword" 
+            placeholder="Password" 
+            required
+          >
+          <button type="button" class="toggle-password" tabindex="-1">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+        
+        <a href="#" id="forgotPassword" class="forgot-link">Forgot password?</a>
+        
+        <button type="submit" class="auth-btn primary">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+      </form>
+      
+      <div class="auth-divider">
+        <span>or continue with</span>
+      </div>
+      
+      <button id="googleSignIn" class="auth-btn google">
+        <i class="fa-brands fa-google"></i> Google
+      </button>
+      
+      <p class="auth-switch">
+        Don't have an account? 
+        <a href="#" id="showSignup">Sign up</a>
+      </p>
+    </div>
+    
+    <!-- Signup Form -->
+    <div class="auth-form" id="signupFormContainer">
+      <h2>Create Account</h2>
+      <p class="auth-subtitle">Join the awakening</p>
+      
+      <form id="signupForm">
+        <div class="input-group">
+          <i class="fa-solid fa-user"></i>
+          <input 
+            type="text" 
+            id="signupUsername" 
+            placeholder="Username" 
+            required
+            minlength="3"
+            maxlength="20"
+          >
+        </div>
+        
+        <div class="input-group">
+          <i class="fa-solid fa-envelope"></i>
+          <input 
+            type="email" 
+            id="signupEmail" 
+            placeholder="Email address" 
+            required
+          >
+        </div>
+        
+        <div class="input-group">
+          <i class="fa-solid fa-lock"></i>
+          <input 
+            type="password" 
+            id="signupPassword" 
+            placeholder="Password (min 6 characters)" 
+            required
+            minlength="6"
+          >
+          <button type="button" class="toggle-password" tabindex="-1">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+        
+        <button type="submit" class="auth-btn primary">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+      </form>
+      
+      <div class="auth-divider">
+        <span>or continue with</span>
+      </div>
+      
+      <button id="googleSignIn" class="auth-btn google">
+        <i class="fa-brands fa-google"></i> Google
+      </button>
+      
+      <p class="auth-switch">
+        Already have an account? 
+        <a href="#" id="showLogin">Login</a>
+      </p>
+    </div>
+    
+  </div>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script src="scripts/firebase-config.js"></script>
+  <script src="scripts/auth.js"></script>
+  
+  <script>
+    // Toggle password visibility
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = btn.previousElementSibling;
+        const icon = btn.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
