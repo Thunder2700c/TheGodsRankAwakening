@@ -139,42 +139,36 @@
     
   </div>
   
-  <!-- Firebase SDK -->
+  <!-- Firebase SDK (MUST BE FIRST) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
+  <!-- Firebase Config (SECOND) -->
   <script src="scripts/firebase-config.js"></script>
+  
+  <!-- Auth Script (LAST) -->
   <script src="scripts/auth.js"></script>
   
+  <!-- Toggle Password -->
   <script>
-    // Toggle password visibility
     document.querySelectorAll('.toggle-password').forEach(btn => {
       btn.addEventListener('click', () => {
         const input = btn.previousElementSibling;
         const icon = btn.querySelector('i');
-        
         if (input.type === 'password') {
           input.type = 'text';
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
         } else {
           input.type = 'password';
-          icon.classList.remove('fa-eye-slash');
-          icon.classList.add('fa-eye');
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
       });
     });
   </script>
 
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
-<!-- Firebase Config & Auth -->
-<script src="scripts/firebase-config.js"></script>
-<script src="scripts/auth.js"></script>
-
+</body>
+</html>
+  
 </body>
 </html>
