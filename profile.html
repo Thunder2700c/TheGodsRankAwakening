@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - The Gods Rank Awakening</title>
+  
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <meta name="description" content="Your TGRA Profile">
+  <meta name="theme-color" content="#00ff88">
+  
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    /* ===================================================
+       PROFILE PAGE STYLES
+       =================================================== */
+    
+    .profile-page {
+      min-height: 100vh;
+      background: #0a0a0f;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+    
+    .profile-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Header */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 10px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      color: #00ff88;
+      transform: translateX(-5px);
+    }
+    
+    .profile-header h1 {
+      font-size: 1.5rem;
+      color: white;
+      margin: 0;
+    }
+    
+    /* Profile Card */
+    .profile-card {
+      background: rgba(13, 17, 23, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #00ff88;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+    }
+    
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 0 5px 0;
+    }
+    
+    .profile-email {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      margin: 0 0 20px 0;
+    }
+    
+    .profile-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, #00ff88, #00cc6a);
+      color: #0a0a0f;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Stats */
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #00ff88;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Info Section */
+    .profile-section {
+      background: rgba(13, 17, 23, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .section-title {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0 0 15px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    
+    .info-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .info-label i {
+      width: 20px;
+      color: #00ff88;
+    }
+    
+    .info-value {
+      color: white;
+      font-weight: 500;
+    }
+    
+    /* Action Buttons */
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+    }
+    
+    .action-btn.primary {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      color: #00ff88;
+    }
+    
+    .action-btn.primary:hover {
+      background: rgba(0, 255, 136, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .action-btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .action-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .action-btn.danger {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      color: #ff6b6b;
+    }
+    
+    .action-btn.danger:hover {
+      background: rgba(255, 107, 107, 0.2);
+    }
+    
+    /* Reading History */
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .history-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(5px);
+    }
+    
+    .history-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    
+    .history-info {
+      flex: 1;
+    }
+    
+    .history-title {
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 3px;
+    }
+    
+    .history-date {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.8rem;
+    }
+    
+    .history-arrow {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    /* Not Logged In */
+    .not-logged-in {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .not-logged-in i {
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.2);
+      margin-bottom: 20px;
+    }
+    
+    .not-logged-in h2 {
+      color: white;
+      margin-bottom: 10px;
+    }
+    
+    .not-logged-in p {
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 25px;
+    }
+    
+    .login-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #00ff88, #00cc6a);
+      color: #0a0a0f;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .login-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+    }
+    
+    /* Loading */
+    .loading-state {
+      text-align: center;
+      padding: 60px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #00ff88;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      
+      .stat-number {
+        font-size: 1.4rem;
+      }
+      
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .profile-name {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="profile-page">
+  
+  <div class="profile-container">
+    
+    <!-- Header -->
+    <div class="profile-header">
+      <a href="index.html" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </a>
+      <h1>My Profile</h1>
+      <div style="width: 60px;"></div>
+    </div>
+    
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading profile...</p>
+    </div>
+    
+    <!-- Not Logged In State -->
+    <div id="notLoggedIn" class="not-logged-in" style="display: none;">
+      <i class="fa-solid fa-user-lock"></i>
+      <h2>Not Logged In</h2>
+      <p>Please login to view your profile</p>
+      <a href="login.html" class="login-link">
+        <i class="fa-solid fa-right-to-bracket"></i> Login
+      </a>
+    </div>
+    
+    <!-- Profile Content (Hidden until logged in) -->
+    <div id="profileContent" style="display: none;">
+      
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Avatar" class="profile-avatar" id="profileAvatar">
+        <h2 class="profile-name" id="profileName">Loading...</h2>
+        <p class="profile-email" id="profileEmail">Loading...</p>
+        <span class="profile-badge">Reader</span>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-number" id="statChapters">0</span>
+            <span class="stat-label">Chapters</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="statComments">0</span>
+            <span class="stat-label">Comments</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="statReactions">0</span>
+            <span class="stat-label">Reactions</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Account Info -->
+      <div class="profile-section">
+        <h3 class="section-title">Account Info</h3>
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fa-solid fa-user"></i> Username
+          </span>
+          <span class="info-value" id="infoUsername">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fa-solid fa-envelope"></i> Email
+          </span>
+          <span class="info-value" id="infoEmail">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fa-solid fa-calendar"></i> Joined
+          </span>
+          <span class="info-value" id="infoJoined">-</span>
+        </div>
+      </div>
+      
+      <!-- Reading History -->
+      <div class="profile-section">
+        <h3 class="section-title">Continue Reading</h3>
+        <div id="readingHistory">
+          <div class="empty-state">
+            <i class="fa-solid fa-book-open"></i>
+            <p>No reading history yet.<br>Start reading to see your progress!</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Actions -->
+      <div class="profile-actions">
+        <a href="toc.html" class="action-btn primary">
+          <i class="fa-solid fa-book"></i> Browse Chapters
+        </a>
+        <a href="index.html" class="action-btn secondary">
+          <i class="fa-solid fa-home"></i> Go to Home
+        </a>
+        <button class="action-btn danger" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <!-- Floating Dock -->
+  <nav class="floating-dock" id="floatingDock">
+    <a href="index.html" class="dock-icon" title="Home"><i class="fa-solid fa-house"></i></a>
+    <a href="toc.html" class="dock-icon" title="Chapters"><i class="fa-solid fa-list"></i></a>
+    <a href="profile.html" class="dock-icon active" title="Profile"><i class="fa-solid fa-user"></i></a>
+    <a href="https://thunder2700c.github.io/TGRA-Character-Introduction/" class="dock-icon" title="Cast"><i class="fa-solid fa-users"></i></a>
+    <a href="https://x.com/Thunder2700c" target="_blank" class="dock-icon" title="Social"><i class="fa-brands fa-x-twitter"></i></a>
+  </nav>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Firebase Config -->
+  <script src="scripts/firebase-config.js"></script>
+  
+  <!-- Profile Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      const auth = window.auth;
+      const db = window.db;
+      
+      const loadingState = document.getElementById('loadingState');
+      const notLoggedIn = document.getElementById('notLoggedIn');
+      const profileContent = document.getElementById('profileContent');
+      const logoutBtn = document.getElementById('logoutBtn');
+      
+      // ===================================================
+      // AUTH STATE LISTENER
+      // ===================================================
+      
+      auth.onAuthStateChanged(async (user) => {
+        loadingState.style.display = 'none';
+        
+        if (user) {
+          // User is logged in
+          notLoggedIn.style.display = 'none';
+          profileContent.style.display = 'block';
+          
+          // Load profile data
+          await loadProfileData(user);
+          
+        } else {
+          // Not logged in
+          notLoggedIn.style.display = 'block';
+          profileContent.style.display = 'none';
+        }
+      });
+      
+      // ===================================================
+      // LOAD PROFILE DATA
+      // ===================================================
+      
+      async function loadProfileData(user) {
+        // Basic user info from Auth
+        const avatarUrl = user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`;
+        const displayName = user.displayName || user.email.split('@')[0];
+        
+        document.getElementById('profileAvatar').src = avatarUrl;
+        document.getElementById('profileName').textContent = displayName;
+        document.getElementById('profileEmail').textContent = user.email;
+        document.getElementById('infoUsername').textContent = displayName;
+        document.getElementById('infoEmail').textContent = user.email;
+        
+        // Try to get more data from Firestore
+        try {
+          const userDoc = await db.collection('users').doc(user.uid).get();
+          
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            
+            // Update with Firestore data
+            if (userData.username) {
+              document.getElementById('profileName').textContent = userData.username;
+              document.getElementById('infoUsername').textContent = userData.username;
+            }
+            
+            if (userData.avatar) {
+              document.getElementById('profileAvatar').src = userData.avatar;
+            }
+            
+            // Stats
+            document.getElementById('statComments').textContent = userData.totalComments || 0;
+            document.getElementById('statReactions').textContent = userData.totalReactions || 0;
+            document.getElementById('statChapters').textContent = (userData.chaptersRead || []).length;
+            
+            // Join date
+            if (userData.createdAt) {
+              const joinDate = userData.createdAt.toDate();
+              document.getElementById('infoJoined').textContent = joinDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+            }
+          }
+          
+        } catch (error) {
+          console.error('Error loading profile data:', error);
+        }
+        
+        // Load reading history from localStorage
+        loadReadingHistory();
+      }
+      
+      // ===================================================
+      // LOAD READING HISTORY
+      // ===================================================
+      
+      function loadReadingHistory() {
+        const historyContainer = document.getElementById('readingHistory');
+        const lastChapter = localStorage.getItem('lastChapter');
+        
+        if (lastChapter) {
+          try {
+            const chapter = JSON.parse(lastChapter);
+            
+            historyContainer.innerHTML = `
+              <a href="chapters/${chapter.file}" class="history-item">
+                <div class="history-icon">📖</div>
+                <div class="history-info">
+                  <div class="history-title">${chapter.title}</div>
+                  <div class="history-date">Continue where you left off</div>
+                </div>
+                <i class="fa-solid fa-chevron-right history-arrow"></i>
+              </a>
+            `;
+            
+          } catch (e) {
+            console.error('Error parsing last chapter:', e);
+          }
+        }
+      }
+      
+      // ===================================================
+      // LOGOUT
+      // ===================================================
+      
+      logoutBtn?.addEventListener('click', async () => {
+        try {
+          await auth.signOut();
+          window.location.href = 'index.html';
+        } catch (error) {
+          console.error('Logout error:', error);
+          alert('Failed to logout. Please try again.');
+        }
+      });
+      
+    });
+  </script>
+
+</body>
+</html>
