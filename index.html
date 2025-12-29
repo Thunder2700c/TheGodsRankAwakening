@@ -15,6 +15,279 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/loader.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- User Menu Styles -->
+  <style>
+    /* ===================================================
+       AUTH NAV BUTTON & USER MENU
+       =================================================== */
+
+    /* Login Button (Guest) */
+    .auth-nav-btn {
+      position: fixed;
+      top: 20px;
+      right: 200px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+      color: #0a0a0f;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+    }
+
+    .auth-nav-btn.visible {
+      display: flex;
+    }
+
+    .auth-nav-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
+    }
+
+    .auth-nav-btn i {
+      font-size: 1rem;
+    }
+
+    /* User Menu Container */
+    .user-menu-container {
+      position: fixed;
+      top: 20px;
+      right: 200px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .user-menu-container.visible {
+      display: block;
+    }
+
+    /* User Menu Button */
+    .user-menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px 8px 8px;
+      background: var(--terminal-bg, #0d1117);
+      border: 1px solid var(--terminal-border, #30363d);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .user-menu-btn:hover {
+      border-color: #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+
+    .user-menu-btn .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-menu-btn .user-name {
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .user-menu-btn i {
+      font-size: 0.7rem;
+      opacity: 0.6;
+      transition: transform 0.3s ease;
+    }
+
+    .user-menu-container.open .user-menu-btn i {
+      transform: rotate(180deg);
+    }
+
+    /* User Dropdown */
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 250px;
+      background: var(--terminal-bg, #0d1117);
+      border: 1px solid var(--terminal-border, #30363d);
+      border-radius: 16px;
+      padding: 8px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .user-menu-container.open .user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* Dropdown Header */
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .dropdown-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+
+    .dropdown-user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dropdown-name {
+      font-weight: 600;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .dropdown-email {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 2px;
+    }
+
+    /* Dropdown Divider */
+    .dropdown-divider {
+      height: 1px;
+      background: var(--terminal-border, #30363d);
+      margin: 8px 0;
+    }
+
+    /* Dropdown Items */
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+    }
+
+    .dropdown-item i {
+      width: 20px;
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    .dropdown-item.logout {
+      color: #ff6b6b;
+    }
+
+    .dropdown-item.logout:hover {
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    /* Dock login icon */
+    .dock-icon.guest-only {
+      display: none;
+    }
+    
+    body.user-logged-out .dock-icon.guest-only {
+      display: flex;
+    }
+    
+    body.user-logged-in .dock-icon.guest-only {
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .auth-nav-btn {
+        right: 190px;
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+
+      .auth-nav-btn span {
+        display: none;
+      }
+
+      .auth-nav-btn {
+        padding: 12px;
+        border-radius: 50%;
+      }
+
+      .user-menu-container {
+        right: 190px;
+      }
+
+      .user-menu-btn .user-name {
+        display: none;
+      }
+
+      .user-menu-btn {
+        padding: 8px;
+      }
+
+      .user-dropdown {
+        right: -50px;
+        min-width: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-nav-btn {
+        right: 180px;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
+      .user-menu-container {
+        right: 180px;
+      }
+
+      .user-menu-btn {
+        width: 42px;
+        height: 42px;
+        padding: 5px;
+        justify-content: center;
+      }
+
+      .user-menu-btn .user-avatar {
+        width: 30px;
+        height: 30px;
+      }
+
+      .user-menu-btn i.fa-chevron-down {
+        display: none;
+      }
+    }
+  </style>
 </head>
   
 <body class="homepage">
@@ -153,32 +426,17 @@
 </div>
 
 <!-- ===================================================
-     DARK MODE TOGGLE
+     LOGIN BUTTON (Shows when NOT logged in)
      =================================================== -->
-<button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode [D]">
-  <i class="fa-solid fa-moon" id="themeIcon"></i>
-</button>
-
-<!-- Music Toggle Button -->
-<button class="music-toggle-btn" id="musicToggle" title="Toggle Music [M]">
-  <i class="fa-solid fa-volume-xmark" id="musicIcon"></i>
-  <div class="sound-waves">
-    <span></span><span></span><span></span><span></span>
-  </div>
-</button>
-
-<!-- ===================================================
-     USER AUTH BUTTON (Add this NEW section)
-     =================================================== -->
-
-<!-- Login Button (shows when NOT logged in) -->
-<a href="login.html" class="auth-nav-btn guest-only" id="loginNavBtn" title="Login">
+<a href="login.html" class="auth-nav-btn" id="loginNavBtn" title="Login">
   <i class="fa-solid fa-user"></i>
   <span>Login</span>
 </a>
 
-<!-- User Menu (shows when logged in) -->
-<div class="user-menu-container auth-required" id="userMenuContainer">
+<!-- ===================================================
+     USER MENU (Shows when logged in)
+     =================================================== -->
+<div class="user-menu-container" id="userMenuContainer">
   <button class="user-menu-btn" id="userMenuBtn">
     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="User" class="user-avatar" id="navUserAvatar">
     <span class="user-name" id="navUserName">User</span>
@@ -206,6 +464,23 @@
     </button>
   </div>
 </div>
+
+<!-- ===================================================
+     DARK MODE TOGGLE
+     =================================================== -->
+<button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode [D]">
+  <i class="fa-solid fa-moon" id="themeIcon"></i>
+</button>
+
+<!-- ===================================================
+     MUSIC TOGGLE BUTTON
+     =================================================== -->
+<button class="music-toggle-btn" id="musicToggle" title="Toggle Music [M]">
+  <i class="fa-solid fa-volume-xmark" id="musicIcon"></i>
+  <div class="sound-waves">
+    <span></span><span></span><span></span><span></span>
+  </div>
+</button>
 
 <!-- ===================================================
      MAIN SITE CONTENT
@@ -262,6 +537,9 @@
 <main class="chapters-grid" id="chaptersGrid">
 </main>
 
+<!-- ===================================================
+     FLOATING DOCK
+     =================================================== -->
 <nav class="floating-dock" id="floatingDock">
   <a href="index.html" class="dock-icon active" title="Home"><i class="fa-solid fa-house"></i></a>
   <a href="#" class="dock-icon" title="Latest" id="latest-link"><i class="fa-solid fa-bolt"></i></a>
@@ -271,12 +549,16 @@
   <a href="login.html" class="dock-icon guest-only" title="Login"><i class="fa-solid fa-right-to-bracket"></i></a>
 </nav>
 
-<!-- Firebase SDK -->
+<!-- ===================================================
+     SCRIPTS
+     =================================================== -->
+
+<!-- Firebase SDK (MUST BE FIRST) -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-<!-- Firebase Config (MUST be before other scripts) -->
+<!-- Firebase Config (SECOND) -->
 <script src="scripts/firebase-config.js"></script>
 
 <!-- GSAP -->
@@ -287,6 +569,97 @@
 <script src="scripts/animations.js"></script>
 <script src="scripts/main.js"></script>
 <script src="scripts/loader.js"></script>
-  
+
+<!-- User Menu Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const loginNavBtn = document.getElementById('loginNavBtn');
+    const userMenuContainer = document.getElementById('userMenuContainer');
+    const userMenuBtn = document.getElementById('userMenuBtn');
+    const navLogoutBtn = document.getElementById('navLogoutBtn');
+    
+    // ===================================================
+    // AUTH STATE - Show/Hide Login & User Menu
+    // ===================================================
+    
+    if (window.auth) {
+      window.auth.onAuthStateChanged((user) => {
+        if (user) {
+          // User is logged in
+          document.body.classList.add('user-logged-in');
+          document.body.classList.remove('user-logged-out');
+          
+          // Hide login button, show user menu
+          loginNavBtn?.classList.remove('visible');
+          userMenuContainer?.classList.add('visible');
+          
+          // Update user info
+          const avatarUrl = user.photoURL || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.uid}`;
+          const userName = user.displayName || user.email.split('@')[0];
+          
+          document.querySelectorAll('.user-avatar').forEach(el => {
+            el.src = avatarUrl;
+          });
+          
+          document.querySelectorAll('.user-name').forEach(el => {
+            el.textContent = userName;
+          });
+          
+          document.querySelectorAll('.user-email').forEach(el => {
+            el.textContent = user.email;
+          });
+          
+        } else {
+          // Not logged in
+          document.body.classList.add('user-logged-out');
+          document.body.classList.remove('user-logged-in');
+          
+          // Show login button, hide user menu
+          loginNavBtn?.classList.add('visible');
+          userMenuContainer?.classList.remove('visible');
+        }
+      });
+    } else {
+      // Firebase not loaded, show login button
+      setTimeout(() => {
+        loginNavBtn?.classList.add('visible');
+      }, 2000);
+    }
+    
+    // ===================================================
+    // TOGGLE USER DROPDOWN
+    // ===================================================
+    
+    userMenuBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userMenuContainer.classList.toggle('open');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!userMenuContainer?.contains(e.target)) {
+        userMenuContainer?.classList.remove('open');
+      }
+    });
+    
+    // ===================================================
+    // LOGOUT
+    // ===================================================
+    
+    navLogoutBtn?.addEventListener('click', async () => {
+      try {
+        userMenuContainer?.classList.remove('open');
+        await window.auth.signOut();
+        // Page will update automatically via onAuthStateChanged
+      } catch (error) {
+        console.error('Logout error:', error);
+        alert('Failed to logout. Please try again.');
+      }
+    });
+    
+  });
+</script>
+
 </body>
 </html>
