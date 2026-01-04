@@ -361,3 +361,35 @@
     font-size: 2.5rem;
   }
 }
+
+/* ===============================
+   Background
+   =============================== */
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  background-image: url("assets/bg/samurai.jpg"); /* your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   Dimming
+   =============================== */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: saturate(1.05);
+  pointer-events: none;
+}
