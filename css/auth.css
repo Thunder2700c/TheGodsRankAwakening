@@ -5,32 +5,45 @@
 /* ===============================
    PAGE BACKGROUND
    =============================== */
-
 .auth-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* Keep background sharp */
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
   padding: 20px;
+  position: relative;
+
+  /* Background image */
+  background-image: url("../assets/images/4347e190-5fa6-45a4-88ab-7f207992e347.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Dim overlay for frosted glass look */
+.auth-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: saturate(1.05);
+  pointer-events: none;
 }
 
 /* ===============================
    CONTAINER
    =============================== */
-
 .auth-container {
   width: 100%;
   max-width: 420px;
   position: relative;
+  z-index: 1; /* Make sure it's above overlay */
 }
 
 /* ===============================
    BACK LINK
    =============================== */
-
 .back-home {
   display: inline-flex;
   align-items: center;
@@ -50,7 +63,6 @@
 /* ===============================
    LOGO
    =============================== */
-
 .auth-logo {
   text-align: center;
   margin-bottom: 2rem;
@@ -78,30 +90,27 @@
 }
 
 /* ===============================
-   AUTH FORM – iOS 26 LIQUID GLASS
+   AUTH FORM – LIQUID GLASS
    =============================== */
-
 .auth-form {
   position: relative;
   display: none;
 
-  /* True liquid glass */
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
-  /* Soft light border */
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 20px;
 
   padding: 2.5rem;
 
-  /* Floating depth */
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 2; /* Above overlay */
 }
 
 .auth-form.active {
@@ -156,7 +165,6 @@
 /* ===============================
    HEADINGS
    =============================== */
-
 .auth-form h2 {
   font-size: 1.8rem;
   color: white;
@@ -174,7 +182,6 @@
 /* ===============================
    INPUTS – FROSTED FIELDS
    =============================== */
-
 .input-group {
   position: relative;
   margin-bottom: 1rem;
@@ -232,26 +239,8 @@
 }
 
 /* ===============================
-   LINKS
-   =============================== */
-
-.forgot-link {
-  display: block;
-  text-align: right;
-  font-size: 0.85rem;
-  margin-bottom: 1.5rem;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-}
-
-.forgot-link:hover {
-  color: white;
-}
-
-/* ===============================
    BUTTONS
    =============================== */
-
 .auth-btn {
   width: 100%;
   padding: 15px;
@@ -298,7 +287,6 @@
 /* ===============================
    DIVIDER
    =============================== */
-
 .auth-divider {
   display: flex;
   align-items: center;
@@ -322,7 +310,6 @@
 /* ===============================
    SWITCH
    =============================== */
-
 .auth-switch {
   text-align: center;
   margin-top: 1.5rem;
@@ -342,7 +329,6 @@
 /* ===============================
    ANIMATION
    =============================== */
-
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -351,7 +337,6 @@
 /* ===============================
    RESPONSIVE
    =============================== */
-
 @media (max-width: 480px) {
   .auth-form {
     padding: 1.5rem;
@@ -360,36 +345,4 @@
   .auth-logo .logo-text {
     font-size: 2.5rem;
   }
-}
-
-/* ===============================
-   Background
-   =============================== */
-body {
-  min-height: 100vh;
-  margin: 0;
-
-  background-image: url("../assets/images/4347e190-5fa6-45a4-88ab-7f207992e347.jpeg"); /* your image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ===============================
-   Dimming
-   =============================== */
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: saturate(1.05);
-  pointer-events: none;
 }
