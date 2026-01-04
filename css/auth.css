@@ -1,19 +1,99 @@
 /* ===================================================
-   APPLE-STYLE LIQUID GLASS OVERRIDES
-   Only visual changes, no logic touched
+   AUTHENTICATION PAGES – iOS 26 LIQUID GLASS EDITION
    =================================================== */
 
-/* Auth Form Glass Card */
+/* ===============================
+   PAGE BACKGROUND
+   =============================== */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Keep background sharp */
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+  padding: 20px;
+}
+
+/* ===============================
+   CONTAINER
+   =============================== */
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+/* ===============================
+   BACK LINK
+   =============================== */
+
+.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.back-home:hover {
+  color: white;
+  transform: translateX(-4px);
+}
+
+/* ===============================
+   LOGO
+   =============================== */
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo .logo-text {
+  font-family: 'SF Mono', monospace;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+}
+
+.auth-logo .divider {
+  color: #bc8cff;
+  margin: 0 5px;
+}
+
+.auth-logo .logo-subtitle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ===============================
+   AUTH FORM – iOS 26 LIQUID GLASS
+   =============================== */
+
 .auth-form {
-  /* Real glass */
-  background: rgba(255, 255, 255, 0.12); /* lower opacity */
+  position: relative;
+  display: none;
+
+  /* True liquid glass */
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
-  /* Soft Apple-style border */
+  /* Soft light border */
   border: 1px solid rgba(255, 255, 255, 0.25);
-
   border-radius: 20px;
+
   padding: 2.5rem;
 
   /* Floating depth */
@@ -24,7 +104,11 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Gentle hover lift */
+.auth-form.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
 .auth-form:hover {
   transform: translateY(-2px);
   box-shadow:
@@ -32,17 +116,91 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
+/* Liquid edge highlight */
+.auth-form::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent 60%
+  );
+
+  opacity: 0.6;
+}
+
+/* Micro-noise diffusion */
+.auth-form::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background-image:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255,255,255,0.04) 0,
+      rgba(255,255,255,0.04) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+
+  opacity: 0.08;
+}
+
 /* ===============================
-   INPUTS – FROSTED, NOT GLOWY
+   HEADINGS
    =============================== */
 
-.input-group input {
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.auth-form h2 {
+  font-size: 1.8rem;
   color: white;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: -0.3px;
+}
 
+.auth-subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* ===============================
+   INPUTS – FROSTED FIELDS
+   =============================== */
+
+.input-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.input-group i:first-child {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 15px 45px;
+
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
 
+  color: white;
+  font-size: 1rem;
   transition: background 0.2s ease, border 0.2s ease;
 }
 
@@ -50,63 +208,156 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* Apple-style focus: clean, calm */
 .input-group input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.6);
-
-  /* kill the neon glow */
   box-shadow: none;
 }
 
-/* Icons inside inputs */
-.input-group i:first-child {
+/* Toggle password */
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
   color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.toggle-password:hover {
+  color: white;
+}
+
+/* ===============================
+   LINKS
+   =============================== */
+
+.forgot-link {
+  display: block;
+  text-align: right;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  color: white;
 }
 
 /* ===============================
    BUTTONS
    =============================== */
 
-/* Primary button refined */
+.auth-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Primary = Apple-style neutral */
 .auth-btn.primary {
   background: rgba(255, 255, 255, 0.9);
   color: #0a0a0f;
-
-  border-radius: 14px;
-  font-weight: 600;
-
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Hover = subtle lift */
 .auth-btn.primary:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
-/* Google button glassified */
+/* Google */
 .auth-btn.google {
   background: rgba(255, 255, 255, 0.85);
   color: #111;
-  border-radius: 14px;
+  margin-top: 1rem;
+}
+
+/* Disabled */
+.auth-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* ===============================
-   TEXT TUNING
+   DIVIDER
    =============================== */
 
-.auth-form h2 {
-  letter-spacing: -0.3px;
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
 }
 
-.auth-subtitle {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-/* Divider softer */
 .auth-divider::before,
 .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
   background: rgba(255, 255, 255, 0.2);
+}
+
+.auth-divider span {
+  padding: 0 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+/* ===============================
+   SWITCH
+   =============================== */
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-switch a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   ANIMATION
+   =============================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 1.5rem;
+  }
+
+  .auth-logo .logo-text {
+    font-size: 2.5rem;
+  }
 }
