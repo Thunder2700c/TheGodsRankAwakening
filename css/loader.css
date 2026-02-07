@@ -1,11 +1,11 @@
-/* ===================================================
+/* ═══════════════════════════════════════════════════
    TGRA TERMINAL LOADER
-   Hacker/Console Style Loading Screen
-   =================================================== */
+   Hacker/Console Style Boot Screen
+   ═══════════════════════════════════════════════════ */
 
-/* ===================================================
-   CSS VARIABLES
-   =================================================== */
+/* ═══════════════════════════════════════════════════
+   LOADER VARIABLES
+   ═══════════════════════════════════════════════════ */
 :root {
   --loader-bg: #0a0a0f;
   --terminal-bg: #0d1117;
@@ -19,17 +19,15 @@
   --terminal-dim: #484f58;
   --glow-green: rgba(0, 255, 136, 0.5);
   --glow-blue: rgba(88, 166, 255, 0.5);
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
 }
 
-/* ===================================================
-   MAIN LOADER WRAPPER
-   =================================================== */
+/* ═══════════════════════════════════════════════════
+   MAIN LOADER
+   ═══════════════════════════════════════════════════ */
 .tgra-loader {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -38,15 +36,12 @@
   overflow: hidden;
 }
 
-/* ===================================================
+/* ═══════════════════════════════════════════════════
    ANIMATED BACKGROUND
-   =================================================== */
+   ═══════════════════════════════════════════════════ */
 .loader-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
   overflow: hidden;
 }
@@ -54,29 +49,29 @@
 .bg-gradient {
   position: absolute;
   inset: 0;
-  background: 
+  background:
     radial-gradient(ellipse at 20% 0%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 100%, rgba(88, 166, 255, 0.08) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(188, 140, 255, 0.03) 0%, transparent 70%);
-  animation: bgPulse 10s ease-in-out infinite;
+  animation: bgPulse 8s ease-in-out infinite;
 }
 
 @keyframes bgPulse {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
 }
 
 .bg-grid {
   position: absolute;
   inset: 0;
-  background-image: 
-    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.025) 1px, transparent 1px);
   background-size: 40px 40px;
-  animation: gridMove 30s linear infinite;
+  animation: gridScroll 25s linear infinite;
 }
 
-@keyframes gridMove {
+@keyframes gridScroll {
   0% { transform: translate(0, 0); }
   100% { transform: translate(40px, 40px); }
 }
@@ -88,18 +83,19 @@
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
   );
   pointer-events: none;
-  animation: scanlineMove 8s linear infinite;
+  animation: scanlineShift 6s linear infinite;
 }
 
-@keyframes scanlineMove {
+@keyframes scanlineShift {
   0% { transform: translateY(0); }
   100% { transform: translateY(4px); }
 }
 
+/* Floating Code Particles */
 .bg-particles {
   position: absolute;
   inset: 0;
@@ -108,50 +104,50 @@
 
 .bg-particle {
   position: absolute;
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--terminal-green);
-  opacity: 0.15;
-  animation: floatParticle 20s linear infinite;
+  opacity: 0.12;
+  animation: codeFloat 18s linear infinite;
   user-select: none;
 }
 
-@keyframes floatParticle {
+@keyframes codeFloat {
   0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.15; }
-  90% { opacity: 0.15; }
+  10% { opacity: 0.12; }
+  90% { opacity: 0.12; }
   100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
 }
 
-/* ===================================================
-   LOADER TERMINAL WINDOW
-   =================================================== */
+/* ═══════════════════════════════════════════════════
+   TERMINAL WINDOW
+   ═══════════════════════════════════════════════════ */
 .loader-terminal {
   position: relative;
   z-index: 10;
   width: 90%;
   max-width: 700px;
   background: var(--terminal-bg);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 
-    0 25px 80px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.5),
     0 0 0 1px var(--terminal-border),
-    0 0 60px rgba(0, 255, 136, 0.1);
-  animation: terminalFloat 6s ease-in-out infinite;
+    0 0 80px rgba(0, 255, 136, 0.06);
+  animation: terminalHover 5s ease-in-out infinite;
 }
 
-@keyframes terminalFloat {
+@keyframes terminalHover {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
 }
 
 /* Terminal Header */
 .terminal-header {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.03);
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.025);
   border-bottom: 1px solid var(--terminal-border);
 }
 
@@ -165,31 +161,35 @@
   height: 12px;
   border-radius: 50%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .dot:hover {
-  transform: scale(1.2);
+  transform: scale(1.3);
 }
 
-.dot.red { 
-  background: #ff5f57; 
-  box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+.dot.red {
+  background: #ff5f57;
+  box-shadow: 0 0 12px rgba(255, 95, 87, 0.5);
 }
-.dot.yellow { 
-  background: #ffbd2e; 
-  box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+
+.dot.yellow {
+  background: #ffbd2e;
+  box-shadow: 0 0 12px rgba(255, 189, 46, 0.5);
 }
-.dot.green { 
-  background: #28c840; 
-  box-shadow: 0 0 10px rgba(40, 200, 64, 0.5);
+
+.dot.green {
+  background: #28c840;
+  box-shadow: 0 0 12px rgba(40, 200, 64, 0.5);
 }
 
 .terminal-title {
   flex: 1;
   text-align: center;
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: 13px;
   color: var(--terminal-dim);
+  letter-spacing: 0.5px;
 }
 
 .terminal-status {
@@ -203,16 +203,16 @@
   height: 8px;
   border-radius: 50%;
   background: var(--terminal-green);
-  animation: statusPulse 1.5s ease-in-out infinite;
+  animation: statusGlow 1.5s ease-in-out infinite;
 }
 
-@keyframes statusPulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--glow-green); }
-  50% { opacity: 0.5; box-shadow: 0 0 5px var(--glow-green); }
+@keyframes statusGlow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--glow-green); }
+  50% { opacity: 0.4; box-shadow: 0 0 4px var(--glow-green); }
 }
 
 .status-text {
-  font-family: 'SF Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
   color: var(--terminal-green);
   text-transform: uppercase;
@@ -222,7 +222,7 @@
 /* Terminal Body */
 .terminal-body {
   padding: 24px;
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.6;
   min-height: 300px;
@@ -235,11 +235,11 @@
 }
 
 .ascii-logo pre {
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: clamp(6px, 1.8vw, 12px);
   line-height: 1.2;
   color: var(--terminal-green);
-  text-shadow: 0 0 20px var(--glow-green);
+  text-shadow: 0 0 25px var(--glow-green);
   margin: 0;
   white-space: pre;
   text-align: center;
@@ -262,33 +262,20 @@
   color: var(--terminal-green);
   font-weight: bold;
   text-shadow: 0 0 10px var(--glow-green);
+  flex-shrink: 0;
 }
 
 .terminal-line .text {
   color: var(--terminal-text);
 }
 
-.terminal-line .text.success {
-  color: var(--terminal-green);
-}
+.terminal-line .text.success { color: var(--terminal-green); }
+.terminal-line .text.warning { color: var(--terminal-yellow); }
+.terminal-line .text.error { color: var(--terminal-red); }
+.terminal-line .text.info { color: var(--terminal-blue); }
+.terminal-line .text.purple { color: var(--terminal-purple); }
 
-.terminal-line .text.warning {
-  color: var(--terminal-yellow);
-}
-
-.terminal-line .text.error {
-  color: var(--terminal-red);
-}
-
-.terminal-line .text.info {
-  color: var(--terminal-blue);
-}
-
-.terminal-line .text.purple {
-  color: var(--terminal-purple);
-}
-
-/* Terminal Progress */
+/* Progress Bar */
 .terminal-progress {
   display: flex;
   align-items: center;
@@ -301,6 +288,7 @@
   color: var(--terminal-green);
   font-weight: bold;
   text-shadow: 0 0 10px var(--glow-green);
+  white-space: nowrap;
 }
 
 .progress-bar-wrapper {
@@ -318,18 +306,14 @@
 .progress-bar-track {
   flex: 1;
   height: 16px;
-  background: transparent;
   position: relative;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  inset: 0;
   width: 0%;
-  background: transparent;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -338,7 +322,7 @@
 .progress-bar-fill::before {
   content: '████████████████████████████████████████';
   color: var(--terminal-green);
-  text-shadow: 0 0 10px var(--glow-green);
+  text-shadow: 0 0 12px var(--glow-green);
   white-space: nowrap;
   font-size: 14px;
   letter-spacing: -1px;
@@ -377,15 +361,12 @@
   50% { opacity: 0; }
 }
 
-/* ===================================================
-   TERMINAL MUSIC MODAL
-   =================================================== */
+/* ═══════════════════════════════════════════════════
+   MUSIC MODAL
+   ═══════════════════════════════════════════════════ */
 .terminal-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 100000;
   display: flex;
   flex-direction: column;
@@ -401,24 +382,34 @@
   visibility: visible;
 }
 
-/* TGRA Logo Split */
+/* TGRA Logo */
 .tgra-logo {
   display: flex;
   align-items: center;
   gap: 20px;
-  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono);
   font-size: clamp(48px, 12vw, 80px);
   font-weight: 700;
   opacity: 0;
   transform: translateY(-30px);
 }
 
-.logo-left, .logo-right {
+.logo-left,
+.logo-right {
   color: var(--terminal-green);
-  text-shadow: 
+  text-shadow:
     0 0 20px var(--glow-green),
     0 0 40px var(--glow-green),
-    0 0 60px var(--glow-green);
+    0 0 80px rgba(0, 255, 136, 0.3);
+  transition: text-shadow 0.3s ease;
+}
+
+.logo-left:hover,
+.logo-right:hover {
+  text-shadow:
+    0 0 30px var(--glow-green),
+    0 0 60px var(--glow-green),
+    0 0 100px rgba(0, 255, 136, 0.5);
 }
 
 .logo-divider {
@@ -430,7 +421,7 @@
 
 @keyframes dividerBlink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  50% { opacity: 0.2; }
 }
 
 /* Music Terminal */
@@ -438,12 +429,12 @@
   width: 90%;
   max-width: 550px;
   background: var(--terminal-bg);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 
-    0 25px 80px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.5),
     0 0 0 1px var(--terminal-border),
-    0 0 60px rgba(0, 255, 136, 0.1);
+    0 0 80px rgba(0, 255, 136, 0.06);
   opacity: 0;
   transform: translateY(30px) scale(0.95);
 }
@@ -481,112 +472,65 @@
   color: var(--terminal-dim);
 }
 
+/* Terminal Buttons */
 .terminal-btn {
   background: transparent;
   border: 1px solid var(--terminal-green);
   color: var(--terminal-green);
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-family: 'SF Mono', monospace;
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 0 0 10px var(--glow-green);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Button hover glow ring */
+.terminal-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--terminal-green);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.terminal-btn:hover::before {
+  opacity: 0.3;
 }
 
 .terminal-btn:hover {
   background: var(--terminal-green);
   color: var(--terminal-bg);
-  box-shadow: 0 0 30px var(--glow-green);
+  box-shadow: 0 0 35px var(--glow-green);
   text-shadow: none;
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .yes-btn:hover {
   background: #28c840;
   border-color: #28c840;
-  box-shadow: 0 0 30px rgba(40, 200, 64, 0.6);
+  box-shadow: 0 0 35px rgba(40, 200, 64, 0.6);
 }
 
 .no-btn:hover {
   background: var(--terminal-red);
   border-color: var(--terminal-red);
   color: white;
-  box-shadow: 0 0 30px rgba(255, 123, 114, 0.6);
+  box-shadow: 0 0 35px rgba(255, 123, 114, 0.6);
   text-shadow: none;
 }
 
-/* ===================================================
-   DARK MODE TOGGLE
-   =================================================== */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border: 1px solid var(--terminal-border);
-  border-radius: 50%;
-  background: var(--terminal-bg);
-  cursor: pointer;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(0, 255, 136, 0.1);
-}
-
-.theme-toggle.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1) rotate(15deg);
-  border-color: var(--terminal-yellow);
-  box-shadow: 
-    0 6px 30px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(255, 217, 61, 0.3);
-}
-
-.theme-toggle i {
-  font-size: 20px;
-  color: var(--terminal-yellow);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.theme-toggle:hover i {
-  transform: rotate(-15deg);
-}
-
-/* Light mode styles */
-body.light-mode {
-  --loader-bg: #f5f5f7;
-  --terminal-bg: #ffffff;
-  --terminal-border: #e0e0e0;
-  --terminal-text: #1d1d1f;
-  --terminal-dim: #86868b;
-}
-
-body.light-mode .theme-toggle {
-  background: #ffffff;
-  border-color: #e0e0e0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-body.light-mode .theme-toggle i {
-  color: #ff9500;
-}
-
-/* ===================================================
+/* ═══════════════════════════════════════════════════
    MUSIC TOGGLE BUTTON
-   =================================================== */
+   ═══════════════════════════════════════════════════ */
 .music-toggle-btn {
   position: fixed;
   top: 20px;
@@ -604,9 +548,9 @@ body.light-mode .theme-toggle i {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(0, 255, 136, 0.1);
+    0 0 20px rgba(0, 255, 136, 0.08);
 }
 
 .music-toggle-btn.visible {
@@ -615,31 +559,32 @@ body.light-mode .theme-toggle i {
 }
 
 .music-toggle-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
   border-color: var(--terminal-green);
-  box-shadow: 
+  box-shadow:
     0 6px 30px rgba(0, 0, 0, 0.4),
-    0 0 30px var(--glow-green);
+    0 0 35px var(--glow-green);
 }
 
 .music-toggle-btn i {
   font-size: 18px;
   color: var(--terminal-dim);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
 }
 
 .music-toggle-btn.playing {
   border-color: var(--terminal-green);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.3),
-    0 0 25px var(--glow-green);
+    0 0 30px var(--glow-green);
 }
 
 .music-toggle-btn.playing i {
   color: var(--terminal-green);
-  text-shadow: 0 0 10px var(--glow-green);
+  text-shadow: 0 0 12px var(--glow-green);
 }
 
+/* Sound Waves */
 .sound-waves {
   position: absolute;
   bottom: -12px;
@@ -658,29 +603,25 @@ body.light-mode .theme-toggle i {
 .sound-waves span {
   width: 3px;
   background: var(--terminal-green);
-  border-radius: 2px;
-  box-shadow: 0 0 10px var(--glow-green);
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--glow-green);
 }
 
-.sound-waves span:nth-child(1) { height: 8px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0s; }
-.sound-waves span:nth-child(2) { height: 12px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.1s; }
-.sound-waves span:nth-child(3) { height: 10px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.2s; }
-.sound-waves span:nth-child(4) { height: 14px; animation: wave 0.6s ease-in-out infinite; animation-delay: 0.3s; }
+.sound-waves span:nth-child(1) { height: 8px;  animation: soundWave 0.6s ease-in-out infinite 0s; }
+.sound-waves span:nth-child(2) { height: 12px; animation: soundWave 0.6s ease-in-out infinite 0.1s; }
+.sound-waves span:nth-child(3) { height: 10px; animation: soundWave 0.6s ease-in-out infinite 0.2s; }
+.sound-waves span:nth-child(4) { height: 14px; animation: soundWave 0.6s ease-in-out infinite 0.3s; }
 
-@keyframes wave {
+@keyframes soundWave {
   0%, 100% { transform: scaleY(0.4); }
   50% { transform: scaleY(1); }
 }
 
-/* Light mode adjustments */
+/* Light Mode */
 body.light-mode .music-toggle-btn {
   background: #ffffff;
   border-color: #e0e0e0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-body.light-mode .music-toggle-btn i {
-  color: #86868b;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 body.light-mode .music-toggle-btn.playing {
@@ -691,43 +632,30 @@ body.light-mode .music-toggle-btn.playing i {
   color: #28c840;
 }
 
-/* ===================================================
+/* ═══════════════════════════════════════════════════
    RESPONSIVE
-   =================================================== */
+   ═══════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   .loader-terminal {
     width: 95%;
-    max-width: none;
   }
-  
+
   .terminal-body {
     padding: 16px;
     font-size: 12px;
   }
-  
+
   .ascii-logo pre {
     font-size: clamp(5px, 1.5vw, 10px);
   }
-  
+
   .progress-bar-wrapper {
     max-width: 200px;
   }
-  
-  .tgra-logo {
-    gap: 15px;
-  }
-  
-  .music-terminal {
-    width: 95%;
-  }
-  
-  .theme-toggle {
-    top: 15px;
-    right: 15px;
-    width: 44px;
-    height: 44px;
-  }
-  
+
+  .tgra-logo { gap: 15px; }
+  .music-terminal { width: 95%; }
+
   .music-toggle-btn {
     top: 15px;
     right: 70px;
@@ -742,48 +670,35 @@ body.light-mode .music-toggle-btn.playing i {
     font-size: 11px;
     min-height: 250px;
   }
-  
-  .ascii-logo pre {
-    font-size: 5px;
-  }
-  
+
+  .ascii-logo pre { font-size: 5px; }
+
   .terminal-progress {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .progress-bar-wrapper {
     max-width: 100%;
     order: 3;
     width: 100%;
   }
-  
+
   .tgra-logo {
     font-size: clamp(36px, 10vw, 60px);
     gap: 10px;
   }
-  
+
   .terminal-btn {
-    padding: 5px 12px;
+    padding: 5px 14px;
     font-size: 12px;
   }
-  
-  .theme-toggle {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .theme-toggle i {
-    font-size: 16px;
-  }
-  
+
   .music-toggle-btn {
     right: 65px;
     width: 40px;
     height: 40px;
   }
-  
-  .music-toggle-btn i {
-    font-size: 14px;
-  }
+
+  .music-toggle-btn i { font-size: 14px; }
 }
