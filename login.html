@@ -4,171 +4,1122 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - The Gods Rank Awakening</title>
-  
+
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/auth.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       RESET & ROOT VARIABLES
+       ═══════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-glass: rgba(255, 255, 255, 0.04);
+      --bg-glass-hover: rgba(255, 255, 255, 0.07);
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 107, 107, 0.5);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.6);
+      --text-muted: rgba(255, 255, 255, 0.3);
+      --accent: #ff6b6b;
+      --accent-glow: rgba(255, 107, 107, 0.3);
+      --accent-secondary: #00ff88;
+      --accent-secondary-glow: rgba(0, 255, 136, 0.3);
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --input-border: rgba(255, 255, 255, 0.1);
+      --error: #ff5f57;
+      --success: #00ff88;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-full: 100px;
+      --font-main: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       BASE STYLES
+       ═══════════════════════════════════════════════════ */
+    html {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: white;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+    /* ═══════════════════════════════════════════════════
+       ANIMATED BACKGROUND
+       ═══════════════════════════════════════════════════ */
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .auth-bg .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: orbDrift 15s ease-in-out infinite;
+    }
+
+    .auth-bg .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+      top: -15%;
+      right: -10%;
+      animation-duration: 12s;
+    }
+
+    .auth-bg .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-secondary-glow), transparent 70%);
+      bottom: -10%;
+      left: -10%;
+      animation-duration: 18s;
+      animation-delay: -5s;
+    }
+
+    .auth-bg .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(100, 100, 255, 0.15), transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 20s;
+      animation-delay: -10s;
+    }
+
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(40px, -30px) scale(1.1); }
+      50% { transform: translate(-30px, 40px) scale(0.9); }
+      75% { transform: translate(20px, 20px) scale(1.05); }
+    }
+
+    .auth-bg .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridScroll 30s linear infinite;
+    }
+
+    @keyframes gridScroll {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
+    }
+
+    /* Floating Particles */
+    .auth-bg .particles {
+      position: absolute;
+      inset: 0;
+    }
+
+    .auth-bg .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFly linear infinite;
+    }
+
+    @keyframes particleFly {
+      0% { opacity: 0; transform: translateY(100vh) scale(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-20vh) scale(1); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       AUTH CONTAINER
+       ═══════════════════════════════════════════════════ */
+    .auth-container {
+      position: relative;
+      z-index: 1;
+      width: min(440px, 92vw);
+      padding: 20px;
+      animation: containerReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes containerReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       BACK TO HOME
+       ═══════════════════════════════════════════════════ */
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 32px;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(20px);
+      transition: all var(--transition-smooth);
+    }
+
+    .back-home:hover {
+      color: var(--text-primary);
+      border-color: var(--accent);
+      transform: translateX(-4px);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .back-home i {
+      transition: transform var(--transition-fast);
+    }
+
+    .back-home:hover i {
+      transform: translateX(-3px);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       LOGO
+       ═══════════════════════════════════════════════════ */
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: logoFloat 0.6s ease 0.2s both;
+    }
+
+    @keyframes logoFloat {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .logo-text {
+      font-family: var(--font-mono);
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      display: inline-block;
+    }
+
+    .logo-text .tg {
+      color: var(--accent);
+      text-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .logo-text .divider {
+      color: var(--text-muted);
+      font-weight: 300;
+      margin: 0 2px;
+      animation: dividerPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dividerPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .logo-text .ra {
+      color: var(--accent-secondary);
+      text-shadow: 0 0 30px var(--accent-secondary-glow);
+    }
+
+    .logo-subtitle {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       AUTH CARD (GLASS)
+       ═══════════════════════════════════════════════════ */
+    .auth-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Animated top border */
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary), var(--accent));
+      background-size: 200% 100%;
+      animation: borderGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Shimmer effect on card */
+    .auth-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.02) 50%,
+        transparent 60%
+      );
+      animation: cardShimmer 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cardShimmer {
+      0%, 100% { transform: translateX(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FORM CONTAINERS (Login / Signup swap)
+       ═══════════════════════════════════════════════════ */
+    .auth-form {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-form.active {
+      display: block;
+      animation: formReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes formReveal {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .auth-form h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .auth-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       INPUT GROUPS
+       ═══════════════════════════════════════════════════ */
+    .input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-sm);
+      padding: 0 16px;
+      margin-bottom: 16px;
+      transition: all var(--transition-smooth);
+      overflow: hidden;
+    }
+
+    /* Animated underline */
+    .input-group::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+      transition: all var(--transition-smooth);
+      transform: translateX(-50%);
+    }
+
+    .input-group:focus-within {
+      border-color: var(--border-focus);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 25px rgba(255, 107, 107, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .input-group:focus-within::after {
+      width: 100%;
+    }
+
+    .input-group i:first-child {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+      transition: color var(--transition-fast);
+    }
+
+    .input-group:focus-within i:first-child {
+      color: var(--accent);
+    }
+
+    .input-group input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: var(--font-main);
+      padding: 16px 12px;
+    }
+
+    .input-group input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input-group input:-webkit-autofill,
+    .input-group input:-webkit-autofill:hover,
+    .input-group input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--text-primary);
+      -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Toggle Password Button */
+    .toggle-password {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 8px;
+      font-size: 0.95rem;
+      transition: all var(--transition-fast);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toggle-password:hover {
+      color: var(--accent);
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       FORGOT PASSWORD LINK
+       ═══════════════════════════════════════════════════ */
+    .forgot-link {
+      display: block;
+      text-align: right;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin: -8px 0 20px;
+      transition: color var(--transition-fast);
+    }
+
+    .forgot-link:hover {
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       BUTTONS
+       ═══════════════════════════════════════════════════ */
+    .auth-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: var(--font-main);
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ripple effect base */
+    .auth-btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleEffect 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* Primary Button */
+    .auth-btn.primary {
+      background: linear-gradient(135deg, var(--accent), #e55555);
+      color: white;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .auth-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 35px var(--accent-glow);
+    }
+
+    .auth-btn.primary:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Loading State */
+    .auth-btn.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .auth-btn.loading::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Google Button */
+    .auth-btn.google {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      color: var(--text-primary);
+      backdrop-filter: blur(10px);
+    }
+
+    .auth-btn.google:hover {
+      background: var(--bg-glass-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .auth-btn.google i {
+      background: linear-gradient(135deg, #4285f4, #ea4335, #fbbc05, #34a853);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.1rem;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       DIVIDER
+       ═══════════════════════════════════════════════════ */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-glass), transparent);
+    }
+
+    .auth-divider span {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       AUTH SWITCH LINK
+       ═══════════════════════════════════════════════════ */
+    .auth-switch {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 24px;
+    }
+
+    .auth-switch a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .auth-switch a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width var(--transition-smooth);
+    }
+
+    .auth-switch a:hover::after {
+      width: 100%;
+    }
+
+    .auth-switch a:hover {
+      color: #ff8a8a;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       STATUS / ERROR MESSAGE
+       ═══════════════════════════════════════════════════ */
+    .auth-message {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: messageSlide 0.4s ease;
+    }
+
+    .auth-message.visible {
+      display: flex;
+    }
+
+    .auth-message.error {
+      background: rgba(255, 95, 87, 0.1);
+      border: 1px solid rgba(255, 95, 87, 0.2);
+      color: var(--error);
+    }
+
+    .auth-message.success {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      color: var(--success);
+    }
+
+    @keyframes messageSlide {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       PASSWORD STRENGTH
+       ═══════════════════════════════════════════════════ */
+    .password-strength {
+      display: flex;
+      gap: 4px;
+      margin: -8px 0 16px;
+      padding: 0 4px;
+    }
+
+    .strength-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      transition: all var(--transition-smooth);
+      overflow: hidden;
+    }
+
+    .strength-bar.weak { background: var(--error); }
+    .strength-bar.medium { background: var(--accent); }
+    .strength-bar.strong { background: var(--success); }
+
+    .strength-label {
+      font-size: 0.75rem;
+      margin: -4px 0 12px 4px;
+      transition: color var(--transition-fast);
+    }
+
+    .strength-label.weak { color: var(--error); }
+    .strength-label.medium { color: var(--accent); }
+    .strength-label.strong { color: var(--success); }
+
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 16px;
+      }
+
+      .auth-card {
+        padding: 30px 20px;
+        border-radius: var(--radius-md);
+      }
+
+      .logo-text {
+        font-size: 2.4rem;
+      }
+
+      .auth-form h2 {
+        font-size: 1.4rem;
+      }
+
+      .input-group input {
+        padding: 14px 10px;
+        font-size: 0.9rem;
+      }
+
+      .auth-btn {
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .auth-logo {
+        margin-bottom: 24px;
+      }
+
+      .logo-text {
+        font-size: 2.2rem;
+      }
+
+      .auth-card {
+        padding: 28px 24px;
+      }
+
+      .input-group {
+        margin-bottom: 12px;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       KEYBOARD FOCUS STYLES
+       ═══════════════════════════════════════════════════ */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    input:focus-visible {
+      outline: none;
+    }
+  </style>
 </head>
 
 <body class="auth-page">
-  
-  <div class="auth-container">
-    
-    <!-- Back to Home -->
-    <a href="index.html" class="back-home">
-      <i class="fa-solid fa-arrow-left"></i> Back to Home
-    </a>
-    
-    <!-- Logo -->
-    <div class="auth-logo">
-      <span class="logo-text">TG<span class="divider">|</span>RA</span>
-      <p class="logo-subtitle">The Gods Rank Awakening</p>
+
+<!-- ═══════════════════════════════════════════════════
+     ANIMATED BACKGROUND
+     ═══════════════════════════════════════════════════ -->
+<div class="auth-bg">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid"></div>
+  <div class="particles" id="authParticles"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     AUTH CONTAINER
+     ═══════════════════════════════════════════════════ -->
+<div class="auth-container">
+
+  <!-- Back to Home -->
+  <a href="index.html" class="back-home">
+    <i class="fa-solid fa-arrow-left"></i> Back to Home
+  </a>
+
+  <!-- Logo -->
+  <div class="auth-logo">
+    <div class="logo-text">
+      <span class="tg">TG</span><span class="divider">|</span><span class="ra">RA</span>
     </div>
-    
-    <!-- Login Form -->
+    <p class="logo-subtitle">The Gods Rank Awakening</p>
+  </div>
+
+  <!-- Glass Card -->
+  <div class="auth-card">
+
+    <!-- Status Message -->
+    <div class="auth-message" id="authMessage">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="authMessageText"></span>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         LOGIN FORM
+         ═══════════════════════════════════════════ -->
     <div class="auth-form active" id="loginFormContainer">
       <h2>Welcome Back</h2>
       <p class="auth-subtitle">Login to continue your journey</p>
-      
-      <form id="loginForm">
+
+      <form id="loginForm" novalidate>
         <div class="input-group">
           <i class="fa-solid fa-envelope"></i>
-          <input 
-            type="email" 
-            id="loginEmail" 
-            placeholder="Email address" 
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email address"
             required
+            autocomplete="email"
           >
         </div>
-        
+
         <div class="input-group">
           <i class="fa-solid fa-lock"></i>
-          <input 
-            type="password" 
-            id="loginPassword" 
-            placeholder="Password" 
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
             required
+            autocomplete="current-password"
           >
-          <button type="button" class="toggle-password" tabindex="-1">
+          <button type="button" class="toggle-password" tabindex="-1" aria-label="Toggle password visibility">
             <i class="fa-solid fa-eye"></i>
           </button>
         </div>
-        
+
         <a href="#" id="forgotPassword" class="forgot-link">Forgot password?</a>
-        
-        <button type="submit" class="auth-btn primary">
-          <i class="fa-solid fa-right-to-bracket"></i> Login
+
+        <button type="submit" class="auth-btn primary" id="loginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>Login</span>
         </button>
       </form>
-      
+
       <div class="auth-divider">
         <span>or continue with</span>
       </div>
-      
-      <button id="googleSignIn" class="auth-btn google">
-        <i class="fa-brands fa-google"></i> Google
+
+      <button id="googleSignInLogin" class="auth-btn google">
+        <i class="fa-brands fa-google"></i>
+        <span>Google</span>
       </button>
-      
+
       <p class="auth-switch">
-        Don't have an account? 
+        Don't have an account?
         <a href="#" id="showSignup">Sign up</a>
       </p>
     </div>
-    
-    <!-- Signup Form -->
+
+    <!-- ═══════════════════════════════════════════
+         SIGNUP FORM
+         ═══════════════════════════════════════════ -->
     <div class="auth-form" id="signupFormContainer">
       <h2>Create Account</h2>
       <p class="auth-subtitle">Join the awakening</p>
-      
-      <form id="signupForm">
+
+      <form id="signupForm" novalidate>
         <div class="input-group">
           <i class="fa-solid fa-user"></i>
-          <input 
-            type="text" 
-            id="signupUsername" 
-            placeholder="Username" 
+          <input
+            type="text"
+            id="signupUsername"
+            placeholder="Username"
             required
             minlength="3"
             maxlength="20"
+            autocomplete="username"
           >
         </div>
-        
+
         <div class="input-group">
           <i class="fa-solid fa-envelope"></i>
-          <input 
-            type="email" 
-            id="signupEmail" 
-            placeholder="Email address" 
+          <input
+            type="email"
+            id="signupEmail"
+            placeholder="Email address"
             required
+            autocomplete="email"
           >
         </div>
-        
+
         <div class="input-group">
           <i class="fa-solid fa-lock"></i>
-          <input 
-            type="password" 
-            id="signupPassword" 
-            placeholder="Password (min 6 characters)" 
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Password (min 6 characters)"
             required
             minlength="6"
+            autocomplete="new-password"
           >
-          <button type="button" class="toggle-password" tabindex="-1">
+          <button type="button" class="toggle-password" tabindex="-1" aria-label="Toggle password visibility">
             <i class="fa-solid fa-eye"></i>
           </button>
         </div>
-        
-        <button type="submit" class="auth-btn primary">
-          <i class="fa-solid fa-user-plus"></i> Create Account
+
+        <!-- Password Strength Indicator -->
+        <div class="password-strength" id="passwordStrength">
+          <div class="strength-bar" id="str1"></div>
+          <div class="strength-bar" id="str2"></div>
+          <div class="strength-bar" id="str3"></div>
+          <div class="strength-bar" id="str4"></div>
+        </div>
+        <p class="strength-label" id="strengthLabel"></p>
+
+        <button type="submit" class="auth-btn primary" id="signupBtn">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Create Account</span>
         </button>
       </form>
-      
+
       <div class="auth-divider">
         <span>or continue with</span>
       </div>
-      
-      <button id="googleSignIn" class="auth-btn google">
-        <i class="fa-brands fa-google"></i> Google
+
+      <button id="googleSignInSignup" class="auth-btn google">
+        <i class="fa-brands fa-google"></i>
+        <span>Google</span>
       </button>
-      
+
       <p class="auth-switch">
-        Already have an account? 
+        Already have an account?
         <a href="#" id="showLogin">Login</a>
       </p>
     </div>
-    
+
   </div>
-  
-  <!-- Firebase SDK (MUST BE FIRST) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  
-  <!-- Firebase Config (SECOND) -->
-  <script src="scripts/firebase-config.js"></script>
-  
-  <!-- Auth Script (LAST) -->
-  <script src="scripts/auth.js"></script>
-  
-  <!-- Toggle Password -->
-  <script>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════════════ -->
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase Config -->
+<script src="scripts/firebase-config.js"></script>
+
+<!-- Auth Script -->
+<script src="scripts/auth.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // ═══════════════════════════════════════════════════
+    // FLOATING PARTICLES
+    // ═══════════════════════════════════════════════════
+    const particlesEl = document.getElementById('authParticles');
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (6 + Math.random() * 8) + 's';
+      p.style.animationDelay = Math.random() * 6 + 's';
+      p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+      const colors = ['#ff6b6b', '#00ff88', '#28c8ff', '#febc2e'];
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      particlesEl.appendChild(p);
+    }
+
+    // ═══════════════════════════════════════════════════
+    // FORM SWITCHING (Login ↔ Signup)
+    // ═══════════════════════════════════════════════════
+    const loginForm = document.getElementById('loginFormContainer');
+    const signupForm = document.getElementById('signupFormContainer');
+    const showSignup = document.getElementById('showSignup');
+    const showLogin = document.getElementById('showLogin');
+    const authMessage = document.getElementById('authMessage');
+
+    function switchForm(showEl, hideEl) {
+      hideEl.classList.remove('active');
+      authMessage.classList.remove('visible');
+      // Small delay for smooth transition
+      setTimeout(() => {
+        showEl.classList.add('active');
+      }, 50);
+    }
+
+    showSignup?.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchForm(signupForm, loginForm);
+    });
+
+    showLogin?.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchForm(loginForm, signupForm);
+    });
+
+    // ═══════════════════════════════════════════════════
+    // TOGGLE PASSWORD VISIBILITY
+    // ═══════════════════════════════════════════════════
     document.querySelectorAll('.toggle-password').forEach(btn => {
       btn.addEventListener('click', () => {
         const input = btn.previousElementSibling;
         const icon = btn.querySelector('i');
-        if (input.type === 'password') {
-          input.type = 'text';
-          icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-          input.type = 'password';
-          icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        icon.classList.replace(
+          isPassword ? 'fa-eye' : 'fa-eye-slash',
+          isPassword ? 'fa-eye-slash' : 'fa-eye'
+        );
       });
     });
-  </script>
 
-</body>
-</html>
-  
+    // ═══════════════════════════════════════════════════
+    // PASSWORD STRENGTH INDICATOR
+    // ═══════════════════════════════════════════════════
+    const signupPasswordInput = document.getElementById('signupPassword');
+    const strengthBars = [
+      document.getElementById('str1'),
+      document.getElementById('str2'),
+      document.getElementById('str3'),
+      document.getElementById('str4')
+    ];
+    const strengthLabel = document.getElementById('strengthLabel');
+
+    signupPasswordInput?.addEventListener('input', () => {
+      const val = signupPasswordInput.value;
+      let score = 0;
+
+      if (val.length >= 6) score++;
+      if (val.length >= 10) score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val)) score++;
+
+      const levels = ['', 'weak', 'medium', 'medium', 'strong'];
+      const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+
+      strengthBars.forEach((bar, i) => {
+        bar.className = 'strength-bar';
+        if (i < score) bar.classList.add(levels[score]);
+      });
+
+      strengthLabel.textContent = val.length > 0 ? labels[score] || '' : '';
+      strengthLabel.className = 'strength-label ' + (levels[score] || '');
+    });
+
+    // ═══════════════════════════════════════════════════
+    // BUTTON RIPPLE EFFECT
+    // ═══════════════════════════════════════════════════
+    document.querySelectorAll('.auth-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    // ═══════════════════════════════════════════════════
+    // AUTH MESSAGE HELPER
+    // ═══════════════════════════════════════════════════
+    window.showAuthMessage = (message, type = 'error') => {
+      const msgEl = document.getElementById('authMessage');
+      const msgText = document.getElementById('authMessageText');
+      const msgIcon = msgEl.querySelector('i');
+
+      msgText.textContent = message;
+      msgEl.className = `auth-message visible ${type}`;
+      msgIcon.className = type === 'error'
+        ? 'fa-solid fa-circle-exclamation'
+        : 'fa-solid fa-circle-check';
+
+      // Auto-hide after 5 seconds
+      clearTimeout(window._authMsgTimeout);
+      window._authMsgTimeout = setTimeout(() => {
+        msgEl.classList.remove('visible');
+      }, 5000);
+    };
+
+    // ═══════════════════════════════════════════════════
+    // INPUT FOCUS ANIMATION (subtle shake on invalid)
+    // ═══════════════════════════════════════════════════
+    document.querySelectorAll('.input-group input').forEach(input => {
+      input.addEventListener('invalid', (e) => {
+        e.preventDefault();
+        const group = input.closest('.input-group');
+        group.style.animation = 'shake 0.4s ease';
+        group.style.borderColor = 'var(--error)';
+        setTimeout(() => {
+          group.style.animation = '';
+          group.style.borderColor = '';
+        }, 600);
+      });
+    });
+
+  });
+</script>
+
+<style>
+  /* Shake animation for invalid inputs */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+</style>
+
 </body>
 </html>
