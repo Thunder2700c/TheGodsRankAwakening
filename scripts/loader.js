@@ -67,7 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
     skipLoader();
     return;
   }
-  
+
+  // Bug-fix: if GSAP failed to load (offline / CDN block), skip loader gracefully
+  if (typeof gsap === 'undefined') {
+    console.warn('[loader] GSAP not available — skipping loader.');
+    skipLoader();
+    return;
+  }
+
+  // Safety net: if anything stalls, force-reveal the site after 20s
+  const loaderSafetyTimeout = setTimeout(() => {
+    if (!document.body.classList.contains('gsap-loaded')) {
+      console.warn('[loader] Safety timeout — forcing site reveal.');
+      skipLoader();
+    }
+  }, 20000);
+
   markAsVisited();
 
   // ===================================================
@@ -92,17 +107,27 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function createBackgroundParticles() {
     if (!bgParticles) return;
-    
-    const chars = ['0', '1', '{', '}', '<', '>', '/', '*', '#', '@', '$', '%', '&'];
-    
-    for (let i = 0; i < 40; i++) {
+
+    const chars = ['0', '1', '{', '}', '<', '>', '/', '*', '#', '@', '$', '%', '&', '=', '+', '~', '01', '10', 'λ', 'Σ', 'Ω'];
+    const colors = [
+      'var(--terminal-green)',
+      'var(--terminal-blue)',
+      'var(--terminal-purple)',
+      'var(--terminal-cyan)',
+      'var(--terminal-pink)',
+    ];
+    // Slightly fewer particles than before for perf, but more colorful & varied
+    const count = window.innerWidth < 600 ? 28 : 55;
+
+    for (let i = 0; i < count; i++) {
       const particle = document.createElement('div');
       particle.className = 'bg-particle';
       particle.textContent = chars[Math.floor(Math.random() * chars.length)];
       particle.style.left = `${Math.random() * 100}%`;
+      particle.style.color = colors[Math.floor(Math.random() * colors.length)];
       particle.style.animationDelay = `${Math.random() * 20}s`;
-      particle.style.animationDuration = `${15 + Math.random() * 15}s`;
-      particle.style.fontSize = `${10 + Math.random() * 8}px`;
+      particle.style.animationDuration = `${14 + Math.random() * 16}s`;
+      particle.style.fontSize = `${10 + Math.random() * 10}px`;
       bgParticles.appendChild(particle);
     }
   }
@@ -321,6 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tl.call(() => {
       terminalModal.style.display = 'none';
       document.body.classList.add('gsap-loaded');
+      clearTimeout(loaderSafetyTimeout);
     });
     
     tl.fromTo(".hero-image-wrapper", 
